@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #effdf3;
+  --color-brand-100: #d9fbe3;
+  --color-brand-200: #b4f4c9;
+  --color-brand-300: #7ee8a4;
+  --color-brand-400: #43d27a;
+  --color-brand-500: #1fb85b;
+  --color-brand-600: #16a34a;
+  --color-brand-700: #137a3a;
+  --color-brand-800: #145f33;
+  --color-brand-900: #124e2c;
+  --color-ink: #0c1a12;
+  --color-paper: #f5faf6;
+  --color-forest: #0f2e20;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-nunito), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+html {
+  background: var(--color-paper);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+@utility card {
+  @apply rounded-2xl border border-brand-100 bg-white shadow-[0_1px_0_rgba(12,26,18,0.04)];
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-brand-600 text-white hover:bg-brand-700;
+}
+@utility btn-dark {
+  @apply btn bg-ink text-white hover:bg-black;
+}
+@utility btn-ghost {
+  @apply btn border border-brand-200 bg-white text-ink hover:bg-brand-50;
+}
+@utility input {
+  @apply w-full rounded-xl border border-brand-200 bg-white px-3.5 py-2.5 text-sm outline-none focus:border-brand-500 focus:ring-2 focus:ring-brand-200;
+}
+@utility chip {
+  @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold;
+}
+
+/* Markdown + KaTeX */
+.md p { margin: 0.4em 0; line-height: 1.7; }
+.md p:first-child { margin-top: 0; }
+.md p:last-child { margin-bottom: 0; }
+.md ul { list-style: disc; padding-left: 1.25em; margin: 0.4em 0; }
+.md ol { list-style: decimal; padding-left: 1.25em; margin: 0.4em 0; }
+.md li { margin: 0.2em 0; }
+.md strong { font-weight: 700; }
+.md h1, .md h2, .md h3 { font-family: var(--font-display); font-weight: 800; margin: 0.8em 0 0.3em; }
+.md h2 { font-size: 1.1em; }
+.md h3 { font-size: 1em; }
+.md .katex-display { margin: 0.6em 0; overflow-x: auto; overflow-y: hidden; }
+.katex { font-size: 1.06em; }
