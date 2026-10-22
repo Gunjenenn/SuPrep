@@ -1,5 +1,5 @@
 // SAT Math · Algebra templates. Answers are computed in code; Mongolian hint / explanation / wrong-choice reasons.
-import { frac, int, lin, mcq, nonZero, par, pick, type Template, term, WRONG_SIGN } from './shared';
+import { coef, frac, int, lin, mcq, nonZero, par, pick, type Template, term, WRONG_SIGN } from './shared';
 
 export const ALGEBRA: Template[] = [
   {
@@ -196,6 +196,83 @@ export const ALGEBRA: Template[] = [
         hint: '$x$ тэнхлэгийг огтлох цэг дээр $y$ хэд байдаг вэ? Түүнийг орлуулаад үз.',
         mn: 'crosses the x-axis = x тэнхлэгийг огтлох',
         vocab: ['crosses', 'axis'],
+      };
+    },
+  },
+  {
+    key: 'lin-both-sides',
+    domain: 'alg',
+    skill: 'Linear equations',
+    difficulty: 2,
+    make: (r) => {
+      const a = int(r, 3, 9);
+      const c = int(r, 1, a - 1);
+      const x = int(r, -6, 10);
+      const b = int(r, -12, 12);
+      const d = (a - c) * x + b;
+      const k = a - c;
+      const divide = k === 1 ? '' : ` Хоёр талыг $${k}$-д хуваа: $x = ${x}$.`;
+      return {
+        prompt: `If $${lin(a, b)} = ${lin(c, d)}$, what is the value of $x$?`,
+        answer: [String(x)],
+        explain:
+          `Хоёр талаас $${coef(c)}$-г хас: $${lin(k, b)} = ${d}$.` +
+          (b === 0 ? '' : ` ${b > 0 ? `$${b}$-г хас` : `$${-b}$-г нэм`}: $${coef(k)} = ${d - b}$.`) +
+          (divide || ` Тэгэхээр $x = ${x}$.`),
+        hint: 'Бүх $x$-тэй гишүүнийг нэг тал руу, тоонуудыг нөгөө тал руу шилжүүл.',
+        mn: 'value = утга',
+        vocab: ['value'],
+      };
+    },
+  },
+  {
+    key: 'consecutive',
+    domain: 'alg',
+    skill: 'Linear equations in context',
+    difficulty: 2,
+    make: (r) => {
+      const even = r() < 0.4;
+      const n = even ? 2 * int(r, 1, 30) : int(r, 1, 50);
+      const step = even ? 2 : 1;
+      const sum = 3 * n + 3 * step;
+      const kind = even ? 'consecutive even integers' : 'consecutive integers';
+      const terms = even ? '$n$, $n+2$, $n+4$' : '$n$, $n+1$, $n+2$';
+      return {
+        prompt: `The sum of three ${kind} is ${sum}. What is the smallest of the three integers?`,
+        answer: [String(n)],
+        explain: `Тоонуудыг ${terms} гэвэл нийлбэр нь $3n + ${3 * step} = ${sum}$. Тэгвэл $3n = ${sum - 3 * step}$, $n = ${n}$.`,
+        hint: even
+          ? 'Дараалсан тэгш тоонууд хоорондоо хоёроор зөрнө. Хамгийн багыг нь $n$ гээд тэгшитгэл зохио.'
+          : 'Хамгийн бага тоог $n$ гэвэл дараагийн хоёр нь ямар байх вэ? Нийлбэрийн тэгшитгэл зохио.',
+        mn: even
+          ? 'consecutive even integers = дараалсан тэгш тоонууд'
+          : 'consecutive integers = дараалсан бүхэл тоонууд',
+        vocab: ['consecutive', 'smallest'],
+      };
+    },
+  },
+  {
+    key: 'budget',
+    domain: 'alg',
+    skill: 'Linear inequalities in context',
+    difficulty: 2,
+    make: (r) => {
+      const fee = 5 * int(r, 1, 6);
+      const rate = int(r, 3, 12);
+      const budget = fee + rate * int(r, 3, 12) + int(r, 1, rate - 1);
+      const n = Math.floor((budget - fee) / rate);
+      const ctx = pick(r, [
+        ['wants to rent a bike. The rental costs', 'hour', 'цаг'],
+        ['wants to rent a kayak. The rental costs', 'hour', 'цаг'],
+        ['wants to take dance lessons. The lessons cost', 'lesson', 'хичээл'],
+      ] as const);
+      return {
+        prompt: `Saran has ${budget} dollars. She ${ctx[0]} a fee of ${fee} dollars plus ${rate} dollars per ${ctx[1]}. What is the maximum number of whole ${ctx[1]}s she can pay for?`,
+        answer: [String(n)],
+        explain: `$${fee} + ${rate}h \\le ${budget}$ → $${rate}h \\le ${budget - fee}$ → $h \\le ${frac(budget - fee, rate)}$. Бүхэл ${ctx[2]} байх ёстой тул хамгийн ихдээ $${n}$.`,
+        hint: 'Нийт зардал $\\le$ байгаа мөнгө гэсэн тэнцэтгэл биш зохио. Хариу бүхэл тоо байх ёстойг санаарай — дээш биш, доош нь бөөрөнхийл.',
+        mn: 'maximum = хамгийн их, whole = бүхэл, per = тус бүрд',
+        vocab: ['maximum', 'whole'],
       };
     },
   },
