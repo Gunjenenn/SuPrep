@@ -248,4 +248,73 @@ export const ADVANCED: Template[] = [
       };
     },
   },
+  {
+    key: 'half-life',
+    domain: 'adv',
+    skill: 'Exponential decay',
+    difficulty: 2,
+    make: (r) => {
+      const every = pick(r, [2, 3, 4, 5, 6, 8] as const);
+      const k = int(r, 1, 4);
+      const end = 5 * int(r, 1, 12);
+      const start = end * 2 ** k;
+      return {
+        prompt: `The amount of a medicine in a patient's body is cut in half every ${every} hours. If there are ${start} milligrams at first, how many milligrams remain after ${every * k} hours?`,
+        answer: [String(end)],
+        explain: `${every * k} цагт $${every * k} \\div ${every} = ${k}$ удаа хагасална: $${start} \\cdot \\left(\\frac{1}{2}\\right)^{${k}} = ${start} \\div ${2 ** k} = ${end}$.`,
+        hint: 'Эхлээд хэдэн удаа хагасалсныг ол: нийт хугацааг хагасалт бүрийн хугацаанд хуваа.',
+        mn: 'cut in half = хагас болох, remain = үлдэх',
+        vocab: ['half', 'remain'],
+      };
+    },
+  },
+  {
+    key: 'rational-exp',
+    domain: 'adv',
+    skill: 'Exponents and radicals',
+    difficulty: 2,
+    make: (r) => {
+      const root = int(r, 2, 5);
+      const q = pick(r, [2, 3] as const);
+      const p = pick(
+        r,
+        [1, 2, 3].filter((x) => x !== q),
+      );
+      const base = root ** q;
+      const v = root ** p;
+      const rad = q === 2 ? `\\sqrt{${base}}` : `\\sqrt[3]{${base}}`;
+      return {
+        prompt: `What is the value of $${base}^{\\frac{${p}}{${q}}}$?`,
+        answer: [String(v)],
+        explain: `Хуваарь нь язгуур, хүртвэр нь зэрэг: $${base}^{\\frac{${p}}{${q}}} = (${rad})^{${p}} = ${root}^{${p}} = ${v}$.`,
+        hint: 'Бутархай зэрэгт хуваарь нь язгуурын зэрэг, хүртвэр нь энгийн зэрэг. Эхлээд язгуурыг гарга.',
+        mn: 'value = утга',
+        vocab: ['value'],
+      };
+    },
+  },
+  {
+    key: 'max-height',
+    domain: 'adv',
+    skill: 'Quadratic functions in context',
+    difficulty: 2,
+    make: (r) => {
+      const a = int(r, 2, 16);
+      const t = int(r, 1, 5);
+      const k = int(r, 20, 200);
+      const askTime = r() < 0.4;
+      return {
+        prompt: `The height, in feet, of a ball $t$ seconds after it is thrown is given by $h(t) = -${a}(t - ${t})^2 + ${k}$. ${askTime ? 'How many seconds after it is thrown does the ball reach its maximum height?' : 'What is the maximum height of the ball, in feet?'}`,
+        answer: [String(askTime ? t : k)],
+        explain: `$-${a}(t - ${t})^2 \\le 0$ тул $h(t)$ хамгийн их нь $t = ${t}$ үед: $h(${t}) = -${a} \\cdot 0 + ${k} = ${k}$. ${askTime ? `Тэгэхээр $${t}$ секундэд хамгийн өндөрт хүрнэ.` : `Хамгийн их өндөр $${k}$ фут.`}`,
+        hint: 'Хаалттай квадрат хэзээ ч сөрөг биш, урд нь хасах тэмдэг байна. Хаалт доторх нь тэг болоход $h$ хамгийн их болно.',
+        desmos: {
+          rows: [`h(t)=-${a}(t-${t})^2+${k}`],
+          tip: 'Параболын хамгийн дээд цэг дээр дар — x нь хугацаа, y нь өндөр.',
+        },
+        mn: 'maximum height = хамгийн их өндөр, thrown = шидсэн',
+        vocab: ['maximum', 'height'],
+      };
+    },
+  },
 ];
