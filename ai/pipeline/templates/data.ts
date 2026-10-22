@@ -1,5 +1,5 @@
 // SAT Math · Problem-Solving & Data Analysis templates. Answers are computed in code; Mongolian hint / explanation / wrong-choice reasons.
-import { gcd, int, mcq, num, pick, type Template } from './shared';
+import { frac, gcd, int, mcq, num, pick, type Template } from './shared';
 
 export const DATA: Template[] = [
   {
@@ -130,6 +130,102 @@ export const DATA: Template[] = [
         hint: 'Хурд = зам ÷ хугацаа.',
         mn: 'constant speed = тогтмол хурд, miles per hour = миль/цаг',
         vocab: ['constant', 'per'],
+      };
+    },
+  },
+  {
+    key: 'weighted-mean',
+    domain: 'psda',
+    skill: 'Mean',
+    difficulty: 3,
+    make: (r) => {
+      // build it so the overall mean is a whole number: m1 = M + t·n2, m2 = M − t·n1
+      const n1 = int(r, 3, 14);
+      let n2 = int(r, 3, 14);
+      if (n2 === n1) n2 += 1;
+      const t = int(r, 1, 3);
+      const mean = int(r, 62, 85);
+      const m1 = mean + t * n2;
+      const m2 = mean - t * n1;
+      if (m1 > 100 || m2 < 40) return null;
+      const total = n1 * m1 + n2 * m2;
+      const q = mcq(r, String(mean), [
+        {
+          tex: num((m1 + m2) / 2),
+          why: 'Хоёр дундажийг энгийнээр дундажилсан байна. Бүлгүүдийн хэмжээ өөр тул жинтэй дундаж хэрэгтэй.',
+        },
+        { tex: String(total), why: 'Энэ бол бүх онооны нийлбэр — нийт сурагчийн тоонд хуваах ёстой.' },
+        { tex: String(mean + 1), why: 'Тооцоогоо дахин шалга.' },
+        { tex: String(mean - 2), why: 'Тооцоогоо дахин шалга.' },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `In a class, ${n1} students in group A have a mean test score of ${m1}, and ${n2} students in group B have a mean test score of ${m2}. What is the mean test score of all ${n1 + n2} students?`,
+        ...q,
+        explain: `Нийт оноо: $${n1} \\cdot ${m1} + ${n2} \\cdot ${m2} = ${n1 * m1} + ${n2 * m2} = ${total}$. Нийт сурагч: $${n1 + n2}$. Дундаж: $\\frac{${total}}{${n1 + n2}} = ${mean}$.`,
+        hint: 'Хоёр дундажийг шууд дундажилж болохгүй. Бүлэг бүрийн нийт оноог ол, нэмээд, нийт сурагчийн тоонд хуваа.',
+        mn: 'mean test score = шалгалтын дундаж оноо, group = бүлэг',
+        vocab: ['mean', 'group'],
+      };
+    },
+  },
+  {
+    key: 'probability',
+    domain: 'psda',
+    skill: 'Probability',
+    difficulty: 1,
+    make: (r) => {
+      const red = int(r, 2, 12);
+      const blue = int(r, 2, 12);
+      const green = int(r, 2, 12);
+      const total = red + blue + green;
+      const target = pick(r, ['blue', 'green'] as const);
+      const t = target === 'blue' ? blue : green;
+      const mnColor = target === 'blue' ? 'цэнхэр' : 'ногоон';
+      const MnColor = target === 'blue' ? 'Цэнхэр' : 'Ногоон';
+      const q = mcq(r, frac(t, total), [
+        {
+          tex: frac(t, total - t),
+          why: `${MnColor} бөмбөлгийг бусадтай нь харьцуулсан байна. Нийт бөмбөлгийн тоонд (${total}) хуваах ёстой.`,
+        },
+        { tex: frac(red, total), why: 'Энэ бол улаан бөмбөлөг сонгох магадлал.' },
+        { tex: frac(1, 3), why: 'Гурван өнгө байгаа ч тоо нь ижил биш — өнгө бүрийн магадлал ялгаатай.' },
+        { tex: frac(total - t, total), why: `Энэ бол ${mnColor} БИШ бөмбөлөг сонгох магадлал.` },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `A bag contains ${red} red marbles, ${blue} blue marbles, and ${green} green marbles. One marble is chosen at random. What is the probability that it is ${target}?`,
+        ...q,
+        explain: `Нийт бөмбөлөг: $${red} + ${blue} + ${green} = ${total}$. ${MnColor}: $${t}$. Магадлал $= \\frac{${t}}{${total}}${frac(t, total) === `\\frac{${t}}{${total}}` ? '' : ` = ${frac(t, total)}`}$.`,
+        hint: 'Магадлал = (тохирох тохиолдлын тоо) / (бүх тохиолдлын тоо). Эхлээд нийт хэдэн бөмбөлөг байгааг ол.',
+        mn: 'chosen at random = санамсаргүйгээр сонгох, probability = магадлал, marbles = бөмбөлөг',
+        vocab: ['probability', 'at random'],
+      };
+    },
+  },
+  {
+    key: 'sale-price',
+    domain: 'psda',
+    skill: 'Percentages',
+    difficulty: 1,
+    make: (r) => {
+      const d = pick(r, [10, 15, 20, 25, 30, 40, 50] as const);
+      const unit = 100 / gcd(d, 100);
+      const price = unit * int(r, 2, 16);
+      const off = (price * d) / 100;
+      const sale = price - off;
+      const item = pick(r, [
+        ['a pair of shoes', 'гутал'],
+        ['a backpack', 'цүнх'],
+        ['a jacket', 'куртка'],
+      ] as const);
+      return {
+        prompt: `The original price of ${item[0]} is ${price} dollars. During a sale, the price is reduced by ${d}%. What is the sale price, in dollars?`,
+        answer: [String(sale)],
+        explain: `Хямдрал: $${price} \\cdot ${d / 100} = ${off}$ доллар. Шинэ үнэ: $${price} - ${off} = ${sale}$ (эсвэл шууд $${price} \\cdot ${(100 - d) / 100} = ${sale}$).`,
+        hint: `${d}% хямдарвал анхны үнийн хэдэн хувийг төлөх вэ? Эсвэл эхлээд хямдралын хэмжээг олоод анхны үнээс хас.`,
+        mn: 'original price = анхны үнэ, reduced by = …-аар бууруулсан, sale price = хямдарсан үнэ',
+        vocab: ['original', 'reduced'],
       };
     },
   },
