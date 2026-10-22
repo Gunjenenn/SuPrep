@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test';
-import { grade, statusOf, type CardState } from './leitner';
+import { type CardState, grade, statusOf } from './leitner';
 
 describe('grade', () => {
   test('five consecutive correct answers cap at box 4', () => {
