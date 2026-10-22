@@ -1,5 +1,5 @@
 // SAT Math · Problem-Solving & Data Analysis templates. Answers are computed in code; Mongolian hint / explanation / wrong-choice reasons.
-import { frac, gcd, int, mcq, num, pick, type Template } from './shared';
+import { gcd, int, mcq, num, pick, type Template } from './shared';
 
 export const DATA: Template[] = [
   {

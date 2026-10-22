@@ -78,3 +78,15 @@ export type Template = {
 };
 
 export const WRONG_SIGN = 'Тэмдэг алдсан байна — хасах/нэмэхээ дахин шалга.';
+
+/** ax^2 + bx + c as TeX, dropping zero terms and 1-coefficients. */
+export function quad(a: number, b: number, c: number, v = 'x'): string {
+  const parts = [coef(a, `${v}^2`)];
+  if (b !== 0) parts.push(b < 0 ? `- ${coef(-b, v)}` : `+ ${coef(b, v)}`);
+  if (c !== 0) parts.push(term(c));
+  return parts.join(' ');
+}
+
+/** a·x for TeX substitution steps: 1·x → x, -1·x → -x, otherwise a \\cdot (x). */
+export const times = (a: number, x: number) =>
+  a === 1 ? par(x) : a === -1 ? `-${par(x)}` : `${a} \\cdot ${par(x)}`;
