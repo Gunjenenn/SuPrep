@@ -12,5 +12,33 @@
     "myCards": {
       "title": "My deck"
     }
+  },
+  "hub": {
+    "intro": "Review words and formulas as flashcards",
+    "decks": "Decks",
+    "eyebrow": "Today's review",
+    "today": "{n} cards to review today",
+    "todaySub": "Review the cards that are due and lock them into memory.",
+    "stats": {
+      "new": "New",
+      "learning": "Learning",
+      "mastered": "Mastered"
+    },
+    "tabs": {
+      "label": "Card type",
+      "word": "Vocabulary",
+      "formula": "Formula cards",
+      "mine": "My deck"
+    },
+    "deck": {
+      "total": "{n} cards",
+      "due": "{n} due",
+      "progress": "Progress",
+      "study": "Study"
+    },
+    "empty": {
+      "title": "No decks yet",
+      "sub": "Cards you save while studying will collect here."
+    }
   }
 }
