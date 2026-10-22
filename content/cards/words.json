@@ -1,0 +1,425 @@
+{
+  "decks": [
+    {
+      "id": "ops",
+      "kind": "word",
+      "title": "Үйлдлийн үгс",
+      "sub": "sum, product, quotient…",
+      "color": "var(--c-leaf)",
+      "edge": "var(--c-leaf-2)",
+      "cards": [
+        {
+          "id": "sum",
+          "front": "sum",
+          "ipa": "/sʌm/",
+          "say": "сам",
+          "back": "нийлбэр",
+          "hook": "«Сам»-наад бүгдийг нэг дор цуглуул — бүгдийг нийлүүлбэл нийлбэр.",
+          "ex": "the **sum** of $x$ and $4$ → $x+4$",
+          "art": "merge"
+        },
+        {
+          "id": "difference",
+          "front": "difference",
+          "ipa": "/ˈdɪf.ər.əns/",
+          "say": "дифрэнс",
+          "back": "ялгавар",
+          "hook": "«Different» = өөр. Хоёр тоо хэр өөр вэ гэдэг нь ялгавар.",
+          "ex": "the **difference** of $12$ and $x$ → $12-x$",
+          "art": "split"
+        },
+        {
+          "id": "product",
+          "front": "product",
+          "ipa": "/ˈprɒd.ʌkt/",
+          "say": "продакт",
+          "back": "үржвэр",
+          "hook": "Үйлдвэр «product» гаргадаг шиг үржүүлэхэд үржвэр гарна.",
+          "ex": "the **product** of $5$ and $x$ → $5x$",
+          "art": "grid"
+        },
+        {
+          "id": "quotient",
+          "front": "quotient",
+          "ipa": "/ˈkwəʊ.ʃənt/",
+          "say": "квоушэнт",
+          "back": "ноогдвор",
+          "hook": "«Квот» = хуваарилсан хэсэг. Хуваахад ногдох хэсэг нь ноогдвор.",
+          "ex": "the **quotient** of $x$ and $3$ → $\\frac{x}{3}$",
+          "art": "pie"
+        },
+        {
+          "id": "remainder",
+          "front": "remainder",
+          "ipa": "/rɪˈmeɪn.dər/",
+          "say": "римэйндэр",
+          "back": "үлдэгдэл",
+          "hook": "«Remain» = үлдэх. Хуваасны дараа үлдсэн нь үлдэгдэл.",
+          "ex": "$17\\div 5=3$, **remainder** $2$",
+          "art": "remainder"
+        },
+        {
+          "id": "twice",
+          "front": "twice",
+          "ipa": "/twaɪs/",
+          "say": "твайс",
+          "back": "2 дахин",
+          "hook": "«Two»-оос гаралтай: хоёр удаа.",
+          "ex": "**twice** a number → $2x$",
+          "art": "grid",
+          "v": "2"
+        },
+        {
+          "id": "increased",
+          "front": "increased by",
+          "ipa": "/ɪnˈkriːst baɪ/",
+          "say": "инкрийст бай",
+          "back": "…-аар нэмэгдсэн",
+          "hook": "«In-crease» — дотогшоо нэмж хийх.",
+          "ex": "$x$ **increased by** $9$ → $x+9$",
+          "art": "merge"
+        },
+        {
+          "id": "decreased",
+          "front": "decreased by",
+          "ipa": "/dɪˈkriːst baɪ/",
+          "say": "дикрийст бай",
+          "back": "…-аар хорогдсон",
+          "hook": "«De-» = доош. Тоо доошоо буурна.",
+          "ex": "$x$ **decreased by** $9$ → $x-9$",
+          "art": "split"
+        }
+      ]
+    },
+    {
+      "id": "compare",
+      "kind": "word",
+      "title": "Харьцуулалт",
+      "sub": "at least, at most, greatest…",
+      "color": "var(--c-teal)",
+      "edge": "var(--c-teal-2)",
+      "cards": [
+        {
+          "id": "atleast",
+          "front": "at least",
+          "ipa": "/ət liːst/",
+          "say": "эт лийст",
+          "back": "дор хаяж (≥)",
+          "hook": "«Least» = хамгийн бага. Хамгийн багадаа энэ, түүнээс дээш: $\\ge$.",
+          "ex": "the score is **at least** $90$ → $s\\ge 90$",
+          "art": "numberline",
+          "v": "ge"
+        },
+        {
+          "id": "atmost",
+          "front": "at most",
+          "ipa": "/ət məʊst/",
+          "say": "эт моуст",
+          "back": "хамгийн ихдээ (≤)",
+          "hook": "«Most» = хамгийн их. Хамгийн ихдээ энэ, түүнээс доош: $\\le$.",
+          "ex": "cost is **at most** $25$ → $c\\le 25$",
+          "art": "numberline",
+          "v": "le"
+        },
+        {
+          "id": "greatest",
+          "front": "greatest",
+          "ipa": "/ˈɡreɪ.tɪst/",
+          "say": "грэйтист",
+          "back": "хамгийн их",
+          "hook": "«Great» = агуу → хамгийн том нь.",
+          "ex": "$x\\le 5$ үед **greatest** $x$ нь $5$",
+          "art": "numberline",
+          "v": "max"
+        },
+        {
+          "id": "inequality",
+          "front": "inequality",
+          "ipa": "/ˌɪn.ɪˈkwɒl.ə.ti/",
+          "say": "инэквалити",
+          "back": "тэнцэтгэл биш",
+          "hook": "«In-» = үгүй, «equal» = тэнцүү → тэнцүү биш.",
+          "ex": "$2x+1<7$ нь **inequality**",
+          "art": "numberline",
+          "v": "lt"
+        },
+        {
+          "id": "distinct",
+          "front": "distinct",
+          "ipa": "/dɪˈstɪŋkt/",
+          "say": "дистинкт",
+          "back": "ялгаатай",
+          "hook": "«Distinguish» — ялгаж салгах. Давхардалгүй өөр өөр.",
+          "ex": "two **distinct** solutions → хоёр өөр шийд",
+          "art": "parabola",
+          "v": "two"
+        },
+        {
+          "id": "consecutive",
+          "front": "consecutive",
+          "ipa": "/kənˈsek.jə.tɪv/",
+          "say": "консэкютив",
+          "back": "дараалсан",
+          "hook": "«Second» дараа нь «third» — дараалан ирнэ.",
+          "ex": "**consecutive** integers $n,\\ n+1,\\ n+2$",
+          "art": "numberline",
+          "v": "seq"
+        },
+        {
+          "id": "integer",
+          "front": "integer",
+          "ipa": "/ˈɪn.tɪ.dʒər/",
+          "say": "интэжэр",
+          "back": "бүхэл тоо",
+          "hook": "«Intact» = бүтэн. Бутаргүй бүтэн тоо.",
+          "ex": "$\\dots,-2,-1,0,1,2,\\dots$",
+          "art": "numberline",
+          "v": "int"
+        },
+        {
+          "id": "equivalent",
+          "front": "equivalent",
+          "ipa": "/ɪˈkwɪv.əl.ənt/",
+          "say": "иквивалент",
+          "back": "тэнцүү чанартай",
+          "hook": "«Equi-» = тэнцүү, «valent» = үнэ цэнэ → ижил үнэ цэнэтэй.",
+          "ex": "$2(x+3)$ is **equivalent** to $2x+6$",
+          "art": "power",
+          "v": "eq"
+        }
+      ]
+    },
+    {
+      "id": "algebra",
+      "kind": "word",
+      "title": "Алгебр ба график",
+      "sub": "slope, intercept, vertex…",
+      "color": "var(--c-amber)",
+      "edge": "#7a4c02",
+      "cards": [
+        {
+          "id": "slope",
+          "front": "slope",
+          "ipa": "/sləʊp/",
+          "say": "слоуп",
+          "back": "налалт",
+          "hook": "Цанын «слоуп» буюу налуу — хэр эгц вэ.",
+          "ex": "$y=3x-2$-ийн **slope** $=3$",
+          "art": "line",
+          "v": "slope"
+        },
+        {
+          "id": "intercept",
+          "front": "intercept",
+          "ipa": "/ˈɪn.tə.sept/",
+          "say": "интэрсэпт",
+          "back": "тэнхлэг огтлох цэг",
+          "hook": "«Inter-» = дунд нь, «cept» = барих → тэнхлэгийг замд нь барьж авах.",
+          "ex": "$y=2x+1$-ийн y-**intercept** $(0,1)$",
+          "art": "line",
+          "v": "icept"
+        },
+        {
+          "id": "coefficient",
+          "front": "coefficient",
+          "ipa": "/ˌkəʊ.ɪˈfɪʃ.ənt/",
+          "say": "коуифишэнт",
+          "back": "коэффициент",
+          "hook": "«Co-» = хамт. Хувьсагчтай хамт явдаг тоо.",
+          "ex": "$7x$-ийн **coefficient** $7$",
+          "art": "line",
+          "v": "coef"
+        },
+        {
+          "id": "constant",
+          "front": "constant",
+          "ipa": "/ˈkɒn.stənt/",
+          "say": "констэнт",
+          "back": "тогтмол",
+          "hook": "«Constant» = үргэлж ижил. Өөрчлөгддөггүй тоо.",
+          "ex": "$2x+5$-ийн **constant** $5$",
+          "art": "line",
+          "v": "const"
+        },
+        {
+          "id": "vertex",
+          "front": "vertex",
+          "ipa": "/ˈvɜː.teks/",
+          "say": "вөртэкс",
+          "back": "орой",
+          "hook": "«Vertical» — хамгийн өндөр/нам цэг.",
+          "ex": "$y=(x-2)^2+3$-ийн **vertex** $(2,3)$",
+          "art": "parabola",
+          "v": "vertex"
+        },
+        {
+          "id": "quadratic",
+          "front": "quadratic",
+          "ipa": "/kwɒdˈræt.ɪk/",
+          "say": "квадрэтик",
+          "back": "квадрат",
+          "hook": "«Quad» = дөрвөлжин → $x^2$ буюу квадрат.",
+          "ex": "$x^2-5x+6=0$ is **quadratic**",
+          "art": "parabola"
+        },
+        {
+          "id": "solution",
+          "front": "solution",
+          "ipa": "/səˈluː.ʃən/",
+          "say": "сэлүүшн",
+          "back": "шийд",
+          "hook": "«Solve» = бодох. Бодсоны үр дүн.",
+          "ex": "$2x=10$-ийн **solution** $x=5$",
+          "art": "cross"
+        },
+        {
+          "id": "intersect",
+          "front": "intersect",
+          "ipa": "/ˌɪn.təˈsekt/",
+          "say": "интэрсэкт",
+          "back": "огтлолцох",
+          "hook": "«Inter-» = хооронд, «sect» = огтлох → хооронд нь огтлолцоно.",
+          "ex": "lines **intersect** at $(2,5)$",
+          "art": "cross"
+        },
+        {
+          "id": "exponent",
+          "front": "exponent",
+          "ipa": "/ɪkˈspəʊ.nənt/",
+          "say": "экспоунэнт",
+          "back": "илтгэгч",
+          "hook": "«Expo» — үзэсгэлэн шиг дээр гарч харагдана: дээд жижиг тоо.",
+          "ex": "$2^5$-ийн **exponent** $5$",
+          "art": "power"
+        },
+        {
+          "id": "proportional",
+          "front": "proportional",
+          "ipa": "/prəˈpɔː.ʃən.əl/",
+          "say": "пропоршнал",
+          "back": "пропорциональ",
+          "hook": "«Portion» = хувь хэсэг — хамтдаа ижил хувиар өснө: $y=kx$.",
+          "ex": "$y$ is **proportional** to $x$ → $y=kx$",
+          "art": "line",
+          "v": "prop"
+        }
+      ]
+    },
+    {
+      "id": "geo",
+      "kind": "word",
+      "title": "Геометр ба өгөгдөл",
+      "sub": "radius, hypotenuse, median…",
+      "color": "var(--c-rose)",
+      "edge": "#7d3a31",
+      "cards": [
+        {
+          "id": "radius",
+          "front": "radius",
+          "ipa": "/ˈreɪ.di.əs/",
+          "say": "рэйдиэс",
+          "back": "радиус",
+          "hook": "«Ray» = туяа. Төвөөс гарах туяа.",
+          "ex": "diameter $10$ → **radius** $5$",
+          "art": "circle",
+          "v": "r"
+        },
+        {
+          "id": "circumference",
+          "front": "circumference",
+          "ipa": "/səˈkʌm.fər.əns/",
+          "say": "сөркамфэрэнс",
+          "back": "тойргийн урт",
+          "hook": "«Circum-» = эргэн тойрон. Тойрог дагуу нэг тойрох зам.",
+          "ex": "**circumference** $C=2\\pi r$",
+          "art": "circle",
+          "v": "c"
+        },
+        {
+          "id": "hypotenuse",
+          "front": "hypotenuse",
+          "ipa": "/haɪˈpɒt.ən.juːz/",
+          "say": "хайпотэнюз",
+          "back": "гипотенуз",
+          "hook": "«Хайп» хамгийн их — хамгийн урт тал, тэгш өнцгийн эсрэг.",
+          "ex": "legs $6,8$ → **hypotenuse** $10$",
+          "art": "triangle"
+        },
+        {
+          "id": "perpendicular",
+          "front": "perpendicular",
+          "ipa": "/ˌpɜː.pənˈdɪk.jə.lər/",
+          "say": "пөрпэндикюлар",
+          "back": "перпендикуляр",
+          "hook": "«Перпендикуляр» — монголд ч ижил. $90^\\circ$-аар огтлолцоно.",
+          "ex": "slopes $2$ and $-\\tfrac12$ are **perpendicular**",
+          "art": "perp"
+        },
+        {
+          "id": "mean",
+          "front": "mean",
+          "ipa": "/miːn/",
+          "say": "мийн",
+          "back": "дундаж",
+          "hook": "«Mean» = утга. Бүгдийн дундаж утга.",
+          "ex": "**mean** of $2,4,9$ → $5$",
+          "art": "bars",
+          "v": "mean"
+        },
+        {
+          "id": "median",
+          "front": "median",
+          "ipa": "/ˈmiː.di.ən/",
+          "say": "мийдиэн",
+          "back": "медиан (голч)",
+          "hook": "«Media» = дунд. Эрэмбэлсэн жагсаалтын яг голын тоо.",
+          "ex": "**median** of $3,7,8,12,15$ → $8$",
+          "art": "bars",
+          "v": "median"
+        },
+        {
+          "id": "ratio",
+          "front": "ratio",
+          "ipa": "/ˈreɪ.ʃi.əʊ/",
+          "say": "рэйшиоу",
+          "back": "харьцаа",
+          "hook": "«Rate» = хэмжээ. Хоёр хэмжээг харьцуулна: $a:b$.",
+          "ex": "$3$ boys to $2$ girls → **ratio** $3:2$",
+          "art": "pie",
+          "v": "ratio"
+        },
+        {
+          "id": "percent",
+          "front": "percent",
+          "ipa": "/pəˈsent/",
+          "say": "пөрсэнт",
+          "back": "хувь",
+          "hook": "«Cent» = 100 (цент). 100-гийн хэдэн хэсэг.",
+          "ex": "$25\\%$ of $80$ → $20$",
+          "art": "pie",
+          "v": "pct"
+        },
+        {
+          "id": "probability",
+          "front": "probability",
+          "ipa": "/ˌprɒb.əˈbɪl.ə.ti/",
+          "say": "пробабилити",
+          "back": "магадлал",
+          "hook": "«Probably» = магадгүй → болох магадлал.",
+          "ex": "**probability** of green $=\\frac{5}{15}$",
+          "art": "dice"
+        },
+        {
+          "id": "radian",
+          "front": "radian",
+          "ipa": "/ˈreɪ.di.ən/",
+          "say": "рэйдиэн",
+          "back": "радиан",
+          "hook": "Радиусын урттай нум = 1 радиан.",
+          "ex": "$\\pi$ **radians** $=180^\\circ$",
+          "art": "angle"
+        }
+      ]
+    }
+  ]
+}

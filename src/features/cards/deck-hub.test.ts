@@ -1,7 +1,15 @@
 import { describe, expect, test } from 'bun:test';
 import { deck, formulaCard, NOW, wordCard } from '@/test/fixtures';
 import type { CardState, Deck } from '@/types';
-import { byKind, countByStatus, dueCards, statusOf, summarizeDecks } from './deck-hub';
+import {
+  byKind,
+  countByStatus,
+  countsByKind,
+  dueByKind,
+  dueCards,
+  statusOf,
+  summarizeDecks,
+} from './deck-hub';
 
 const DAY = 86_400_000;
 const wordDeck: Deck = { ...deck, cards: [wordCard, { ...wordCard, id: 'product' }] };
@@ -72,5 +80,28 @@ describe('status counters', () => {
     expect(byKind(summaries, 'word').map((s) => s.id)).toEqual(['ops']);
     expect(byKind(summaries, 'formula').map((s) => s.id)).toEqual(['f-alg']);
     expect(byKind(summaries, 'mine').map((s) => s.id)).toEqual(['mine']);
+  });
+});
+
+describe('hub panels', () => {
+  const states = { sum: state(2, NOW + DAY), product: state(4, NOW + DAY), slope: state(3, NOW) };
+
+  test('deck summaries count learning and mastered cards for the progress bar', () => {
+    const [w, f] = summarizeDecks(decks, dueCards(decks, states, NOW), states);
+    expect(w).toMatchObject({ learning: 1, mastered: 1, due: 0, disabled: true });
+    expect(f).toMatchObject({ learning: 0, mastered: 1, due: 1, disabled: false });
+  });
+
+  test('countsByKind covers every card of each tab, not only due ones', () => {
+    expect(countsByKind(decks, states)).toEqual({
+      word: { new: 0, learning: 1, mastered: 1 },
+      formula: { new: 0, learning: 0, mastered: 1 },
+      mine: { new: 0, learning: 0, mastered: 0 },
+    });
+  });
+
+  test('dueByKind sums due cards per tab', () => {
+    const summaries = summarizeDecks(decks, dueCards(decks, {}, NOW));
+    expect(dueByKind(summaries)).toEqual({ word: 2, formula: 1, mine: 0 });
   });
 });
