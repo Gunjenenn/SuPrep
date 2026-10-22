@@ -1,0 +1,10 @@
+{
+  "pages": {
+    "dashboard": {
+      "title": "Home"
+    },
+    "help": {
+      "title": "Help"
+    }
+  }
+}

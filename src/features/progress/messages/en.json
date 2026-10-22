@@ -1,0 +1,13 @@
+{
+  "pages": {
+    "progress": {
+      "title": "My progress"
+    },
+    "achievements": {
+      "title": "Achievements"
+    },
+    "league": {
+      "title": "Green league"
+    }
+  }
+}
