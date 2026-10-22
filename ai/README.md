@@ -17,10 +17,13 @@ ai/
 
 **Qwen2.5-1.5B-Instruct + LoRA**, Colab T4 дээр сургаж, Ollama-аар ажиллуулна.
 
-1. `bun ai/train/export.ts` → `ai/data/tuning/train.jsonl` (176), `val.jsonl` (34), `eval.jsonl` (10).
-   32 асуулт бүрээс 5–7 яриа: hint, explain, desmos, translate, буруу сонголт, шалгах. Train/val асуултаар хуваагдсан.
+1. `bun ai/train/export.ts` → `ai/data/tuning/train.jsonl` (~2,460), `val.jsonl` (~370), `eval.jsonl` (81).
+   Эх сурвалж: манай 32 асуулт + `ai/pipeline/generate.ts`-ийн 24 загвар (alg, adv, psda, geo — тоонууд санамсаргүй,
+   хариуг код тооцоолно, hint-д хариу орвол хасна) + `ai/pipeline/general.ts` (42 англи үг, SAT формат, мэндчилгээ, сэдвээс гадуур).
+   Яриан төрлүүд: hint, explain, multi (hint → гацсан → бүтэн тайлбар), wrong (буруу хариуг "зөв" гэхгүй), check,
+   similar, translate, mistake, desmos, general. Train / val / eval нэг ч асуулт хуваалцахгүй (тест шалгана).
 2. `ai/train/suu_finetune.ipynb`-ийг Colab-д нээж (T4 GPU) **Run all** → base vs fine-tuned үнэлгээ
-   (`eval_report.md`: хариу зөв %, hint leak %, монгол %) → `suu.zip` (GGUF + Modelfile) татна.
+   (`eval_report.md`: хариу зөв %, hint leak %, false praise %, монгол % — гараар бичсэн ба загварын асуултаар тусад нь) → `suu.zip` (GGUF + Modelfile) татна.
 3. Laptop дээр: `cd suu && ollama create suu -f Modelfile`
 4. `.env.local`: `OLLAMA_URL=http://localhost:11434`, `OLLAMA_MODEL=suu` → `/api/tutor` Суу-г ашиглана
    (`demo: false`). Ollama унтарсан үед демо хариу руу буцна.

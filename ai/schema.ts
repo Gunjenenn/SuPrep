@@ -39,7 +39,18 @@ export type Dialogue = z.infer<typeof Dialogue>;
 /** One line of chat JSONL for small-model LoRA fine-tuning (Qwen / Unsloth, OpenAI-style messages). */
 export const ChatExample = z.object({
   questionId: z.string(),
-  mode: z.enum(['hint', 'explain', 'desmos', 'translate', 'mistake', 'check']),
+  mode: z.enum([
+    'hint',
+    'explain',
+    'desmos',
+    'translate',
+    'mistake',
+    'check',
+    'wrong',
+    'multi',
+    'similar',
+    'general',
+  ]),
   messages: z
     .array(z.object({ role: z.enum(['system', 'user', 'assistant']), content: z.string().min(1) }))
     .min(3),
@@ -49,7 +60,9 @@ export type ChatExample = z.infer<typeof ChatExample>;
 /** One held-out prompt for base-vs-fine-tuned comparison. */
 export const EvalItem = z.object({
   questionId: z.string(),
-  mode: z.enum(['hint', 'explain']),
+  /** original = held-out hand-written question; generated = held-out template question (same kinds as train). */
+  source: z.enum(['original', 'generated']),
+  mode: z.enum(['hint', 'explain', 'wrong']),
   prompt: z.string(),
   answer: z.string(),
   accepted: z.array(z.string()),
