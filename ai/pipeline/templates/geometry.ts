@@ -164,4 +164,85 @@ export const GEOMETRY: Template[] = [
       };
     },
   },
+  {
+    key: 'circle-area',
+    domain: 'geo',
+    skill: 'Circles',
+    difficulty: 1,
+    make: (r) => {
+      const rad = int(r, 2, 15);
+      const kind = pick(r, ['area', 'circumference', 'area-from-diameter'] as const);
+      if (kind === 'circumference') {
+        return {
+          prompt: `A circle has a radius of ${rad} centimeters. Its circumference is $k\\pi$ centimeters. What is the value of $k$?`,
+          answer: [String(2 * rad)],
+          explain: `Тойргийн урт $= 2\\pi r = 2\\pi \\cdot ${rad} = ${2 * rad}\\pi$. Тэгэхээр $k = ${2 * rad}$.`,
+          hint: 'Тойргийн уртын томьёо: хоёр үржих $\\pi$ үржих радиус.',
+          mn: 'circumference = тойргийн урт, radius = радиус',
+          vocab: ['circumference', 'radius'],
+        };
+      }
+      const fromD = kind === 'area-from-diameter';
+      return {
+        prompt: fromD
+          ? `A circle has a diameter of ${2 * rad} meters. Its area is $k\\pi$ square meters. What is the value of $k$?`
+          : `A circle has a radius of ${rad} meters. Its area is $k\\pi$ square meters. What is the value of $k$?`,
+        answer: [String(rad * rad)],
+        explain: `${fromD ? `Радиус нь диаметрийн хагас: $r = ${2 * rad} \\div 2 = ${rad}$. ` : ''}Талбай $= \\pi r^2 = \\pi \\cdot ${rad}^2 = ${rad * rad}\\pi$. Тэгэхээр $k = ${rad * rad}$.`,
+        hint: fromD
+          ? 'Талбайн томьёонд радиус хэрэгтэй — диаметрээс радиусаа эхлээд ол.'
+          : 'Тойргийн талбайн томьёо: $\\pi$ үржих радиусын квадрат.',
+        mn: fromD ? 'diameter = диаметр, area = талбай' : 'area = талбай, radius = радиус',
+        vocab: [fromD ? 'diameter' : 'radius', 'area'],
+      };
+    },
+  },
+  {
+    key: 'volume',
+    domain: 'geo',
+    skill: 'Volume',
+    difficulty: 2,
+    make: (r) => {
+      if (r() < 0.5) {
+        const [l, w, h] = [int(r, 2, 12), int(r, 2, 10), int(r, 2, 9)];
+        return {
+          prompt: `A rectangular box has a length of ${l} inches, a width of ${w} inches, and a height of ${h} inches. What is the volume of the box, in cubic inches?`,
+          answer: [String(l * w * h)],
+          explain: `Эзэлхүүн $= ${l} \\cdot ${w} \\cdot ${h} = ${l * w * h}$ куб инч.`,
+          hint: 'Тэгш өнцөгт хайрцагны эзэлхүүн = урт × өргөн × өндөр.',
+          mn: 'volume = эзэлхүүн, cubic inches = куб инч',
+          vocab: ['volume', 'cubic'],
+        };
+      }
+      const [rad, h] = [int(r, 2, 8), int(r, 2, 12)];
+      return {
+        prompt: `A right circular cylinder has a radius of ${rad} and a height of ${h}. Its volume is $k\\pi$. What is the value of $k$?`,
+        answer: [String(rad * rad * h)],
+        explain: `Цилиндрийн эзэлхүүн $= \\pi r^2 h = \\pi \\cdot ${rad}^2 \\cdot ${h} = ${rad * rad * h}\\pi$. Тэгэхээр $k = ${rad * rad * h}$.`,
+        hint: 'Цилиндрийн эзэлхүүн = суурийн талбай × өндөр. Суурь нь тойрог.',
+        mn: 'right circular cylinder = шулуун цилиндр, volume = эзэлхүүн',
+        vocab: ['cylinder', 'volume'],
+      };
+    },
+  },
+  {
+    key: 'arc-length',
+    domain: 'geo',
+    skill: 'Circles',
+    difficulty: 3,
+    make: (r) => {
+      const angle = pick(r, [30, 45, 60, 90, 120, 180, 270] as const);
+      const rad = int(r, 2, 18);
+      const k = (2 * rad * angle) / 360;
+      if (!Number.isInteger(k)) return null;
+      return {
+        prompt: `In a circle with radius ${rad}, a central angle measures $${angle}^\\circ$. The length of the arc it cuts off is $k\\pi$. What is the value of $k$?`,
+        answer: [String(k)],
+        explain: `Нумын урт = тойргийн уртын $\\frac{${angle}}{360}$ хэсэг: $\\frac{${angle}}{360} \\cdot 2\\pi \\cdot ${rad} = ${frac(angle, 360)} \\cdot ${2 * rad}\\pi = ${k}\\pi$. Тэгэхээр $k = ${k}$.`,
+        hint: 'Төв өнцөг бүтэн тойргийн ($360^\\circ$) хэдэн хэсэг вэ? Тойргийн уртыг тэр хэсгээр үржүүл.',
+        mn: 'central angle = төв өнцөг, arc = нум',
+        vocab: ['central angle', 'arc'],
+      };
+    },
+  },
 ];
