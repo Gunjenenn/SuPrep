@@ -14,14 +14,15 @@ export const NAV: NavGroup[] = [
     ],
   },
   {
-    key: 'practice',
-    items: [
-      { key: 'bank', href: routes.bank(), section: 'C' },
-      { key: 'hard', href: routes.hard, section: 'C' },
-      { key: 'mock', href: routes.mock, section: 'D' },
-      { key: 'mistakes', href: routes.mistakes, section: 'D' },
-    ],
-  },
+  key: 'practice',
+  items: [
+    { key: 'practicePlayer', href: routes.practice(), section: 'C' },
+    { key: 'bank', href: routes.bank(), section: 'C' },
+    { key: 'hard', href: routes.hard, section: 'C' },
+    { key: 'mock', href: routes.mock, section: 'D' },
+    { key: 'mistakes', href: routes.mistakes, section: 'D' },
+  ],
+},
   {
     key: 'materials',
     items: [
