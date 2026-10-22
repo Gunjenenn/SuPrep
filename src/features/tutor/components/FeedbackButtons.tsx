@@ -1,7 +1,7 @@
 'use client';
 // 👍/👎 under a Suu reply. 👎 opens an optional "better explanation" box.
 // Sent to /api/tutor/feedback; a human reviews it before it can ever train the model (ai/pipeline/feedback.ts).
-import { useState } from 'react';
+import { useId, useState } from 'react';
 import { Button } from '@/components/ui/Button';
 import { useT } from '@/lib/i18n-client';
 import type { TutorContextKind, TutorMode } from '@/types';
@@ -20,6 +20,8 @@ export function FeedbackButtons({ mode, prompt, reply, context, fetchImpl = fetc
   const t = useT('tutor');
   const [state, setState] = useState<State>('idle');
   const [correction, setCorrection] = useState('');
+  // one box per Suu reply on the page → ids must be unique
+  const boxId = useId();
 
   async function send(rating: 'up' | 'down', text?: string) {
     setState('sending');
@@ -46,11 +48,11 @@ export function FeedbackButtons({ mode, prompt, reply, context, fetchImpl = fetc
           void send('down', correction);
         }}
       >
-        <label className="text-[13px] font-semibold" htmlFor="suu-correction">
+        <label className="text-[13px] font-semibold" htmlFor={boxId}>
           {t('feedback.betterLabel')}
         </label>
         <textarea
-          id="suu-correction"
+          id={boxId}
           className="min-h-20 rounded-xl border border-(--c-line-2) bg-(--c-paper) p-3 text-[14px]"
           maxLength={2000}
           placeholder={t('feedback.betterPlaceholder')}
