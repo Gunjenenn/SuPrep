@@ -50,6 +50,7 @@ export const ChatExample = z.object({
     'multi',
     'similar',
     'general',
+    'feedback',
   ]),
   messages: z
     .array(z.object({ role: z.enum(['system', 'user', 'assistant']), content: z.string().min(1) }))

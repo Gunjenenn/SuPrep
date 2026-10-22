@@ -2,7 +2,7 @@
 // Sources: our 32 hand-written questions + template-generated questions (ai/pipeline/generate.ts)
 // + general conversations (ai/pipeline/general.ts). Every question becomes several tutor conversations.
 // Splits never share a question. Run: `bun ai/train/export.ts`
-import { mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { QUESTIONS } from '../../src/mocks/questions';
 import type { Question } from '../../src/types';
@@ -222,11 +222,13 @@ export function buildDataset(perTemplate = 12) {
     return linked ? [linked] : (m.get(kindOf(q)) ?? []);
   };
   const general = generalExamples(SYSTEM_PROMPT);
+  const feedback = approvedFeedback();
   const generalVal = general.filter((_, i) => i % 10 === 9);
   const train = [
     ...s.origTrain.flatMap((q) => examplesFor(q, { rich: true, siblings: sibsFor(q, trainSibs) })),
     ...s.genTrain.flatMap((q) => examplesFor(q, { siblings: sibsFor(q, trainSibs) })),
     ...general.filter((_, i) => i % 10 !== 9),
+    ...feedback,
   ];
   const val = [
     ...s.origVal.flatMap((q) => examplesFor(q, { rich: true, siblings: [] })),
@@ -235,6 +237,17 @@ export function buildDataset(perTemplate = 12) {
   ];
   const evalSet = [...evalItems(s.origVal, 'original'), ...evalItems(s.genEval, 'generated')];
   return { train: shuffled(train), val, eval: evalSet, splits: s };
+}
+
+/** Human-approved user feedback (written by `bun ai/pipeline/feedback.ts export`). */
+export function approvedFeedback(
+  file = join(import.meta.dir, '..', 'data', 'tuning', 'feedback.jsonl'),
+): ChatExample[] {
+  if (!existsSync(file)) return [];
+  return readFileSync(file, 'utf8')
+    .split('\n')
+    .filter(Boolean)
+    .map((l) => ChatExampleSchema.parse(JSON.parse(l)));
 }
 
 function shuffled<T>(xs: T[]): T[] {
