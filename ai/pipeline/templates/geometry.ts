@@ -1,5 +1,5 @@
 // SAT Math · Geometry & Trigonometry templates. Answers are computed in code; Mongolian hint / explanation / wrong-choice reasons.
-import { frac, int, mcq, nonZero, pick, type Template, term } from './shared';
+import { frac, int, mcq, nonZero, par, pick, type Template, term } from './shared';
 
 export const GEOMETRY: Template[] = [
   {
@@ -332,6 +332,96 @@ export const GEOMETRY: Template[] = [
         hint: 'Параллель шулуунуудыг огтлогч шулуун огтлоход үүсэх 8 өнцөг ердөө хоёр өөр хэмжээтэй. Тэдгээр нь хоорондоо ямар холбоотой вэ?',
         mn: 'transversal = огтлогч шулуун, parallel = параллель',
         vocab: ['transversal', 'parallel'],
+      };
+    },
+  },
+  {
+    key: 'distance',
+    domain: 'geo',
+    skill: 'Coordinate geometry',
+    difficulty: 2,
+    make: (r) => {
+      const [a, b, c] = pick(r, [
+        [3, 4, 5],
+        [5, 12, 13],
+        [6, 8, 10],
+        [8, 15, 17],
+      ] as const);
+      const flip = r() < 0.5;
+      const [dx, dy] = flip ? [b, a] : [a, b];
+      const x1 = int(r, -6, 6);
+      const y1 = int(r, -6, 6);
+      const sx = r() < 0.5 ? 1 : -1;
+      const sy = r() < 0.5 ? 1 : -1;
+      const [x2, y2] = [x1 + sx * dx, y1 + sy * dy];
+      return {
+        prompt: `What is the distance between the points $(${x1}, ${y1})$ and $(${x2}, ${y2})$ in the $xy$-plane?`,
+        answer: [String(c)],
+        explain: `$\\Delta x = ${x2} - ${par(x1)} = ${x2 - x1}$, $\\Delta y = ${y2} - ${par(y1)} = ${y2 - y1}$. Зай $= \\sqrt{${par(x2 - x1)}^2 + ${par(y2 - y1)}^2} = \\sqrt{${dx * dx + dy * dy}} = ${c}$.`,
+        hint: 'Хоёр цэгийн хоорондох зай = тэгш өнцөгт гурвалжны гипотенуз. $x$-ийн ялгавар ба $y$-ийн ялгаврыг катет болго.',
+        mn: 'distance = зай, points = цэгүүд',
+        vocab: ['distance', 'points'],
+      };
+    },
+  },
+  {
+    key: 'midpoint',
+    domain: 'geo',
+    skill: 'Coordinate geometry',
+    difficulty: 1,
+    make: (r) => {
+      const [mx, my] = [int(r, -6, 8), int(r, -6, 8)];
+      const [dx, dy] = [nonZero(r, -6, 6), nonZero(r, -6, 6)];
+      const [x1, y1, x2, y2] = [mx - dx, my - dy, mx + dx, my + dy];
+      const pt = (a: number, b: number) => `(${a}, ${b})`;
+      const q = mcq(r, pt(mx, my), [
+        { tex: pt(my, mx), why: '$x$ ба $y$ координатыг сольчихсон байна.' },
+        { tex: pt(x1 + x2, y1 + y2), why: 'Нийлбэрийг 2-т хуваахаа мартсан байна.' },
+        { tex: pt(dx, dy), why: 'Ялгаврын хагасыг авсан байна — дундаж (нийлбэрийн хагас) хэрэгтэй.' },
+        { tex: pt(mx + 1, my), why: 'Тооцоогоо дахин шалга.' },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `What is the midpoint of the segment with endpoints $(${x1}, ${y1})$ and $(${x2}, ${y2})$?`,
+        ...q,
+        explain: `Дунджийг ол: $x = \\frac{${x1} + ${par(x2)}}{2} = ${mx}$, $y = \\frac{${y1} + ${par(y2)}}{2} = ${my}$. Дундаж цэг $${pt(mx, my)}$.`,
+        hint: 'Дундаж цэгийн координат бүр нь хоёр төгсгөлийн харгалзах координатуудын дундаж.',
+        mn: 'midpoint = дундаж цэг, endpoints = төгсгөлийн цэгүүд, segment = хэрчим',
+        vocab: ['midpoint', 'endpoints'],
+      };
+    },
+  },
+  {
+    key: 'circle-center',
+    domain: 'geo',
+    skill: 'Circles',
+    difficulty: 2,
+    make: (r) => {
+      const h = nonZero(r, -7, 7);
+      const k = nonZero(r, -7, 7);
+      const rad = int(r, 2, 9);
+      const pt = (a: number, b: number) => `(${a}, ${b})`;
+      const coordStep = (v: string, c: number) =>
+        c < 0
+          ? `$${v} ${term(-c)} = ${v} - (${c})$ тул $${v === 'x' ? 'h' : 'k'} = ${c}$`
+          : `$${v} - ${c}$ тул $${v === 'x' ? 'h' : 'k'} = ${c}$`;
+      const q = mcq(r, pt(h, k), [
+        {
+          tex: pt(-h, -k),
+          why: 'Тэмдгийг эсрэгээр авсан: $(x - h)^2$ хэлбэрт хаалт доторх тооны эсрэг тэмдэгтэй нь төв.',
+        },
+        { tex: pt(k, h), why: '$x$ ба $y$ координатыг сольчихсон байна.' },
+        { tex: pt(h, -k), why: '$y$-ийн тэмдгийг алдсан байна.' },
+        { tex: pt(-h, k), why: '$x$-ийн тэмдгийг алдсан байна.' },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `The equation of a circle in the $xy$-plane is $(x ${term(-h)})^2 + (y ${term(-k)})^2 = ${rad * rad}$. What are the coordinates of the center of the circle?`,
+        ...q,
+        explain: `Хэлбэр нь $(x - h)^2 + (y - k)^2 = r^2$, төв нь $(h, k)$. ${coordStep('x', h)}; ${coordStep('y', k)}. Төв $${pt(h, k)}$.`,
+        hint: 'Тойргийн тэгшитгэл $(x - h)^2 + (y - k)^2 = r^2$. Хаалт доторх тэмдгийг анхаар.',
+        mn: 'center = төв, coordinates = координат',
+        vocab: ['center', 'coordinates'],
       };
     },
   },
