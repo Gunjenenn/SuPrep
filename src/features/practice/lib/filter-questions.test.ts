@@ -1,3 +1,4 @@
+
 import { describe, expect, test } from 'bun:test';
 import type { Question } from '@/types';
 import { filterQuestions } from './filter-questions';
@@ -60,7 +61,10 @@ describe('filterQuestions', () => {
   });
 
   test('filters Desmos-supported questions', () => {
-    expect(filterQuestions(questions, { desmosOnly: true }).map((q) => q.id)).toEqual(['q1', 'q3']);
+    expect(filterQuestions(questions, { desmosOnly: true }).map((q) => q.id)).toEqual([
+      'q1',
+      'q3',
+    ]);
   });
 
   test('filters saved questions', () => {
@@ -74,7 +78,6 @@ describe('filterQuestions', () => {
 
   test('searches prompt and skill without case sensitivity', () => {
     expect(filterQuestions(questions, { search: 'QUADRATIC' }).map((q) => q.id)).toEqual(['q2']);
-
     expect(filterQuestions(questions, { search: 'circle' }).map((q) => q.id)).toEqual(['q3']);
   });
 
@@ -90,5 +93,12 @@ describe('filterQuestions', () => {
 
   test('returns all questions when no filter is provided', () => {
     expect(filterQuestions(questions)).toEqual(questions);
+  });
+
+  test('Hard Question Zone excludes non-hard questions', () => {
+    const hardQuestions = filterQuestions(questions, { difficulty: 3 });
+
+    expect(hardQuestions.every((question) => question.difficulty === 3)).toBe(true);
+    expect(hardQuestions.map((question) => question.id)).toEqual(['q2', 'q3']);
   });
 });

@@ -1,13 +1,14 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import { Rich } from '@/components/math';
 import type { Domain, Question } from '@/types';
 import { filterQuestions } from '../lib/filter-questions';
-import { Rich } from '@/components/math';
 
 type Props = {
   questions: Question[];
   savedIds?: string[];
+  hardOnly?: boolean;
 };
 
 const domains: { id: Domain | 'all'; label: string }[] = [
@@ -18,9 +19,9 @@ const domains: { id: Domain | 'all'; label: string }[] = [
   { id: 'geo', label: 'Geometry' },
 ];
 
-export function QuestionBank({ questions, savedIds = [] }: Props) {
+export function QuestionBank({ questions, savedIds = [], hardOnly = false }: Props) {
   const [domain, setDomain] = useState<Domain | 'all'>('all');
-  const [difficulty, setDifficulty] = useState<1 | 2 | 3 | 'all'>('all');
+  const [difficulty, setDifficulty] = useState<1 | 2 | 3 | 'all'>(hardOnly ? 3 : 'all');
   const [desmosOnly, setDesmosOnly] = useState(false);
   const [savedOnly, setSavedOnly] = useState(false);
   const [search, setSearch] = useState('');
@@ -29,22 +30,24 @@ export function QuestionBank({ questions, savedIds = [] }: Props) {
     () =>
       filterQuestions(questions, {
         domain: domain === 'all' ? undefined : domain,
-        difficulty: difficulty === 'all' ? undefined : difficulty,
+        difficulty: hardOnly ? 3 : difficulty === 'all' ? undefined : difficulty,
         desmosOnly,
         savedOnly,
         savedIds,
         search,
       }),
-    [questions, domain, difficulty, desmosOnly, savedOnly, savedIds, search],
+    [questions, domain, difficulty, hardOnly, desmosOnly, savedOnly, savedIds, search],
   );
 
   return (
     <main className="mx-auto w-full max-w-5xl space-y-6 p-6">
-      <header className="space-y-2">
-        <p className="text-sm font-medium text-blue-600">SAT MATH</p>
-        <h1 className="text-3xl font-bold">Question Bank</h1>
-        <p className="text-sm text-gray-500">Browse, search, and filter SAT Math questions.</p>
-      </header>
+      {!hardOnly && (
+        <header className="space-y-2">
+          <p className="text-sm font-medium text-blue-600">SAT MATH</p>
+          <h1 className="text-3xl font-bold">Question Bank</h1>
+          <p className="text-sm text-gray-500">Browse, search, and filter SAT Math questions.</p>
+        </header>
+      )}
 
       <nav className="flex flex-wrap gap-2" aria-label="Question domains">
         {domains.map((item) => (
@@ -75,21 +78,25 @@ export function QuestionBank({ questions, savedIds = [] }: Props) {
           />
         </label>
 
-        <label className="space-y-1 text-sm">
-          <span className="font-medium">Difficulty</span>
-          <select
-            value={difficulty}
-            onChange={(event) =>
-              setDifficulty(event.target.value === 'all' ? 'all' : (Number(event.target.value) as 1 | 2 | 3))
-            }
-            className="w-full rounded-lg border border-gray-300 px-3 py-2"
-          >
-            <option value="all">All difficulties</option>
-            <option value="1">1 — Easy</option>
-            <option value="2">2 — Medium</option>
-            <option value="3">3 — Hard</option>
-          </select>
-        </label>
+        {!hardOnly && (
+          <label className="space-y-1 text-sm">
+            <span className="font-medium">Difficulty</span>
+            <select
+              value={difficulty}
+              onChange={(event) =>
+                setDifficulty(
+                  event.target.value === 'all' ? 'all' : (Number(event.target.value) as 1 | 2 | 3),
+                )
+              }
+              className="w-full rounded-lg border border-gray-300 px-3 py-2"
+            >
+              <option value="all">All difficulties</option>
+              <option value="1">1 — Easy</option>
+              <option value="2">2 — Medium</option>
+              <option value="3">3 — Hard</option>
+            </select>
+          </label>
+        )}
 
         <div className="flex flex-col justify-end gap-3 pb-2 text-sm">
           <label className="flex items-center gap-2">
@@ -100,6 +107,7 @@ export function QuestionBank({ questions, savedIds = [] }: Props) {
             />
             Desmos-supported only
           </label>
+
           <label className="flex items-center gap-2">
             <input
               type="checkbox"
@@ -122,22 +130,23 @@ export function QuestionBank({ questions, savedIds = [] }: Props) {
               <span>{question.skill}</span>
               <span>•</span>
               <span>Difficulty {question.difficulty}</span>
+
               {question.desmos && (
                 <span className="rounded-full bg-blue-50 px-2 py-1 text-blue-700">Desmos</span>
               )}
             </div>
 
             <div className="whitespace-pre-wrap font-medium">
-  <Rich text={question.prompt} />
-</div>
+              <Rich text={question.prompt} />
+            </div>
 
             {question.choices && (
               <ol className="list-inside list-[upper-alpha] space-y-1 text-sm">
                 {question.choices.map((choice, index) => (
-  <li key={`${question.id}-${index}`}>
-    <Rich text={choice} />
-  </li>
-))}
+                  <li key={`${question.id}-${index}`}>
+                    <Rich text={choice} />
+                  </li>
+                ))}
               </ol>
             )}
           </article>
