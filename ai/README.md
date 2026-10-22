@@ -17,10 +17,13 @@ ai/
 
 **Qwen2.5-1.5B-Instruct + LoRA**, Colab T4 дээр сургаж, Ollama-аар ажиллуулна.
 
-1. `bun ai/train/export.ts` → `ai/data/tuning/train.jsonl` (176), `val.jsonl` (34), `eval.jsonl` (10).
-   32 асуулт бүрээс 5–7 яриа: hint, explain, desmos, translate, буруу сонголт, шалгах. Train/val асуултаар хуваагдсан.
+1. `bun ai/train/export.ts` → `ai/data/tuning/train.jsonl` (~2,460), `val.jsonl` (~370), `eval.jsonl` (81).
+   Эх сурвалж: манай 32 асуулт + `ai/pipeline/generate.ts`-ийн 24 загвар (alg, adv, psda, geo — тоонууд санамсаргүй,
+   хариуг код тооцоолно, hint-д хариу орвол хасна) + `ai/pipeline/general.ts` (42 англи үг, SAT формат, мэндчилгээ, сэдвээс гадуур).
+   Яриан төрлүүд: hint, explain, multi (hint → гацсан → бүтэн тайлбар), wrong (буруу хариуг "зөв" гэхгүй), check,
+   similar, translate, mistake, desmos, general. Train / val / eval нэг ч асуулт хуваалцахгүй (тест шалгана).
 2. `ai/train/suu_finetune.ipynb`-ийг Colab-д нээж (T4 GPU) **Run all** → base vs fine-tuned үнэлгээ
-   (`eval_report.md`: хариу зөв %, hint leak %, монгол %) → `suu.zip` (GGUF + Modelfile) татна.
+   (`eval_report.md`: хариу зөв %, hint leak %, false praise %, монгол % — гараар бичсэн ба загварын асуултаар тусад нь) → `suu.zip` (GGUF + Modelfile) татна.
 3. Laptop дээр: `cd suu && ollama create suu -f Modelfile`
 4. `.env.local`: `OLLAMA_URL=http://localhost:11434`, `OLLAMA_MODEL=suu` → `/api/tutor` Суу-г ашиглана
    (`demo: false`). Ollama унтарсан үед демо хариу руу буцна.
@@ -35,3 +38,15 @@ Notebook нь цорын ганц Python хэсэг (GPU сургалтад Unsl
 **Лиценз:** College Board-ын материал (Bluebook practice test, Question Bank) зохиогчийн эрхтэй.
 H1 дээр ашиглах нөхцөлийг шалгаж, зөвшөөрөлгүй эх сурвалжийг `allowed: false` болгоно —
 `ingest.ts` ийм эх сурвалжийг уншихгүй.
+
+## Хэрэглэгчээс суралцах (аюулгүй)
+
+Сурагчийн бичсэн зүйл **шууд** сургалтад орохгүй — сурагч алдаатай тайлбар бичиж болно.
+
+1. Апп: `FeedbackButtons` (👍/👎 + "илүү зөв тайлбар") → `POST /api/tutor/feedback` → Supabase `tutor_feedback`
+   (migration `0003`, RLS: сурагч зөвхөн нэмнэ) эсвэл dev үед `ai/data/feedback/inbox.jsonl` (git-д орохгүй).
+2. Автомат шалгалт — `bun ai/pipeline/feedback.ts`: мэдэгдэх асуултад зөв хариу байгаа эсэх, hint-д хариу орсон эсэх,
+   монгол эсэх, хувийн мэдээлэл (утас, имэйл, регистр, URL), заавар өөрчлөх оролдлого, давхардал.
+3. Хүн батална — `approve <id>` / `reject <id> --note "…"` (шалгалт унасан бол `--force` хэрэгтэй).
+4. `export` → `ai/data/tuning/feedback.jsonl` → notebook-д `MODE = "update"`: өмнөх Суу (`suu_lora.zip`)-аас үргэлжлүүлж,
+   шинэ санал + хуучин 300 жишээгээр ~5–10 минут сургана. 👎 бөгөөд тайлбаргүй саналууд багшид "хэцүү тохиолдол" болж үлдэнэ.

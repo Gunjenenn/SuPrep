@@ -3,5 +3,17 @@
     "tutor": {
       "title": "AI tutor Suu"
     }
+  },
+  "feedback": {
+    "question": "Was this helpful?",
+    "up": "Helpful",
+    "down": "Not helpful",
+    "betterLabel": "Know a better explanation? (optional)",
+    "betterPlaceholder": "Example: subtract 5 from both sides, then divide by 3…",
+    "privacy": "Don't write names, phone numbers or emails. Suu only learns from it after a teacher approves it.",
+    "send": "Send",
+    "skip": "Skip",
+    "thanks": "Thank you! Your feedback helps Suu get better.",
+    "error": "Couldn't send. Please try again."
   }
 }
