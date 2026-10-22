@@ -1,4 +1,4 @@
-# ai/ — Section H (TypeScript + Bun, no Python)
+# ai/ — Section H
 
 Суугийн fine-tune хийх өгөгдөл, сургалт, үнэлгээ. Апп-тай нэг repo, нэг `bun install`.
 
@@ -12,6 +12,21 @@ ai/
   train/tune.ts            Vertex AI supervised tuning job    (H4)
   eval/run.ts              → ai/out/eval_report.md            (H5)
 ```
+
+## Суу fine-tune (жижиг модель) — одоо ажиллаж байгаа зам
+
+**Qwen2.5-1.5B-Instruct + LoRA**, Colab T4 дээр сургаж, Ollama-аар ажиллуулна.
+
+1. `bun ai/train/export.ts` → `ai/data/tuning/train.jsonl` (176), `val.jsonl` (34), `eval.jsonl` (10).
+   32 асуулт бүрээс 5–7 яриа: hint, explain, desmos, translate, буруу сонголт, шалгах. Train/val асуултаар хуваагдсан.
+2. `ai/train/suu_finetune.ipynb`-ийг Colab-д нээж (T4 GPU) **Run all** → base vs fine-tuned үнэлгээ
+   (`eval_report.md`: хариу зөв %, hint leak %, монгол %) → `suu.zip` (GGUF + Modelfile) татна.
+3. Laptop дээр: `cd suu && ollama create suu -f Modelfile`
+4. `.env.local`: `OLLAMA_URL=http://localhost:11434`, `OLLAMA_MODEL=suu` → `/api/tutor` Суу-г ашиглана
+   (`demo: false`). Ollama унтарсан үед демо хариу руу буцна.
+
+Сургалтын system prompt (`export.ts`) ба апп-ийн prompt (`src/server/tutor/ollama.ts`) ижил байх ёстой — тест шалгана.
+Notebook нь цорын ганц Python хэсэг (GPU сургалтад Unsloth хэрэгтэй).
 
 Ажиллуулах: `bun run ai:build` · `bun run ai:eval` · тест `bun test ai`.
 

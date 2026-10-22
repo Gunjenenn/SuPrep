@@ -1,7 +1,9 @@
-// Section G · G2 replaces the body with: auth → rate limit → prompt (G3) → Gemini (Vertex AI) → guard.
-// Until then it always answers in demo mode, and says so (`demo: true`). Keys stay on the server.
+// Section G · Suu tutor. Uses the fine-tuned small model on Ollama when OLLAMA_URL is set
+// (see ai/train/suu_finetune.ipynb). Otherwise, or if Ollama fails, answers in demo mode and says so (`demo: true`).
+// Keys and model URLs stay on the server.
 import { z } from 'zod';
 import { demoReply } from '@/server/tutor/demo';
+import { ollamaReply } from '@/server/tutor/ollama';
 
 const Body = z.object({
   mode: z.enum(['hint', 'explain', 'desmos', 'similar', 'translate']).default('hint'),
@@ -17,5 +19,9 @@ const Body = z.object({
 export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: 'bad_request' }, { status: 400 });
-  return Response.json({ text: demoReply(parsed.data.mode), demo: true });
+  const { mode, message } = parsed.data;
+
+  const text = await ollamaReply(mode, message);
+  if (text) return Response.json({ text, demo: false, model: 'suu' });
+  return Response.json({ text: demoReply(mode), demo: true });
 }
