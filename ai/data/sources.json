@@ -1,0 +1,16 @@
+[
+  {
+    "id": "suuprep-original",
+    "title": "SuuPrep-ийн өөрсдийн бичсэн асуултууд (prototype)",
+    "license": "own",
+    "allowed": true,
+    "path": "src/mocks/questions.ts"
+  },
+  {
+    "id": "cb-question-bank",
+    "title": "College Board SAT Suite Question Bank",
+    "license": "College Board terms — H1 дээр шалгана",
+    "allowed": false,
+    "url": "https://satsuitequestionbank.collegeboard.org/"
+  }
+]

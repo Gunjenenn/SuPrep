@@ -1,0 +1,16 @@
+name: PR title
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  title:
+    runs-on: ubuntu-latest
+    steps:
+      - name: type(section): english summary
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "$TITLE"
+          echo "$TITLE" | grep -Eq '^(feat|fix|test|style|refactor|data|ml|chore|docs)\((journey|desmos|practice|exam|mistakes|cards|progress|tutor|ai|home|onboarding|planner|pwa|ui|repo|core|shell|data|ci)\): [a-z].{3,}$' \
+            || { echo "::error::Гарчиг буруу. Жишээ: feat(cards): add swipe card"; exit 1; }

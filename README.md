@@ -1,0 +1,93 @@
+# SuuPrep
+
+Монгол сурагчдад зориулсан AI SAT Math платформ. Next.js (App Router) · React · TypeScript · Tailwind v4 ·
+Supabase · Bun · bun test · Playwright · KaTeX · Gemini (Vertex AI, `@google/genai`). **Бүх код JavaScript/TypeScript.**
+
+Prototype (дизайн): https://claude.ai/artifact/Qa2ruJcMEp3fZ38jzed8AP · Ажлын хуваарь: `SuuPrep_team_plan.xlsx`
+
+## Эхлэх (нэг удаа)
+
+1. Bun суулгана: `curl -fsSL https://bun.sh/install | bash`
+2. `git clone <REPO URL>` → VS Code-оор нээнэ (санал болгож буй extension-уудыг суулгана)
+3. `bun install` — `package.json` эсвэл `bun.lock` өөрчлөгдсөн `git pull` бүрийн дараа дахин.
+4. `cp .env.example .env.local` (хоосон байж болно)
+5. `bun dev` → http://localhost:3000
+6. `bun test` → unit/component тест · `bun run check` → lint + type + messages + тест (CI яг үүнийг ажиллуулна)
+7. AI хэсэг (H): `bun run ai:build`, тест `bun test ai`.
+
+Supabase-ийн түлхүүргүй үед апп `src/mocks/`-ийн жишээ өгөгдлөөр ажиллана. Gemini-ийн түлхүүргүй үед Суу
+«Демо горим»-оор хариулна (`demo: true`).
+
+## Бүтэц
+
+```
+src/
+  app/                    хуудаснууд (route бүр «Энэ хэсгийг бэлдэж байна» placeholder-той)
+    (app)/…               хажуу цэс / доод цэстэй хуудаснууд
+    (exam)/mock/          тайван горим (.calm)
+    api/tutor/route.ts    Суу (server) — түлхүүр зөвхөн энд
+  components/
+    ui/                   Button (3D), Pill, Bar, Ring, CountUp, Card, Sheet, Modal, Tilt, EmptyState,
+                          Skeleton, toast, SegmentedControl, Switch, ThemeToggle, Confetti
+    brand/                CatHead (7 сэтгэл хөдлөл), CatSitting, CatPeek, CatSleeping, Logo, Stars, Blob
+    math/                 Tex, Rich ($…$ ба **bold**)
+    shell/                AppShell
+  features/<хэсэг>/       queries.ts · components/ · lib/ · messages/{mn,en}.json
+  lib/                    routes.ts, i18n, theme, time (Asia/Ulaanbaatar), supabase/
+  mocks/                  prototype-ийн өгөгдөл (асуулт 31, замнал 5 шат, Desmos 9, карт, badge…)
+  server/                 зөвхөн server код (env, tutor)
+  test/                   render.tsx (provider-тай), fixtures/, setup.ts
+  types/                  Question, Lesson, Card, Mistake, XpEvent … — хэсгүүдийн цорын ганц холбоос
+ai/                       H хэсэг: schema, pipeline, train, eval (TypeScript)
+e2e/                      Playwright (smoke.spec.ts + <хэсэг>.spec.ts)
+supabase/migrations/      DB схем (SQL — Supabase хүснэгт ингэж тодорхойлогддог)
+prototype/                prototype-ийн код, зөвхөн лавлагаа
+```
+
+| Хэсэг | Хавтас | Хуудас |
+|---|---|---|
+| A Замнал ба хичээл | `features/journey` | /journey, /lesson/[id] |
+| B Desmos Академи | `features/desmos` | /desmos, /desmos/[id] |
+| C Дасгал | `features/practice` | /bank, /hard, /practice |
+| D Бүтэн тест ба алдаа | `features/exam`, `features/mistakes` | /mock, /mistakes |
+| E Карт | `features/cards` | /cards, /cards/[deck], /cards/[deck]/quiz, /cards/mine |
+| F XP ба ахиц | `features/progress` | /progress, /achievements, /league |
+| G AI багш Суу | `features/tutor`, `server/tutor`, `api/tutor` | /tutor |
+| H AI сургалт | `ai/` | — |
+| I Нүүр, онбординг, төлөвлөгөө, PWA | `features/home`, `onboarding`, `planner`, `notifications` | /, /onboarding, /dashboard, /planner, /help |
+
+## GitHub: Issue → Branch → Тест → Код → Commit → PR
+
+main руу хэзээ ч шууд push хийхгүй.
+
+1. **Issue**: Title = даалгаврын нэр (`feat(cards): add swipe card`), 2–3 мөр тайлбар, Assignees → өөрийгөө.
+2. **Branch**: issue → Development → Create a branch (source: main) → «Checkout locally» командыг ажиллуулна.
+3. **Тест эхэлж** (TDD): даалгаврын «Тест» мөрийг `*.test.ts(x)`-д бичээд `bun test` улаан болохыг харна.
+   Эхний commit: `test(cards): add swipe card tests`.
+4. **Код**: тест ногоон болтол. `bun run check` алдаагүй болтол (формат: `bun run format`).
+5. **Commit**: `git add src/features/cards` (өөрийн хавтсаа нэрлэж) → `git commit -m "feat(cards): add swipe card"`.
+6. **Push** → GitHub «Compare & pull request».
+7. **PR**: Title = commit. Template-ийг бөглөнө (Closes #23, зураг утас + компьютер, тест). Reviewers → ахлагч.
+8. CI ногоон болохыг хүлээнэ. Улаан бол засаад push.
+9. Merge → `git checkout main && git pull` → дараагийн даалгавар.
+
+Гарчиг: `төрөл(хэсэг): english summary`. Төрөл: feat · fix · test · style · refactor · data · ml.
+Хэсэг: journey · desmos · practice · exam · mistakes · cards · progress · tutor · ai · home · onboarding · planner · pwa.
+CI буруу гарчигтай PR-ыг улаан болгоно.
+
+Branch шинэчлэх: `git checkout main && git pull && git checkout <branch> && git merge main`.
+
+## Дүрэм
+
+- main руу шууд push, `git push --force`, `git add .` хийхгүй.
+- Өөрийн хавтсанд ажиллана. Хэрэгтэй компонентийг `src/features/<хэсэг>/components/`-д нэмнэ.
+- `src/components`, `src/types` өөрчлөх бол PR-даа яагаад гэдгээ бичнэ, ахлагч зөвшөөрнө.
+- Тестгүй PR merge хийхгүй: логик (`lib/`, `actions.ts`, `queries.ts`) — unit тест; дэлгэц — дор хаяж 1
+  component тест (`@/test/render`); гол урсгал — `e2e/<хэсэг>.spec.ts`.
+- Шинэ package (`bun add`) нэмэх бол эхлээд хэлнэ (bun.lock conflict).
+- Текст `messages/mn.json`, `messages/en.json`-д (хоёуланд ижил түлхүүр — `bun run messages` шалгана).
+  Server component: `getT('cards')`, client: `useT('cards')`.
+- Өнгийг token class-аар: `bg-paper`, `text-ink-2`, `bg-leaf`, `text-leaf-2`. #hex бичихгүй.
+- Хуудас хооронд линк зөвхөн `routes`-оор: `routes.lesson(id)`, `routes.deck(id)`.
+- API түлхүүр (Gemini, Supabase service role) хэзээ ч браузерт байхгүй: зөвхөн `.env.local` ба `src/server`.
+- Цаг/өдрийн хил `Asia/Ulaanbaatar` (`src/lib/time.ts`).
