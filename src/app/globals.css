@@ -383,3 +383,20 @@ button:disabled { cursor: not-allowed; }
 .skeleton { animation: skeleton 1.4s ease-in-out infinite; }
 .sheet-in { animation: sheet-in .3s cubic-bezier(.2,.7,.2,1) both; }
 }
+
+/* Journey map — locked lesson feedback */
+@keyframes journey-locked-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.journey-locked-shake {
+  animation: journey-locked-shake 350ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-locked-shake {
+    animation: none;
+  }
+}
