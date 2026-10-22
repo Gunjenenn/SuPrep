@@ -8,6 +8,8 @@ import { ollamaReply } from '@/server/tutor/ollama';
 const Body = z.object({
   mode: z.enum(['hint', 'explain', 'desmos', 'similar', 'translate']).default('hint'),
   message: z.string().min(1).max(2000),
+  /** Free chat: send the student's text as is, without the quick-action request phrase. */
+  raw: z.boolean().default(false),
   context: z
     .object({
       kind: z.enum(['lesson', 'desmos', 'question', 'mistake', 'general']),
@@ -19,9 +21,9 @@ const Body = z.object({
 export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: 'bad_request' }, { status: 400 });
-  const { mode, message } = parsed.data;
+  const { mode, message, raw } = parsed.data;
 
-  const text = await ollamaReply(mode, message);
+  const text = await ollamaReply(mode, message, fetch, raw);
   if (text) return Response.json({ text, demo: false, model: 'suu' });
   return Response.json({ text: demoReply(mode), demo: true });
 }
