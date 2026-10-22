@@ -245,4 +245,94 @@ export const GEOMETRY: Template[] = [
       };
     },
   },
+  {
+    key: 'special-right',
+    domain: 'geo',
+    skill: 'Right triangles',
+    difficulty: 2,
+    make: (r) => {
+      const s = int(r, 2, 12);
+      if (r() < 0.5) {
+        const q = mcq(r, `${s}\\sqrt{2}`, [
+          {
+            tex: `${2 * s}`,
+            why: '$45^\\circ$-$45^\\circ$-$90^\\circ$ гурвалжинд гипотенуз нь катетаас $\\sqrt{2}$ дахин урт, 2 дахин биш.',
+          },
+          {
+            tex: `${s}\\sqrt{3}`,
+            why: '$\\sqrt{3}$ нь $30^\\circ$-$60^\\circ$-$90^\\circ$ гурвалжинд гардаг.',
+          },
+          { tex: `${s}`, why: 'Гипотенуз нь хамгийн урт тал — катеттай тэнцүү байж болохгүй.' },
+          { tex: `${2 * s * s}`, why: 'Энэ бол $c^2$. Язгуур гаргах хэрэгтэй.' },
+        ]);
+        if (!q) return null;
+        return {
+          prompt: `An isosceles right triangle has legs of length ${s}. What is the length of its hypotenuse?`,
+          ...q,
+          explain: `Пифагор: $c^2 = ${s}^2 + ${s}^2 = ${2 * s * s}$, $c = \\sqrt{${2 * s * s}} = ${s}\\sqrt{2}$. (45-45-90 гурвалжинд гипотенуз = катет × $\\sqrt{2}$.)`,
+          hint: 'Адил хажуут тэгш өнцөгт гурвалжны хоёр катет тэнцүү. Пифагорын теоремоор бод.',
+          mn: 'isosceles right triangle = адил хажуут тэгш өнцөгт гурвалжин, legs = катетууд',
+          vocab: ['isosceles', 'hypotenuse'],
+        };
+      }
+      const q = mcq(r, `${s}\\sqrt{3}`, [
+        { tex: `${2 * s}`, why: 'Энэ бол гипотенуз. Урт катет нь богино катет × $\\sqrt{3}$.' },
+        {
+          tex: `${s}\\sqrt{2}`,
+          why: '$\\sqrt{2}$ нь $45^\\circ$-$45^\\circ$-$90^\\circ$ гурвалжинд гардаг.',
+        },
+        { tex: `${3 * s}`, why: '$\\sqrt{3}$ биш 3-аар үржүүлсэн байна.' },
+        { tex: `\\frac{${s}}{2}`, why: 'Богино катет нь хамгийн богино тал — урт катет түүнээс урт.' },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `In a right triangle, one angle measures $30^\\circ$ and the side opposite it has length ${s}. What is the length of the side opposite the $60^\\circ$ angle?`,
+        ...q,
+        explain: `30-60-90 гурвалжинд талуудын харьцаа $1 : \\sqrt{3} : 2$. Богино катет $${s}$ тул $60^\\circ$-ийн эсрэг тал $= ${s}\\sqrt{3}$, гипотенуз $= ${2 * s}$.`,
+        hint: '$30^\\circ$-$60^\\circ$-$90^\\circ$ гурвалжны талуудын харьцааг санаарай.',
+        mn: 'opposite = эсрэг талын',
+        vocab: ['opposite', 'right triangle'],
+      };
+    },
+  },
+  {
+    key: 'angle-pairs',
+    domain: 'geo',
+    skill: 'Lines and angles',
+    difficulty: 1,
+    make: (r) => {
+      const kind = pick(r, ['supplementary', 'complementary', 'transversal'] as const);
+      if (kind === 'complementary') {
+        const a = int(r, 12, 78);
+        return {
+          prompt: `Angles $A$ and $B$ are complementary. If the measure of angle $A$ is $${a}^\\circ$, what is the measure of angle $B$, in degrees?`,
+          answer: [String(90 - a)],
+          explain: `Complementary өнцгүүдийн нийлбэр $90^\\circ$: $B = 90 - ${a} = ${90 - a}$.`,
+          hint: 'Complementary өнцгүүдийн нийлбэр хэд вэ — $90^\\circ$ уу, $180^\\circ$ уу?',
+          mn: 'complementary = нийлбэр нь 90° өнцгүүд',
+          vocab: ['complementary', 'measure'],
+        };
+      }
+      const a = int(r, 25, 155);
+      if (a === 90) return null;
+      if (kind === 'supplementary') {
+        return {
+          prompt: `Angles $A$ and $B$ are supplementary. If the measure of angle $A$ is $${a}^\\circ$, what is the measure of angle $B$, in degrees?`,
+          answer: [String(180 - a)],
+          explain: `Supplementary өнцгүүдийн нийлбэр $180^\\circ$: $B = 180 - ${a} = ${180 - a}$.`,
+          hint: 'Supplementary өнцгүүдийн нийлбэр хэд вэ — $90^\\circ$ уу, $180^\\circ$ уу?',
+          mn: 'supplementary = нийлбэр нь 180° өнцгүүд',
+          vocab: ['supplementary', 'measure'],
+        };
+      }
+      return {
+        prompt: `Two parallel lines are cut by a transversal. One of the angles formed measures $${a}^\\circ$. Another angle formed is not equal to it. What is the measure of that angle, in degrees?`,
+        answer: [String(180 - a)],
+        explain: `Параллель шулуунуудыг огтлоход үүсэх өнцгүүд хоёр л янз: тэнцүү эсвэл нийлбэр нь $180^\\circ$. Тэнцүү биш бол $180 - ${a} = ${180 - a}$.`,
+        hint: 'Параллель шулуунуудыг огтлогч шулуун огтлоход үүсэх 8 өнцөг ердөө хоёр өөр хэмжээтэй. Тэдгээр нь хоорондоо ямар холбоотой вэ?',
+        mn: 'transversal = огтлогч шулуун, parallel = параллель',
+        vocab: ['transversal', 'parallel'],
+      };
+    },
+  },
 ];
