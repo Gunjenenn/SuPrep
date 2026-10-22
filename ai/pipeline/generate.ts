@@ -729,10 +729,15 @@ export function finalAnswer(q: Pick<Question, 'answer' | 'choices'>): string {
   return (q.choices?.[q.answer] ?? '').replace(/\$/g, '');
 }
 
-/** True if the hint contains the final answer as a standalone value — even by coincidence. */
-export function hintMentionsAnswer(q: Pick<Question, 'answer' | 'choices' | 'hint'>): boolean {
+/** True if `text` contains the final answer as a standalone value (2 does not match 12). */
+export function mentionsAnswer(q: Pick<Question, 'answer' | 'choices'>, text: string): boolean {
   const a = finalAnswer(q).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return a !== '' && new RegExp(`(^|[^\\d.])${a}($|[^\\d])`).test(q.hint);
+  return a !== '' && new RegExp(`(^|[^\\d.])${a}($|[^\\d])`).test(text);
+}
+
+/** True if the hint contains the final answer — even by coincidence. */
+export function hintMentionsAnswer(q: Pick<Question, 'answer' | 'choices' | 'hint'>): boolean {
+  return mentionsAnswer(q, q.hint);
 }
 
 /** n questions per template from one seed. Ids look like `g-slope-s1-3`. */

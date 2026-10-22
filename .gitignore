@@ -12,3 +12,6 @@ ai/out/
 ai/data/raw/
 .DS_Store
 check-log.txt
+
+# Student feedback (personal data) — never commit. Only reviewed rows go to ai/data/tuning/feedback.jsonl
+ai/data/feedback/
