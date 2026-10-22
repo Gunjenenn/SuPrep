@@ -12,5 +12,125 @@
     "myCards": {
       "title": "My deck"
     }
+  },
+  "hub": {
+    "eyebrow": "Materials · Cards",
+    "titles": {
+      "word": "Vocabulary",
+      "formula": "Formula cards",
+      "mine": "My cards"
+    },
+    "desc": "Every card has an animated picture, pronunciation and a memory hook. Swipe right for «Know», left for «Again». Known cards come back after 1, 3, 7 and 14 days.",
+    "today": "Due today",
+    "waiting": "cards waiting",
+    "start": "Start review",
+    "stats": {
+      "new": "New",
+      "learning": "Learning",
+      "mastered": "Mastered"
+    },
+    "tabs": {
+      "label": "Card type",
+      "word": "Words",
+      "formula": "Formulas",
+      "mine": "My deck"
+    },
+    "deck": {
+      "total": "{n} cards",
+      "due": "{n} due",
+      "progress": "Progress",
+      "study": "Study",
+      "test": "Quiz"
+    },
+    "empty": {
+      "title": "No decks yet"
+    },
+    "formulaNote": "Memory hooks are SuuPrep sample content. Use the pencil on any card to write your own."
+  },
+  "study": {
+    "close": "Close",
+    "progress": "{done}/{total}",
+    "again": "AGAIN",
+    "know": "KNOW",
+    "flip": "Flip",
+    "tapHint": "Tap to flip · swipe right KNOW, left AGAIN",
+    "keys": "← AGAIN · Space flip · → KNOW",
+    "review": "Free review",
+    "cardLabel": "Card: {word}. Tap to flip",
+    "empty": {
+      "title": "This deck has no cards",
+      "sub": "Add words to My deck to start studying.",
+      "add": "Add a card"
+    }
+  },
+  "face": {
+    "listen": "Play pronunciation",
+    "hook": "Suu's memory hook",
+    "myNote": "My memory hook",
+    "edit": "Edit memory hook",
+    "save": "Save",
+    "cancel": "Cancel",
+    "notePlaceholder": "Write your own memory hook…",
+    "example": "Example",
+    "when": "When"
+  },
+  "quiz": {
+    "title": "Quiz",
+    "step": "Question {n} of {total}",
+    "choice": "Pick the meaning",
+    "type": "Type it in English",
+    "listen": "Listen and pick the word",
+    "tex": "Pick the formula",
+    "replay": "🔊 Play again",
+    "check": "Check",
+    "next": "Next",
+    "finish": "See results",
+    "right": "Correct! 🎉",
+    "wrong": "Answer: {answer}",
+    "wrongShort": "Answer:",
+    "placeholder": "Type your answer…"
+  },
+  "summary": {
+    "title": "Deck complete!",
+    "sub": "Suu is proud of you.",
+    "knew": "Knew",
+    "again": "Again",
+    "quiz": "Quiz",
+    "next": "Next review",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "back": "Back to cards",
+    "restart": "Review again"
+  },
+  "mine": {
+    "add": "New card",
+    "submit": "Add card",
+    "saved": "Card added ✓",
+    "empty": "No cards yet. Add your first one with the form.",
+    "confirm": "Delete?",
+    "yes": "Yes",
+    "no": "No",
+    "delete": "Delete {word}",
+    "fields": {
+      "front": "English word or formula",
+      "back": "Mongolian meaning",
+      "hook": "Memory hook (optional)",
+      "ex": "Example (optional, math inside $...$)"
+    },
+    "placeholders": {
+      "front": "e.g. in terms of",
+      "back": "e.g. ...-ээр илэрхийлбэл",
+      "hook": "Your own way to remember",
+      "ex": "e.g. $y$ in terms of $x$"
+    },
+    "errors": {
+      "required": "Required",
+      "tooLong": "Too long",
+      "save": "Could not save. Please try again."
+    }
+  },
+  "reminder": {
+    "title": "Daily reminder",
+    "note": "Saved on this device. Push notifications are coming soon."
   }
 }
