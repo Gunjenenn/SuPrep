@@ -1,7 +1,14 @@
-node_modules
-.next
-out
+node_modules/
+.next/
+out/
+coverage/
+playwright-report/
+test-results/
 .env*.local
 .env
 *.tsbuildinfo
+next-env.d.ts
+ai/out/
+ai/data/raw/
 .DS_Store
+check-log.txt
