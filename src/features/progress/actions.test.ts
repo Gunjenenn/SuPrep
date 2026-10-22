@@ -1,5 +1,13 @@
-import { describe, it, expect, mock } from "bun:test";
+import { afterAll, describe, it, expect, mock } from "bun:test";
+import * as realDb from "@/lib/supabase/server";
 import { awardXp } from "./actions";
+
+// mock.module is global in Bun: without this, every test file that runs after this one
+// gets the fake database too (that broke 6 "without Supabase" tests). Put the real one back.
+const realDbCopy = { ...realDb };
+afterAll(() => {
+  mock.module("@/lib/supabase/server", () => realDbCopy);
+});
 
 mock.module("@/lib/supabase/server", () => {
   const events = new Map();
