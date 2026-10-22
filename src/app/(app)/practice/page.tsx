@@ -1,8 +1,9 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { PracticePlayer } from '@/features/practice/components/PracticePlayer';
+import { listQuestions } from '@/features/practice/queries';
 
-// Section C · C4 · C5
-export default function PracticePage() {
-  const t = getT('practice');
-  return <ComingSoon section="C" title={t('pages.practice.title')} tasks="C4 · C5" />;
+// Section C · C4
+export default async function PracticePage() {
+  const questions = await listQuestions();
+
+  return <PracticePlayer questions={questions} />;
 }
