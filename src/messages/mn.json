@@ -1,0 +1,40 @@
+{
+  "app": { "name": "SuuPrep", "tagline": "SAT Math-ийг ухаалгаар эзэмш." },
+  "nav": {
+    "groups": { "main": "", "practice": "Дасгал", "materials": "Материал", "me": "Би" },
+    "dashboard": "Нүүр",
+    "journey": "Миний замнал",
+    "desmos": "Desmos Академи",
+    "bank": "Асуултын сан",
+    "hard": "Хүнд асуулт",
+    "mock": "Бүтэн тест",
+    "mistakes": "Алдааны дэвтэр",
+    "cards": "Үгс ба томьёо",
+    "tutor": "AI багш Суу",
+    "planner": "AI төлөвлөгөө",
+    "league": "Ногоон лиг",
+    "help": "Тусламж",
+    "progress": "Миний ахиц",
+    "achievements": "Амжилтууд",
+    "more": "Бусад",
+    "skip": "Үндсэн агуулга руу шилжих"
+  },
+  "placeholder": {
+    "title": "Энэ хэсгийг бэлдэж байна",
+    "section": "{section} хэсэг",
+    "tasks": "Даалгавар: {tasks}",
+    "prototype": "Prototype-оос харах",
+    "back": "Нүүр рүү буцах"
+  },
+  "theme": { "toggle": "Өнгөний горим", "light": "Цайвар", "dark": "Бараан", "system": "Систем" },
+  "demo": { "label": "Демо горим", "mock": "Жишээ өгөгдөл" },
+  "actions": {
+    "close": "Хаах",
+    "cancel": "Болих",
+    "ok": "Ойлголоо",
+    "continue": "Үргэлжлүүлэх",
+    "retry": "Дахин оролдох"
+  },
+  "empty": { "title": "Одоохондоо хоосон байна" },
+  "landing": { "start": "Суралцаж эхлэх", "demo": "Демо сурагчаар орох" }
+}

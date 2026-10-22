@@ -1,0 +1,13 @@
+{
+  "pages": {
+    "bank": {
+      "title": "Question bank"
+    },
+    "hard": {
+      "title": "Hard questions"
+    },
+    "practice": {
+      "title": "Practice"
+    }
+  }
+}

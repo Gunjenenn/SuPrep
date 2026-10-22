@@ -1,0 +1,40 @@
+{
+  "app": { "name": "SuuPrep", "tagline": "Master SAT Math, the smart way." },
+  "nav": {
+    "groups": { "main": "", "practice": "Practice", "materials": "Materials", "me": "Me" },
+    "dashboard": "Home",
+    "journey": "My journey",
+    "desmos": "Desmos Academy",
+    "bank": "Question bank",
+    "hard": "Hard questions",
+    "mock": "Full test",
+    "mistakes": "Mistake notebook",
+    "cards": "Words & formulas",
+    "tutor": "AI tutor Suu",
+    "planner": "AI study plan",
+    "league": "Green league",
+    "help": "Help",
+    "progress": "My progress",
+    "achievements": "Achievements",
+    "more": "More",
+    "skip": "Skip to main content"
+  },
+  "placeholder": {
+    "title": "This section is being built",
+    "section": "Section {section}",
+    "tasks": "Tasks: {tasks}",
+    "prototype": "See it in the prototype",
+    "back": "Back to home"
+  },
+  "theme": { "toggle": "Color mode", "light": "Light", "dark": "Dark", "system": "System" },
+  "demo": { "label": "Demo mode", "mock": "Sample data" },
+  "actions": {
+    "close": "Close",
+    "cancel": "Cancel",
+    "ok": "Got it",
+    "continue": "Continue",
+    "retry": "Try again"
+  },
+  "empty": { "title": "Nothing here yet" },
+  "landing": { "start": "Start learning", "demo": "Enter as demo student" }
+}
