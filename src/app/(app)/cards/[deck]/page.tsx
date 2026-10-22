@@ -34,6 +34,7 @@ export default async function DeckPage({
       pool={decks.flatMap((d) => d.cards)}
       notes={notes}
       review={review && deck.cards.length > 0}
+      //hi
     />
   );
 }
