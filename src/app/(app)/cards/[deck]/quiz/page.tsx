@@ -1,9 +1,26 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { notFound } from "next/navigation";
+import { getDeck, getUserId, listDecks } from "@/features/cards/queries";
+import { StudySession } from "@/features/cards/StudySession";
 
-// Section E · E5
-export default async function DeckQuizPage({ params }: { params: Promise<{ deck: string }> }) {
-  const { deck } = await params;
-  const t = getT('cards');
-  return <ComingSoon section="E" title={t('pages.deckQuiz.title')} tasks="E5" detail={deck} />;
+export const dynamic = "force-dynamic";
+
+export default async function DeckQuizPage({
+  params,
+}: {
+  params: Promise<{ deck: string }>;
+}) {
+  const { deck: id } = await params;
+  const userId = await getUserId();
+  const deck = await getDeck(id, userId);
+  if (!deck) notFound();
+  const decks = await listDecks(userId);
+  return (
+    <StudySession
+      deck={{ id: deck.id, title: deck.title, color: deck.color }}
+      cards={deck.cards}
+      pool={decks.flatMap((d) => d.cards)}
+      notes={{}}
+      mode="quiz"
+    />
+  );
 }

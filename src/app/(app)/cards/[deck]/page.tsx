@@ -1,9 +1,39 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { notFound } from "next/navigation";
+import { dueCards } from "@/features/cards/deck-hub";
+import {
+  getDeck,
+  getUserId,
+  listCardStates,
+  listDecks,
+  listNotes,
+} from "@/features/cards/queries";
+import { StudySession } from "@/features/cards/StudySession";
 
-// Section E · E3 · E4
-export default async function DeckPage({ params }: { params: Promise<{ deck: string }> }) {
-  const { deck } = await params;
-  const t = getT('cards');
-  return <ComingSoon section="E" title={t('pages.deck.title')} tasks="E3 · E4" detail={deck} />;
+export const dynamic = "force-dynamic";
+
+export default async function DeckPage({
+  params,
+}: {
+  params: Promise<{ deck: string }>;
+}) {
+  const { deck: id } = await params;
+  const userId = await getUserId();
+  const deck = await getDeck(id, userId);
+  if (!deck) notFound();
+  const [decks, states, notes] = await Promise.all([
+    listDecks(userId),
+    listCardStates(userId),
+    listNotes(userId),
+  ]);
+  const due = dueCards([deck], states, Date.now()).map((d) => d.card);
+  const review = due.length === 0;
+  return (
+    <StudySession
+      deck={{ id: deck.id, title: deck.title, color: deck.color }}
+      cards={review ? deck.cards : due}
+      pool={decks.flatMap((d) => d.cards)}
+      notes={notes}
+      review={review && deck.cards.length > 0}
+    />
+  );
 }

@@ -1,8 +1,9 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { QuestionBank } from '@/features/practice/components/QuestionBank';
+import { listQuestions } from '@/features/practice/queries';
 
 // Section C · C2
-export default function BankPage() {
-  const t = getT('practice');
-  return <ComingSoon section="C" title={t('pages.bank.title')} tasks="C2" />;
+export default async function BankPage() {
+  const questions = await listQuestions();
+
+  return <QuestionBank questions={questions} />;
 }

@@ -1,8 +1,8 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { DeckHub } from "@/features/cards/DeckHub";
+import { loadHub } from "@/features/cards/queries";
 
-// Section E · E2
-export default function CardsPage() {
-  const t = getT('cards');
-  return <ComingSoon section="E" title={t('pages.cards.title')} tasks="E2" />;
+export const dynamic = "force-dynamic";
+
+export default async function CardsPage() {
+  return <DeckHub {...await loadHub()} initialKind="word" />;
 }

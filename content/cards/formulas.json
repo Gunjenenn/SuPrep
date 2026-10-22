@@ -1,0 +1,197 @@
+{
+  "decks": [
+    {
+      "id": "f-given",
+      "kind": "formula",
+      "title": "Reference sheet",
+      "sub": "Bluebook-д өгөгддөг 10 томьёо",
+      "color": "var(--c-forest-2)",
+      "edge": "var(--c-edge)",
+      "cards": [
+        {
+          "id": "f-carea",
+          "hook": "«Пи ар квадрат» — дугуй бялуу, талбай нь квадраттай.",
+          "front": "Тойргийн талбай",
+          "back": "Area of a circle",
+          "tex": "A=\\pi r^2",
+          "when": "Радиус өгөгдөөд талбай асуувал.",
+          "ex": "$r=3$ → $A=9\\pi$",
+          "art": "circle",
+          "v": "area"
+        },
+        {
+          "id": "f-circ",
+          "hook": "«Хоёр пи ар» — тойргийг нэг тойрох зам.",
+          "front": "Тойргийн урт",
+          "back": "Circumference",
+          "tex": "C=2\\pi r",
+          "when": "Тойргийн хүрээ, дугуйн нэг эргэлт.",
+          "ex": "$C=10\\pi$ → $r=5$",
+          "art": "circle",
+          "v": "c"
+        },
+        {
+          "id": "f-rect",
+          "hook": "Урт × өргөн. Шатрын хөлгийн нүд тоолох шиг.",
+          "front": "Тэгш өнцөгтийн талбай",
+          "back": "Area of a rectangle",
+          "tex": "A=\\ell w",
+          "when": "Урт × өргөн.",
+          "ex": "$\\ell=8,\\ w=6$ → $A=48$",
+          "art": "rect"
+        },
+        {
+          "id": "f-tri",
+          "hook": "Тэгш өнцөгтийг диагоналиар хуваавал хагас нь.",
+          "front": "Гурвалжны талбай",
+          "back": "Area of a triangle",
+          "tex": "A=\\tfrac12 bh",
+          "when": "Суурь ба өндөр мэдэгдэж байвал.",
+          "ex": "$b=10,\\ h=4$ → $A=20$",
+          "art": "triangle",
+          "v": "area"
+        },
+        {
+          "id": "f-pyth",
+          "hook": "Хамгийн урт тал ганцаараа: $c^2$ нөгөө хоёрын нийлбэр.",
+          "front": "Пифагорын теорем",
+          "back": "Pythagorean theorem",
+          "tex": "c^2=a^2+b^2",
+          "when": "Тэгш өнцөгт гурвалжны гурав дахь тал.",
+          "ex": "$6,8$ → $c=10$",
+          "art": "triangle"
+        },
+        {
+          "id": "f-306090",
+          "hook": "«Нэг — язгуур гурав — хоёр»: богиноос урт руу.",
+          "front": "30°–60°–90° гурвалжин",
+          "back": "Special right triangle",
+          "tex": "x,\\ x\\sqrt3,\\ 2x",
+          "when": "Нэг тал, нэг өнцөг мэдэгдэх үед.",
+          "ex": "богино тал $4$ → гипотенуз $8$",
+          "art": "triangle",
+          "v": "30"
+        },
+        {
+          "id": "f-cyl",
+          "hook": "Суурийн талбай $pi r^2$ × өндөр.",
+          "front": "Цилиндрийн эзлэхүүн",
+          "back": "Volume of a cylinder",
+          "tex": "V=\\pi r^2 h",
+          "when": "Лааз, хоолой, усан сав.",
+          "ex": "$r=2,\\ h=5$ → $V=20\\pi$",
+          "art": "solid",
+          "v": "cyl"
+        },
+        {
+          "id": "f-sphere",
+          "hook": "«Дөрөв гуравны пи ар куб».",
+          "front": "Бөмбөрцгийн эзлэхүүн",
+          "back": "Volume of a sphere",
+          "tex": "V=\\tfrac43\\pi r^3",
+          "when": "Бөмбөг, бөмбөлөг.",
+          "ex": "$r=3$ → $V=36\\pi$",
+          "art": "solid",
+          "v": "sphere"
+        },
+        {
+          "id": "f-cone",
+          "hook": "Цилиндрийн яг гуравны нэг.",
+          "front": "Конусын эзлэхүүн",
+          "back": "Volume of a cone",
+          "tex": "V=\\tfrac13\\pi r^2 h",
+          "when": "Цилиндрийн гуравны нэг.",
+          "ex": "$r=3,\\ h=4$ → $V=12\\pi$",
+          "art": "solid",
+          "v": "cone"
+        },
+        {
+          "id": "f-deg",
+          "hook": "Хагас тойрог $=pi$. Тэгэхээр бүтэн тойрог $2pi$.",
+          "front": "Градус ба радиан",
+          "back": "Degrees and radians",
+          "tex": "360^\\circ=2\\pi\\ \\text{рад}",
+          "when": "Өнцгийг хувиргах.",
+          "ex": "$90^\\circ=\\frac{\\pi}{2}$",
+          "art": "angle"
+        }
+      ]
+    },
+    {
+      "id": "f-memo",
+      "kind": "formula",
+      "title": "Цээжлэх томьёо",
+      "sub": "Өгөгддөггүй ч заавал хэрэгтэй 6",
+      "color": "var(--c-moss)",
+      "edge": "#4c5a2c",
+      "cards": [
+        {
+          "id": "f-slope",
+          "hook": "Rise over run: дээш өгсөлт ÷ хажуу тийш явсан зай.",
+          "front": "Налалт",
+          "back": "Slope",
+          "tex": "m=\\frac{y_2-y_1}{x_2-x_1}",
+          "when": "Хоёр цэг өгөгдсөн шулуун.",
+          "ex": "$(0,4),(2,10)$ → $m=3$",
+          "art": "line",
+          "v": "slope"
+        },
+        {
+          "id": "f-quad",
+          "hook": "«Хасах b, нэмэх хасах язгуур, хоёр а-д хуваа» — дуу шиг цээжил.",
+          "front": "Квадрат томьёо",
+          "back": "Quadratic formula",
+          "tex": "x=\\frac{-b\\pm\\sqrt{b^2-4ac}}{2a}",
+          "when": "Задрахгүй квадрат тэгшитгэл.",
+          "ex": "$x^2-6x+5=0$ → $x=1,5$",
+          "art": "parabola",
+          "v": "two"
+        },
+        {
+          "id": "f-disc",
+          "hook": "$D>0$ хоёр шийд, $D=0$ нэг, $D<0$ байхгүй.",
+          "front": "Дискриминант",
+          "back": "Discriminant",
+          "tex": "D=b^2-4ac",
+          "when": "Шийдийн тоо: $D>0$ хоёр, $D=0$ нэг, $D<0$ байхгүй.",
+          "ex": "$x^2+8x+16$: $D=0$ → нэг шийд",
+          "art": "parabola",
+          "v": "one"
+        },
+        {
+          "id": "f-vertex",
+          "hook": "Квадрат томьёоноос $pm$ язгуурыг хасвал орой үлдэнэ.",
+          "front": "Параболын орой",
+          "back": "Vertex x-coordinate",
+          "tex": "x=-\\frac{b}{2a}",
+          "when": "Хамгийн их / бага утга.",
+          "ex": "$x^2-4x+7$ → $x=2$, $y=3$",
+          "art": "parabola",
+          "v": "vertex"
+        },
+        {
+          "id": "f-circeq",
+          "hook": "Тэмдэг эсрэгээрээ: $(x-2)$ бол төв $h=2$.",
+          "front": "Тойргийн тэгшитгэл",
+          "back": "Circle equation",
+          "tex": "(x-h)^2+(y-k)^2=r^2",
+          "when": "Төв $(h,k)$ ба радиус унших.",
+          "ex": "$(x-2)^2+(y+1)^2=25$ → $r=5$",
+          "art": "circle",
+          "v": "eq"
+        },
+        {
+          "id": "f-pct",
+          "hook": "Үргэлж ХУУЧИН утганд хуваа.",
+          "front": "Хувийн өөрчлөлт",
+          "back": "Percent change",
+          "tex": "\\frac{\\text{шинэ}-\\text{хуучин}}{\\text{хуучин}}\\cdot 100\\%",
+          "when": "Үнэ өсөх / буурах.",
+          "ex": "$40\\to 50$ → $25\\%$",
+          "art": "pie",
+          "v": "pct"
+        }
+      ]
+    }
+  ]
+}
