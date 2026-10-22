@@ -276,4 +276,95 @@ export const ALGEBRA: Template[] = [
       };
     },
   },
+  {
+    key: 'abs-value',
+    domain: 'alg',
+    skill: 'Absolute value equations',
+    difficulty: 2,
+    make: (r) => {
+      const a = nonZero(r, -6, 8);
+      const b = int(r, 1, 9);
+      const [hi, lo] = [a + b, a - b];
+      const askSum = r() < 0.5;
+      return {
+        prompt: askSum
+          ? `What is the sum of all solutions to the equation $|x ${term(-a)}| = ${b}$?`
+          : `What is the greatest solution to the equation $|x ${term(-a)}| = ${b}$?`,
+        answer: [String(askSum ? hi + lo : hi)],
+        explain:
+          `Модулийн дотор $${b}$ эсвэл $-${b}$ байж болно: $x ${term(-a)} = ${b}$ → $x = ${hi}$, эсвэл $x ${term(-a)} = -${b}$ → $x = ${lo}$. ` +
+          (askSum ? `Нийлбэр: $${hi} + ${par(lo)} = ${hi + lo}$.` : `Их нь $${hi}$.`),
+        hint: 'Модуль (абсолют утга) тэнцүү эерэг тоо бол дотор тал нь тэр тоо эсвэл түүний сөрөг байж болно — хоёр тохиолдлыг тусад нь бод.',
+        mn: askSum ? 'sum of all solutions = бүх шийдийн нийлбэр' : 'greatest solution = хамгийн их шийд',
+        vocab: ['solutions', askSum ? 'sum' : 'greatest'],
+      };
+    },
+  },
+  {
+    key: 'slope-standard',
+    domain: 'alg',
+    skill: 'Linear equations in two variables',
+    difficulty: 2,
+    make: (r) => {
+      const a = nonZero(r, -6, 6);
+      const b = nonZero(r, -6, 6);
+      const c = int(r, -12, 12);
+      const q = mcq(r, frac(-a, b), [
+        {
+          tex: frac(a, b),
+          why: `Тэмдэг алдсан: $${coef(a)}$-г баруун тал руу шилжүүлэхэд тэмдэг нь өөрчлөгдөнө.`,
+        },
+        { tex: frac(-b, a), why: 'Харьцааг урвуу авсан байна.' },
+        { tex: frac(c, b), why: 'Энэ бол $y$ тэнхлэгийн огтлол (y-intercept), налуу биш.' },
+        { tex: frac(b, a), why: 'Урвуу аваад тэмдэг ч алдсан байна.' },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `What is the slope of the line with equation $${coef(a)} ${term(b)
+          .replace(/(\d+)$/, '$1y')
+          .replace(/ 1y$/, ' y')} = ${c}$?`,
+        ...q,
+        explain: `$y$-ийг ганцааранг нь үлдээ: $${coef(b, 'y')} = ${lin(-a, c)}$, тэгээд $${b}$-д хуваа. $x$-ийн коэффициент нь налуу: $${frac(-a, b)}$.`,
+        hint: 'Тэгшитгэлийг $y = mx + b$ хэлбэрт оруул. $x$-ийн өмнөх тоо нь налуу.',
+        mn: 'slope = налуу',
+        vocab: ['slope', 'equation'],
+      };
+    },
+  },
+  {
+    key: 'parallel-perp',
+    domain: 'alg',
+    skill: 'Parallel and perpendicular lines',
+    difficulty: 2,
+    make: (r) => {
+      const m = pick(r, [-5, -4, -3, -2, 2, 3, 4, 5, 0.5] as const);
+      const b = int(r, -9, 9);
+      const mTex = m === 0.5 ? '\\frac{1}{2}' : String(m);
+      const lineTex = m === 0.5 ? `y = \\frac{1}{2}x ${term(b)}` : `y = ${lin(m, b)}`;
+      const perp = m === 0.5 ? '-2' : frac(-1, m);
+      const inv = m === 0.5 ? '2' : frac(1, m);
+      const neg = m === 0.5 ? '-\\frac{1}{2}' : String(-m);
+      const isPerp = r() < 0.6;
+      const correct = isPerp ? perp : mTex;
+      const q = mcq(r, correct, [
+        { tex: mTex, why: 'Энэ бол параллель шулууны налуу — перпендикуляр бол урвуу ба эсрэг тэмдэгтэй.' },
+        { tex: perp, why: 'Энэ бол перпендикуляр шулууны налуу. Параллель шулуунуудын налуу ижил.' },
+        { tex: inv, why: 'Урвууг нь авсан ч тэмдгийг өөрчлөөгүй байна.' },
+        { tex: neg, why: 'Зөвхөн тэмдгийг өөрчилсөн, урвууг нь аваагүй байна.' },
+      ]);
+      if (!q) return null;
+      return {
+        prompt: `Line $\\ell$ has equation $${lineTex}$. Line $k$ is ${isPerp ? 'perpendicular' : 'parallel'} to line $\\ell$. What is the slope of line $k$?`,
+        ...q,
+        explain: isPerp
+          ? `$\\ell$-ийн налуу $${mTex}$. Перпендикуляр шулууны налуу нь урвуу ба эсрэг тэмдэгтэй: $${perp}$ (үржвэр нь $-1$).`
+          : `Параллель шулуунуудын налуу ижил. $\\ell$-ийн налуу $${mTex}$ тул $k$-ийн налуу ч мөн $${mTex}$.`,
+        hint: isPerp
+          ? 'Перпендикуляр шулуунуудын налуунуудын үржвэр $-1$ байдаг.'
+          : 'Параллель шулуунууд хэзээ ч огтлолцохгүй — тэдний налуу ямар байх вэ?',
+        mn: isPerp ? 'perpendicular = перпендикуляр (90° огтлолцох)' : 'parallel = параллель',
+        vocab: [isPerp ? 'perpendicular' : 'parallel', 'slope'],
+      };
+    },
+  },
 ];
