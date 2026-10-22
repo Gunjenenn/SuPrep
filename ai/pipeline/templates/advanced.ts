@@ -1,5 +1,18 @@
 // SAT Math · Advanced Math templates. Answers are computed in code; Mongolian hint / explanation / wrong-choice reasons.
-import { coef, int, mcq, nonZero, par, pick, type Template, term, WRONG_SIGN } from './shared';
+import {
+  coef,
+  int,
+  lin,
+  mcq,
+  nonZero,
+  par,
+  pick,
+  quad,
+  type Template,
+  term,
+  times,
+  WRONG_SIGN,
+} from './shared';
 
 export const ADVANCED: Template[] = [
   {
@@ -142,6 +155,96 @@ export const ADVANCED: Template[] = [
         hint: `"${word}" = ${f === 2 ? '2 дахин' : '3 дахин'} өсөх. ${t} цагийн дараа хэдэн удаа үржих вэ?`,
         mn: `${word} = ${f === 2 ? '2 дахин өсөх' : '3 дахин өсөх'}`,
         vocab: [word, 'population'],
+      };
+    },
+  },
+  {
+    key: 'vertex-x',
+    domain: 'adv',
+    skill: 'Quadratic functions',
+    difficulty: 2,
+    make: (r) => {
+      const a = nonZero(r, -3, 3);
+      const h = nonZero(r, -5, 6);
+      const b = -2 * a * h;
+      const c = int(r, -9, 9);
+      return {
+        prompt: `The graph of $y = ${quad(a, b, c)}$ in the $xy$-plane is a parabola. What is the $x$-coordinate of its vertex?`,
+        answer: [String(h)],
+        explain: `Оройн $x$ координат: $x = -\\frac{b}{2a} = -\\frac{${b}}{2 \\cdot ${par(a)}} = -\\frac{${b}}{${2 * a}} = ${h}$.`,
+        hint: 'Параболын оройн $x$ координатын томьёо: $x = -\\frac{b}{2a}$. Энд $a$, $b$ хэд вэ?',
+        desmos: {
+          rows: [`y=${quad(a, b, c).replace(/ /g, '')}`],
+          tip: `Параболын орой дээр дар — координат нь $(${h}, \\ldots)$.`,
+        },
+        mn: 'vertex = орой, x-coordinate = x координат',
+        vocab: ['vertex', 'parabola'],
+      };
+    },
+  },
+  {
+    key: 'discriminant',
+    domain: 'adv',
+    skill: 'Quadratic equations',
+    difficulty: 3,
+    make: (r) => {
+      const kind = pick(r, [0, 1, 2] as const);
+      let b = 0;
+      let c = 0;
+      if (kind === 1) {
+        const k = nonZero(r, -7, 7);
+        b = 2 * k;
+        c = k * k;
+      } else {
+        b = int(r, -8, 8);
+        c =
+          kind === 2
+            ? int(r, -15, Math.floor((b * b) / 4) - 1)
+            : int(r, Math.floor((b * b) / 4) + 1, Math.floor((b * b) / 4) + 12);
+      }
+      const D = b * b - 4 * c;
+      const n = D > 0 ? 2 : D === 0 ? 1 : 0;
+      const q = mcq(r, String(n), [
+        { tex: '0', why: '$D < 0$ үед л бодит шийдгүй. Дискриминантаа дахин бод.' },
+        { tex: '1', why: '$D = 0$ үед л яг нэг шийдтэй. Дискриминантаа дахин бод.' },
+        { tex: '2', why: '$D > 0$ үед л хоёр шийдтэй. Дискриминантаа дахин бод.' },
+        { tex: '3', why: 'Квадрат тэгшитгэл хамгийн ихдээ хоёр бодит шийдтэй.' },
+      ]);
+      if (!q) return null;
+      const verdict =
+        D > 0
+          ? '$D > 0$ тул хоёр ялгаатай бодит шийдтэй'
+          : D === 0
+            ? '$D = 0$ тул яг нэг бодит шийдтэй'
+            : '$D < 0$ тул бодит шийд байхгүй';
+      return {
+        prompt: `How many distinct real solutions does the equation $${quad(1, b, c)} = 0$ have?`,
+        ...q,
+        explain: `Дискриминант: $D = b^2 - 4ac = ${par(b)}^2 - 4 \\cdot 1 \\cdot ${par(c)} = ${D}$. ${verdict} (${n} шийд).`,
+        hint: 'Дискриминантыг бодоод тэмдгийг нь шалга: эерэг, тэг, эсвэл сөрөг үү?',
+        mn: 'distinct real solutions = ялгаатай бодит шийдүүд',
+        vocab: ['distinct', 'real solutions'],
+      };
+    },
+  },
+  {
+    key: 'composition',
+    domain: 'adv',
+    skill: 'Function notation',
+    difficulty: 2,
+    make: (r) => {
+      const [a, b] = [nonZero(r, -4, 5), int(r, -9, 9)];
+      const [c, d] = [nonZero(r, -3, 4), int(r, -6, 6)];
+      const k = int(r, -3, 4);
+      const g = c * k + d;
+      const v = a * g + b;
+      return {
+        prompt: `The functions $f$ and $g$ are defined by $f(x) = ${lin(a, b)}$ and $g(x) = ${lin(c, d)}$. What is the value of $f(g(${k}))$?`,
+        answer: [String(v)],
+        explain: `Дотроос нь эхэл: $g(${k}) = ${times(c, k)} ${term(d)} = ${g}$. Дараа нь $f(${g}) = ${times(a, g)} ${term(b)} = ${v}$.`,
+        hint: 'Дотор талын функцээс эхэл: эхлээд $g$-г бод, гарсан тоогоо $f$-д орлуул.',
+        mn: 'f(g(x)) = давхар функц (эхлээд g, дараа нь f)',
+        vocab: ['functions', 'defined'],
       };
     },
   },
