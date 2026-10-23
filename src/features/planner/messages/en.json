@@ -3,5 +3,28 @@
     "planner": {
       "title": "AI study plan"
     }
+  },
+  "demo": {
+    "eyebrow": "AI study plan · Suu",
+    "subtitle": "Enter your exam date, scores and time — Suu builds a study plan for you.",
+    "examDate": "SAT date",
+    "current": "Current Math score",
+    "target": "Target score",
+    "hours": "Hours per day",
+    "weak": "Weak topics",
+    "make": "Make my plan",
+    "thinking": "Suu is making your plan…",
+    "sample": "Sample plan",
+    "forDate": "SAT: {date}",
+    "weeksLeft": "Weeks left",
+    "totalHours": "Total study hours",
+    "gain": "Points to gain",
+    "phasesTitle": "Study phases",
+    "weeks": "{n} weeks",
+    "weekTitle": "This week's schedule",
+    "minutes": "{n} min",
+    "suuNote": "Suu's advice: you lose the most points on {weak}. Focus on these for the first 3 weeks and learn the fast Desmos methods.",
+    "goDesmos": "Go to Desmos Academy",
+    "goTutor": "Ask Suu"
   }
 }

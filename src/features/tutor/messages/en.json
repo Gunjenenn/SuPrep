@@ -33,7 +33,9 @@
     "noHistory": "No chats yet",
     "hero": "Ask me anything about SAT Math!",
     "you": "You",
-    "deleteChat": "Delete chat"
+    "deleteChat": "Delete chat",
+    "sample": "Sample answer",
+    "openDesmos": "See it step by step in Desmos"
   },
   "modes": {
     "hint": "Hint",
@@ -48,5 +50,24 @@
     "s3": "**Help me plan** for the digital SAT",
     "s4": "**Strategies for** improving my SAT Math score",
     "s5": "**Show me** a practice question on linear equations"
+  },
+  "desmosAi": {
+    "eyebrow": "Desmos Academy · AI tutor Suu",
+    "title": "The AI tutor that teaches with Desmos",
+    "subtitle": "Type an SAT Math question — Suu teaches it step by step on Desmos.",
+    "inputLabel": "Ask Suu a question",
+    "placeholder": "Example: If 3x + 5 = 20, what is the value of x?",
+    "ask": "Ask",
+    "tryLabel": "Example questions",
+    "empty": "Type a question or pick an example above. Suu draws the answer on Desmos.",
+    "notFound": "This demo teaches the 6 question types above. Pick one of them to try.",
+    "sample": "Sample lesson",
+    "steps": "Steps",
+    "prev": "Back",
+    "next": "Next",
+    "check": "Check",
+    "answer": "Answer",
+    "loading": "Loading Desmos…",
+    "failed": "Desmos didn't load. Check the internet connection and reload the page."
   }
 }
