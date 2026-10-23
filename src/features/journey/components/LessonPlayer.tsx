@@ -8,6 +8,7 @@ import { Bar } from '@/components/ui/Bar';
 import { Button } from '@/components/ui/Button';
 import { routes } from '@/lib/routes';
 import type { Lesson } from '@/types';
+import { saveLocalProgress } from '../lib/local-progress';
 import { BuildStep } from './exercises/BuildStep';
 import { ChoiceStep } from './exercises/ChoiceStep';
 import { InputStep } from './exercises/InputStep';
@@ -43,6 +44,16 @@ export function LessonPlayer({ lesson }: Props) {
   const finished = step >= total;
 
   const progress = total === 0 ? 0 : Math.min(step / total, 1);
+
+  function handleContinue() {
+    if (total === 0 || !canContinue || finished) return;
+
+    if (step === total - 1) {
+      saveLocalProgress(lesson.id, true, 0);
+    }
+
+    setStep((value) => Math.min(total, value + 1));
+  }
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-8 sm:px-6">
@@ -169,7 +180,7 @@ export function LessonPlayer({ lesson }: Props) {
         ) : (
           <Button
             variant="primary"
-            onClick={() => setStep((value) => Math.min(total, value + 1))}
+            onClick={handleContinue}
             disabled={total === 0 || !canContinue}
             className={!canContinue ? 'cursor-not-allowed opacity-40 grayscale' : 'cursor-pointer'}
           >

@@ -1,4 +1,5 @@
-import { JourneyMap } from '@/features/journey/components/JourneyMap';
+
+import { JourneyProgress } from '@/features/journey/components/JourneyProgress';
 import { getProgress, type LessonProgress, listStages } from '@/features/journey/queries';
 import { getDb } from '@/lib/supabase/server';
 
@@ -7,6 +8,7 @@ export default async function JourneyPage() {
   const db = await getDb();
 
   let progress: LessonProgress[] = [];
+
   if (db) {
     const {
       data: { user },
@@ -18,5 +20,5 @@ export default async function JourneyPage() {
     }
   }
 
-  return <JourneyMap stages={stages} progress={progress} />;
+  return <JourneyProgress stages={stages} progress={progress} demoMode={!db} />;
 }
