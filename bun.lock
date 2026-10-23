@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "suuprep",
+      "name": "suprep",
       "dependencies": {
         "@google/genai": "^1.20.0",
         "@supabase/ssr": "^0.7.0",

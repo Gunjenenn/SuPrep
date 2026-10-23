@@ -1,4 +1,4 @@
-// Суу — the SuuPrep black cat. Redrawn from the pitch deck: round wide head,
+// Суу — the Suprep black cat. Redrawn from the pitch deck: round wide head,
 // tall pointed ears with dark-green inner ears, lime almond eyes with slit pupils,
 // tiny pink nose, white ω mouth, long whiskers and faint hatch texture.
 import type { CSSProperties } from 'react';

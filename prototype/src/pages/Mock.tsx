@@ -59,7 +59,7 @@ export default function Mock() {
           <Logo compact />
           <div className="min-w-0">
             <div className="text-[13px] font-bold">Section 2 · Math</div>
-            <div className="text-[11px] text-ink-3">SuuPrep mock · 10 асуулт · 15 мин</div>
+            <div className="text-[11px] text-ink-3">Suprep mock · 10 асуулт · 15 мин</div>
           </div>
           {(phase === 'test' || phase === 'review') && (
             <div className="mx-auto flex flex-col items-center">

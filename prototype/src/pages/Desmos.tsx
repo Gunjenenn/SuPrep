@@ -29,7 +29,7 @@ function AcademyHome() {
         </svg>
         <div className="gutter max-w-[1240px] mx-auto py-9 md:py-12 grid md:grid-cols-[1fr_340px] gap-8 items-center relative">
           <div>
-            <div className="eyebrow" style={{ color: 'var(--c-lime)' }}>SuuPrep-ийн гол онцлог</div>
+            <div className="eyebrow" style={{ color: 'var(--c-lime)' }}>Suprep-ийн гол онцлог</div>
             <h1 className="font-display font-extrabold text-[34px] md:text-[48px] leading-[0.98] mt-2">Desmos<br />Академи</h1>
             <p className="mt-4 text-cream/75 max-w-[56ch] text-[15px]">
               Digital SAT-ын Math хэсгийн бүх асуултад Desmos график тооцоолуур зөвшөөрөгдсөн. Ихэнх сурагч үүнийг ашиглаж чаддаггүй. Энд чи тэгээс эхлээд <span className="font-script text-lime text-[20px]">хэзээ, яаж</span> ашиглахаа сурна.
@@ -94,7 +94,7 @@ function AcademyHome() {
                 </li>
               ))}
             </ul>
-            <p className="mt-4 text-[12px] text-ink-3 leading-relaxed">Тэмдэглэл: энэ бол SuuPrep-ийн Desmos-маягийн сургалтын тооцоолуур. Жинхэнэ Desmos API-г лиценз авсны дараа холбоно.</p>
+            <p className="mt-4 text-[12px] text-ink-3 leading-relaxed">Тэмдэглэл: энэ бол Suprep-ийн Desmos-маягийн сургалтын тооцоолуур. Жинхэнэ Desmos API-г лиценз авсны дараа холбоно.</p>
           </div>
         </div>
       </div>
@@ -406,7 +406,7 @@ function Workspace({ lesson }: { lesson: DLesson }) {
               onView={onView}
               highlight={highlight}
               initialView={{ cx: lesson.id === 'd6' ? 4 : lesson.id === 'd3' ? 2 : 0, cy: lesson.id === 'd6' ? 8 : lesson.id === 'd3' ? 3 : 0, scale: lesson.id === 'd6' ? 22 : 32 }}
-              label="SuuPrep график · Desmos-маягийн"
+              label="Suprep график · Desmos-маягийн"
             />
           </div>
           {step < 0 && (

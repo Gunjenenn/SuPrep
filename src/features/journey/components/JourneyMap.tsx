@@ -31,7 +31,7 @@ export function JourneyMap({ stages, progress }: JourneyMapProps) {
     <div className="mx-auto flex max-w-5xl flex-col gap-8">
       <header className="flex flex-col gap-5 rounded-3xl border border-line bg-paper p-6 shadow-[var(--shadow-card)] sm:flex-row sm:items-center sm:justify-between sm:p-8">
         <div className="max-w-xl">
-          <Pill tone="leaf">SUUPREP JOURNEY</Pill>
+          <Pill tone="leaf">SUPREP JOURNEY</Pill>
 
           <h1 className="mt-4 text-3xl font-black tracking-tight text-ink sm:text-4xl">Миний замнал</h1>
 

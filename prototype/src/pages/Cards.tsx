@@ -86,7 +86,7 @@ export default function Cards({ initial = 'word' }: { initial?: Tab }) {
       </section>
 
       {tab === 'mine' && <MyCards />}
-      <p className="mt-10 text-[12px] text-ink-3">Санах түлхүүр нь SuuPrep-ийн жишээ контент. Карт бүр дээрх харандаа товчоор өөрийн санах аргаа бичиж болно.</p>
+      <p className="mt-10 text-[12px] text-ink-3">Санах түлхүүр нь Suprep-ийн жишээ контент. Карт бүр дээрх харандаа товчоор өөрийн санах аргаа бичиж болно.</p>
     </div>
   );
 }
