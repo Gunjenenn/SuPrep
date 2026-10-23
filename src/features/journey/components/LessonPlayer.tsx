@@ -8,6 +8,7 @@ import { Bar } from '@/components/ui/Bar';
 import { Button } from '@/components/ui/Button';
 import { routes } from '@/lib/routes';
 import type { Lesson } from '@/types';
+import { saveJourneyProgress } from '../actions';
 import { saveLocalProgress } from '../lib/local-progress';
 import { BuildStep } from './exercises/BuildStep';
 import { ChoiceStep } from './exercises/ChoiceStep';
@@ -16,21 +17,28 @@ import { MatchStep } from './exercises/MatchStep';
 
 type Props = {
   lesson: Lesson;
+  demoMode: boolean;
 };
 
-export function LessonPlayer({ lesson }: Props) {
+export function LessonPlayer({ lesson, demoMode }: Props) {
   const [step, setStep] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
   const [completedMatches, setCompletedMatches] = useState<string[]>([]);
   const [completedChoices, setCompletedChoices] = useState<string[]>([]);
   const [completedBuilds, setCompletedBuilds] = useState<string[]>([]);
   const [completedInputs, setCompletedInputs] = useState<string[]>([]);
+
   const exercises = lesson.exercises ?? [];
   const total = exercises.length;
   const current = exercises[step];
+
   const matchKey = `${lesson.id}:${step}`;
   const choiceKey = `${lesson.id}:${step}`;
   const buildKey = `${lesson.id}:${step}`;
   const inputKey = `${lesson.id}:${step}`;
+
   const canContinue =
     current?.kind === 'match'
       ? completedMatches.includes(matchKey)
@@ -41,15 +49,43 @@ export function LessonPlayer({ lesson }: Props) {
           : current?.kind === 'input'
             ? completedInputs.includes(inputKey)
             : true;
+
   const finished = step >= total;
 
   const progress = total === 0 ? 0 : Math.min(step / total, 1);
 
-  function handleContinue() {
-    if (total === 0 || !canContinue || finished) return;
+  async function handleContinue() {
+    if (total === 0 || !canContinue || finished || saving) return;
 
     if (step === total - 1) {
-      saveLocalProgress(lesson.id, true, 0);
+      setSaving(true);
+      setSaveError(null);
+
+      try {
+        if (demoMode) {
+          saveLocalProgress(lesson.id, true, 0);
+        } else {
+          const result = await saveJourneyProgress({
+            lessonId: lesson.id,
+            done: true,
+            best: 0,
+          });
+
+          if (!result.ok) {
+            setSaveError(
+              result.reason === 'unauthorized'
+                ? 'Progress хадгалахын тулд нэвтэрнэ үү.'
+                : 'Progress хадгалж чадсангүй. Дахин оролдоно уу.',
+            );
+            return;
+          }
+        }
+      } catch {
+        setSaveError('Хадгалах үед алдаа гарлаа. Дахин оролдоно уу.');
+        return;
+      } finally {
+        setSaving(false);
+      }
     }
 
     setStep((value) => Math.min(total, value + 1));
@@ -77,7 +113,9 @@ export function LessonPlayer({ lesson }: Props) {
 
           <div>
             <p className="text-sm font-bold text-leaf">{finished ? 'Хичээл дууслаа!' : 'Суу чамд тусална'}</p>
+
             <h1 className="mt-1 text-2xl font-extrabold text-ink">{lesson.title}</h1>
+
             <p className="text-sm text-ink-2">{lesson.en}</p>
           </div>
         </div>
@@ -85,6 +123,7 @@ export function LessonPlayer({ lesson }: Props) {
         {finished ? (
           <div className="rounded-2xl bg-paper-2 p-6 text-center">
             <h2 className="text-xl font-extrabold text-ink">Сайн ажиллалаа! 🎉</h2>
+
             <p className="mt-2 text-sm text-ink-2">Чи энэ хичээлийн бүх алхмыг үзэж дууслаа.</p>
           </div>
         ) : current ? (
@@ -92,11 +131,7 @@ export function LessonPlayer({ lesson }: Props) {
             <p className="mb-2 text-xs font-bold uppercase tracking-wider text-ink-3">Алхам {step + 1}</p>
 
             <h2 className="text-xl font-extrabold text-ink">
-              {current.kind === 'concept'
-                ? current.title
-                : current.kind === 'match'
-                  ? current.prompt
-                  : current.prompt}
+              {current.kind === 'concept' ? current.title : current.prompt}
             </h2>
 
             {current.kind === 'concept' ? (
@@ -162,10 +197,16 @@ export function LessonPlayer({ lesson }: Props) {
         )}
       </div>
 
+      {saveError && (
+        <p role="alert" className="mb-4 text-sm font-semibold text-red-600">
+          {saveError}
+        </p>
+      )}
+
       <div className="flex items-center justify-between gap-3">
         <Button
           variant="secondary"
-          disabled={step === 0}
+          disabled={step === 0 || saving}
           onClick={() => setStep((value) => Math.max(0, value - 1))}
         >
           ← Өмнөх
@@ -181,10 +222,10 @@ export function LessonPlayer({ lesson }: Props) {
           <Button
             variant="primary"
             onClick={handleContinue}
-            disabled={total === 0 || !canContinue}
-            className={!canContinue ? 'cursor-not-allowed opacity-40 grayscale' : 'cursor-pointer'}
+            disabled={total === 0 || !canContinue || saving}
+            className={!canContinue || saving ? 'cursor-not-allowed opacity-40 grayscale' : 'cursor-pointer'}
           >
-            Үргэлжлүүлэх →
+            {saving ? 'Хадгалж байна...' : 'Үргэлжлүүлэх →'}
           </Button>
         )}
       </div>
