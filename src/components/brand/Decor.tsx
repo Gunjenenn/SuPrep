@@ -1,6 +1,5 @@
 // Brand ornaments lifted from the deck: green brush blob, hand-drawn stars & birds, thin scribble lines.
 import type { CSSProperties } from 'react';
-import { CatHead } from './Cat';
 
 export function Blob({
   className = '',
@@ -74,19 +73,38 @@ export function Scribble({ className = '', style }: { className?: string; style?
   );
 }
 
-export function Logo({ light = false, compact = false }: { light?: boolean; compact?: boolean }) {
+/** The Suprep mark: the black cat icon + spaced SUPREP wordmark. */
+export function Logo({
+  light = false,
+  compact = false,
+  tagline,
+}: {
+  light?: boolean;
+  compact?: boolean;
+  tagline?: string;
+}) {
   return (
-    <div
-      className="flex items-center gap-2.5 select-none"
-      style={light ? ({ '--c-cat-rim': 'var(--c-line-2)' } as CSSProperties) : undefined}
-    >
-      <CatHead size={compact ? 30 : 34} />
+    <div className="flex items-center gap-3 select-none">
+      {/* biome-ignore lint/performance/noImgElement: tiny static brand mark, no optimisation needed */}
+      <img
+        src="/brand/logo-cat.png"
+        alt=""
+        width={compact ? 28 : 34}
+        height={compact ? 36 : 43}
+        className="logo-cat shrink-0"
+        style={{ width: compact ? 28 : 34, height: 'auto' }}
+      />
       {!compact && (
-        <span
-          className="font-display font-extrabold tracking-[0.2em] text-[13px]"
-          style={{ color: light ? 'var(--c-on-forest)' : 'var(--c-ink)' }}
-        >
-          SUUPREP
+        <span className="grid leading-none">
+          <span
+            className="font-sans font-bold tracking-[0.32em] text-[17px]"
+            style={{ color: light ? 'var(--c-on-forest)' : 'var(--c-ink)' }}
+          >
+            SUPREP
+          </span>
+          {tagline && (
+            <span className="mt-1.5 text-[11px] font-medium tracking-wide text-ink-3">{tagline}</span>
+          )}
         </span>
       )}
     </div>
@@ -95,5 +113,5 @@ export function Logo({ light = false, compact = false }: { light?: boolean; comp
 
 /** Large slab wordmark as on the cover slide. */
 export function Wordmark({ className = '' }: { className?: string }) {
-  return <span className={`font-slab font-black tracking-tight ${className}`}>СУУPREP</span>;
+  return <span className={`font-slab font-black tracking-tight ${className}`}>SUPREP</span>;
 }

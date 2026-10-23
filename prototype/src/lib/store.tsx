@@ -73,7 +73,7 @@ export type Reward =
   | { id: number; type: 'badge'; badge: string }
   | { id: number; type: 'quest'; quest: string };
 
-const KEY = 'suuprep-demo-v3';
+const KEY = 'suprep-demo-v3';
 export const mnDate = (d: Date | number | string) => { const x = new Date(typeof d === 'string' ? d + 'T09:00:00' : d); return `${x.getMonth() + 1}-р сарын ${x.getDate()}`; };
 export const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const daysAgo = (n: number) => { const d = new Date(); d.setDate(d.getDate() - n); return dayKey(d); };

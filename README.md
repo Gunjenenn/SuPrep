@@ -1,9 +1,9 @@
-# SuuPrep
+# Suprep
 
 Монгол сурагчдад зориулсан AI SAT Math платформ. Next.js (App Router) · React · TypeScript · Tailwind v4 ·
 Supabase · Bun · bun test · Playwright · KaTeX · Gemini (Vertex AI, `@google/genai`). **Бүх код JavaScript/TypeScript.**
 
-Prototype (дизайн): https://claude.ai/artifact/Qa2ruJcMEp3fZ38jzed8AP · Ажлын хуваарь: `SuuPrep_team_plan.xlsx`
+Prototype (дизайн): https://claude.ai/artifact/Qa2ruJcMEp3fZ38jzed8AP · Ажлын хуваарь: `Suprep_team_plan.xlsx`
 
 ## Эхлэх (нэг удаа)
 

@@ -69,7 +69,7 @@ export function Logo({ light = false, compact = false }: { light?: boolean; comp
           className="font-display font-extrabold tracking-[0.2em] text-[13px]"
           style={{ color: light ? '#f3f0e6' : 'var(--c-ink)' }}
         >
-          SUUPREP
+          SUPREP
         </span>
       )}
     </div>
@@ -78,5 +78,5 @@ export function Logo({ light = false, compact = false }: { light?: boolean; comp
 
 /** Large slab wordmark as on the cover slide. */
 export function Wordmark({ className = '' }: { className?: string }) {
-  return <span className={`font-slab font-black tracking-tight ${className}`}>СУУPREP</span>;
+  return <span className={`font-slab font-black tracking-tight ${className}`}>SUPREP</span>;
 }

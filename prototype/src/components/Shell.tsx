@@ -47,7 +47,7 @@ export default function Shell({ children }: { children: ReactNode }) {
     <div className="h-full flex bg-bg">
       {/* sidebar */}
       <aside className="hidden lg:flex w-[248px] shrink-0 flex-col bg-forest text-cream relative overflow-hidden">
-        <div className="px-6 pt-6 pb-5"><button onClick={() => go({ name: 'landing' })} aria-label="SuuPrep нүүр"><Logo light /></button></div>
+        <div className="px-6 pt-6 pb-5"><button onClick={() => go({ name: 'landing' })} aria-label="Suprep нүүр"><Logo light /></button></div>
         <nav className="px-3 flex-1 overflow-y-auto no-scrollbar pb-2" aria-label="Үндсэн цэс">
           {GROUPS.map((g, gi) => (
             <div key={gi} className={gi ? 'mt-4' : ''}>
@@ -144,7 +144,7 @@ function TopBar() {
     <div className="sticky z-30 bg-bg/90 backdrop-blur border-b border-line" style={{ top: 'env(safe-area-inset-top, 0px)' }}>
       <div className="gutter h-14 flex items-center gap-3">
         <div className="lg:hidden"><Logo compact /></div>
-        <div className="lg:hidden font-display font-extrabold tracking-[0.18em] text-[12px]">SUUPREP</div>
+        <div className="lg:hidden font-display font-extrabold tracking-[0.18em] text-[12px]">SUPREP</div>
         <div className="ml-auto flex items-center gap-2 sm:gap-3">
           <button onClick={() => go({ name: 'dashboard' })} className="hidden sm:flex items-center gap-2 h-9 px-3 rounded-full border border-line bg-paper text-[12.5px] font-semibold" title="Өдрийн даалгавар">
             <span className="h-2 w-2 rounded-full bg-moss" /> Даалгавар {doneQuests}/{QUESTS.length}

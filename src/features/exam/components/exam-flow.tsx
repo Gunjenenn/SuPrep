@@ -12,7 +12,7 @@ import {
 } from '../lib/exam-machine';
 import { ExamTimer } from './exam-timer';
 
-const STORAGE_KEY = 'suuprep-demo-exam-d1';
+const STORAGE_KEY = 'suprep-demo-exam-d1';
 
 function readSavedState(): ExamState {
   const initial = createInitialExamState();
@@ -98,7 +98,7 @@ export function ExamFlow() {
   return (
     <section className="mx-auto flex w-full max-w-3xl flex-col gap-6 py-8">
       <header className="space-y-2">
-        <p className="text-sm font-medium text-muted-foreground">SuuPrep · SAT Math</p>
+        <p className="text-sm font-medium text-muted-foreground">Suprep · SAT Math</p>
         <h1 className="text-3xl font-semibold">Mock Exam</h1>
       </header>
 

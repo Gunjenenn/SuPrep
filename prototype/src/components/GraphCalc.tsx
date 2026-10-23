@@ -1,4 +1,4 @@
-// SuuPrep graphing calculator — a Desmos-style workspace built for teaching.
+// Suprep graphing calculator — a Desmos-style workspace built for teaching.
 // Not the official Desmos calculator: a functional simulation that supports the
 // interactions SAT Math lessons need (equations, inequalities, points, sliders,
 // tables + linear regression, POIs: roots / intercepts / extrema / intersections).
@@ -61,7 +61,7 @@ export default function GraphCalc({
   initialView = { cx: 0, cy: 0, scale: 32 },
   listWidth = 300,
   hideList = false,
-  label = 'SuuPrep график тооцоолуур',
+  label = 'Suprep график тооцоолуур',
 }: {
   initialRows?: (string | TableInit)[];
   height?: number | string;

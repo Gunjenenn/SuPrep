@@ -1,4 +1,4 @@
-# SuuPrep — interactive prototype
+# Suprep — interactive prototype
 
 AI-powered, gamified SAT Math platform for Mongolian students, with **Суу** the black-cat tutor and a Desmos-style graphing academy.
 
@@ -17,8 +17,8 @@ Built with React 19 + TypeScript (esbuild), Tailwind CSS v4 (compile API), KaTeX
 - `src/data` — curriculum (5 stages, lessons, checkpoints with two variant sets), Desmos lessons (validated steps), SAT question bank, badges, quests, vocabulary.
 - `src/lib/store.tsx` — demo state (XP, levels, streak, quests, badges, mistakes, mastery), persisted in localStorage.
 - `src/services/tutor.ts` — `TutorService` interface; `DemoTutorService` (labelled demo replies) and `GeminiTutorService` (calls a backend).
-- `server/gemini-proxy.mjs` — example backend that holds `GEMINI_API_KEY` and calls Gemini. Set `window.SUUPREP_TUTOR_ENDPOINT` to switch the UI to live mode.
+- `server/gemini-proxy.mjs` — example backend that holds `GEMINI_API_KEY` and calls Gemini. Set `window.SUPREP_TUTOR_ENDPOINT` to switch the UI to live mode.
 
 ## Notes
-- The calculator is SuuPrep's own Desmos-style simulation, not the official Desmos API (needs a Desmos partner API key/licence). The lesson runner only depends on `onState / onPoi / onView` events, so it can be re-pointed at the official API later.
+- The calculator is Suprep's own Desmos-style simulation, not the official Desmos API (needs a Desmos partner API key/licence). The lesson runner only depends on `onState / onPoi / onView` events, so it can be re-pointed at the official API later.
 - Mock-exam scaled score is an approximation for demo purposes, not the College Board conversion.

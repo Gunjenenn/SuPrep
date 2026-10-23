@@ -1,4 +1,4 @@
-// SuuPrep learning journey: Understand → Learn → Practice → Master → Apply
+// Suprep learning journey: Understand → Learn → Practice → Master → Apply
 // Text uses $…$ for inline TeX and **bold**.
 
 export type Exercise =
