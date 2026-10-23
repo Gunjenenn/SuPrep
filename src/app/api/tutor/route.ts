@@ -4,6 +4,7 @@
 import { z } from 'zod';
 import { demoReply } from '@/server/tutor/demo';
 import { ollamaReply } from '@/server/tutor/ollama';
+import { scriptedReply } from '@/server/tutor/scripted';
 
 const Body = z.object({
   mode: z.enum(['hint', 'explain', 'desmos', 'similar', 'translate']).default('hint'),
@@ -18,10 +19,20 @@ const Body = z.object({
     .optional(),
 });
 
+/** Short pause so a sample answer appears like a normal reply instead of instantly. */
+const SAMPLE_DELAY_MS = process.env.NODE_ENV === 'test' ? 0 : 900;
+
 export async function POST(req: Request) {
   const parsed = Body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return Response.json({ error: 'bad_request' }, { status: 400 });
   const { mode, message, raw } = parsed.data;
+
+  // Pitch demo: fixed questions get a hand-written answer, labelled as a sample (see scripted.ts).
+  const sample = scriptedReply(message);
+  if (sample) {
+    await new Promise((r) => setTimeout(r, SAMPLE_DELAY_MS));
+    return Response.json({ text: sample.text, lesson: sample.lesson, demo: false, sample: true });
+  }
 
   const text = await ollamaReply(mode, message, fetch, raw);
   if (text) return Response.json({ text, demo: false, model: 'suu' });

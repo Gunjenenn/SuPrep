@@ -8,6 +8,10 @@ export type ChatMsg = {
   /** What we sent to /api/tutor for this reply — needed for 👍/👎 feedback. */
   sent?: TutorRequest;
   demo?: boolean;
+  /** Hand-written pitch answer (not live model output). */
+  sample?: boolean;
+  /** Desmos lesson to open from this reply (/desmos/ai?l=…). */
+  lesson?: string;
   status?: 'pending' | 'error';
 };
 
@@ -51,7 +55,7 @@ export function userBubbleText(action: ChatAction, label: (mode: TutorMode) => s
   return action.kind === 'quick' ? label(action.mode) : action.text.trim();
 }
 
-export type ApiReply = { text: string; demo?: boolean };
+export type ApiReply = { text: string; demo?: boolean; sample?: boolean; lesson?: string };
 
 /** Calls the tutor API. Throws on network or server errors so the caller can show a retry. */
 export async function askSuu(req: TutorRequest, fetchImpl: typeof fetch = fetch): Promise<ApiReply> {
@@ -63,7 +67,12 @@ export async function askSuu(req: TutorRequest, fetchImpl: typeof fetch = fetch)
   if (!res.ok) throw new Error(`tutor ${res.status}`);
   const data = (await res.json()) as Partial<ApiReply>;
   if (!data.text) throw new Error('tutor empty');
-  return { text: data.text, demo: Boolean(data.demo) };
+  return {
+    text: data.text,
+    demo: Boolean(data.demo),
+    ...(data.sample ? { sample: true } : {}),
+    ...(data.lesson ? { lesson: data.lesson } : {}),
+  };
 }
 
 /** Replace one message by id (immutable update). */
