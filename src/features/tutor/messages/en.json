@@ -15,5 +15,30 @@
     "skip": "Skip",
     "thanks": "Thank you! Your feedback helps Suu get better.",
     "error": "Couldn't send. Please try again."
+  },
+  "chat": {
+    "subtitle": "Your AI tutor for SAT Math. Type a question or use the buttons.",
+    "thinking": "Suu is thinking…",
+    "problem": "Problem",
+    "yourAnswer": "Your answer: {answer}",
+    "empty": "Hi! I'm Suu 🐱 Paste a problem and ask, or start here:",
+    "inputLabel": "Ask Suu a question",
+    "placeholder": "Type your question… (Enter = send, Shift+Enter = new line)",
+    "send": "Send",
+    "error": "Couldn't get a reply.",
+    "retry": "Try again",
+    "demo": "Demo reply — model not connected"
+  },
+  "modes": {
+    "hint": "Hint",
+    "explain": "Full explanation",
+    "desmos": "With Desmos",
+    "similar": "Similar problem",
+    "translate": "Translate words"
+  },
+  "starters": {
+    "s1": "How many questions are in SAT Math?",
+    "s2": "What does \"at least\" mean?",
+    "s3": "How do I use Desmos?"
   }
 }

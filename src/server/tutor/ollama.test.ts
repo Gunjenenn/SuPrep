@@ -40,3 +40,8 @@ test('null when Ollama errors', async () => {
   }) as unknown as typeof fetch;
   expect(await ollamaReply('explain', 'x', down)).toBeNull();
 });
+
+test('free chat sends the text without the request phrase', () => {
+  expect(buildUserMessage('hint', '  Сайн уу  ', true)).toBe('Сайн уу');
+  expect(buildUserMessage('hint', 'x')).toContain('Зөвлөгөө');
+});
