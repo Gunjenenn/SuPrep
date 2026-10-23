@@ -38,6 +38,7 @@ export default async function DashboardPage() {
       data={{
         name: profile.name || t('pages.dashboard.title'),
         target: profile.target ?? 700,
+        examDate: profile.examDate ?? '2026-12-05',
         stats,
         stages,
         done: new Set(progress.filter((p) => p.done).map((p) => p.lessonId)),

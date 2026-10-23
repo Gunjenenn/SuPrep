@@ -1,4 +1,5 @@
-// Section I · I3 — home dashboard: greeting hero, next lesson, skills, domains, progress, league, next badge.
+// Section I · I3 — home dashboard: greeting + plan CTA, exam countdown, scores, next lesson, study plan,
+// AI tutor, skills, analytics, domains, streak, league and the next badge.
 import Link from 'next/link';
 import { Flame, Icon } from '@/components/shell/icons';
 import { Bar } from '@/components/ui/Bar';
@@ -10,10 +11,13 @@ import { getUlaanbaatarDate } from '@/lib/streak';
 import { BADGES } from '@/mocks/meta';
 import { DOMAINS } from '@/mocks/questions';
 import type { Domain, LeagueRow, Lesson, Stage, Stats } from '@/types';
+import { ExamCountdown } from './ExamCountdown';
+import { ScoreCard } from './ScoreCard';
 
 export type DashboardData = {
   name: string;
   target: number;
+  examDate: string;
   stats: Stats;
   stages: Stage[];
   done: Set<string>;
@@ -88,23 +92,12 @@ function SectionHead({ title, href, more }: { title: string; href?: string; more
   );
 }
 
-function Hero({ t, name, target, next }: { t: T; name: string; target: number; next: string }) {
+function Hero({ t, name, next }: { t: T; name: string; next: string }) {
   const h = ubHour();
   const greet = h < 12 ? 'morning' : h < 18 ? 'day' : 'evening';
   return (
     <section className="hero relative overflow-hidden rounded-[32px] min-h-[300px] md:min-h-[340px] p-6 md:p-10 flex flex-col justify-center">
       <HeroScenery />
-      <Link
-        href={routes.journey}
-        className="absolute top-5 right-5 z-10 hidden sm:flex items-center gap-2 h-10 pl-2 pr-3 rounded-full bg-paper/85 backdrop-blur text-[14px] font-semibold text-ink shadow-[0_6px_18px_-10px_rgba(12,40,22,.4)]"
-      >
-        <span className="grid place-items-center size-7 rounded-full bg-leaf text-[var(--c-on-leaf)] text-[11px] font-black">
-          SAT
-        </span>
-        {t('dashboard.target', { score: target })}
-        <Icon name="chevron" size={16} />
-      </Link>
-
       {/* the Suprep cat, peeking in from the right edge */}
       {/* biome-ignore lint/performance/noImgElement: static transparent PNG; next/image adds nothing here */}
       <img
@@ -115,8 +108,8 @@ function Hero({ t, name, target, next }: { t: T; name: string; target: number; n
         className="hero-cat absolute right-0 bottom-0 h-[44%] sm:h-[70%] md:h-[84%] w-auto pointer-events-none select-none"
       />
 
-      <div className="relative z-10 max-w-[30ch] md:max-w-[34ch]">
-        <h1 className="font-display font-bold text-[30px] md:text-[44px] leading-[1.08] tracking-tight text-ink">
+      <div className="relative z-10">
+        <h1 className="max-w-[60%] sm:max-w-none font-display font-bold text-[30px] md:text-[44px] leading-[1.08] tracking-tight text-ink">
           {t(`dashboard.greet.${greet}`)}
           <br />
           <span className="text-leaf-2">{name}!</span> <span className="inline-block anim-tilt">👋</span>
@@ -124,13 +117,21 @@ function Hero({ t, name, target, next }: { t: T; name: string; target: number; n
         <p className="mt-3 text-[16px] md:text-[18px] leading-snug text-ink-2 max-w-[26ch]">
           {t('dashboard.hero')}
         </p>
-        <Link
-          href={next}
-          className="mt-6 inline-flex items-center gap-3 h-[54px] px-7 rounded-2xl bg-leaf text-[var(--c-on-leaf)] font-bold text-[16px] shadow-[0_14px_28px_-12px_var(--c-leaf)] hover:brightness-105 active:translate-y-px transition"
-        >
-          {t('dashboard.cta')}
-          <Icon name="arrow" size={20} />
-        </Link>
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <Link
+            href={routes.planner}
+            className="inline-flex items-center gap-3 h-[54px] px-7 rounded-2xl bg-leaf text-[var(--c-on-leaf)] font-bold text-[16px] shadow-[0_14px_28px_-12px_var(--c-leaf)] hover:brightness-105 active:translate-y-px transition"
+          >
+            {t('dashboard.cta')}
+            <Icon name="arrow" size={20} />
+          </Link>
+          <Link
+            href={next}
+            className="inline-flex items-center h-[54px] px-5 rounded-2xl bg-paper/70 backdrop-blur text-ink font-bold text-[15px] hover:bg-paper"
+          >
+            {t('dashboard.continueCta')}
+          </Link>
+        </div>
       </div>
     </section>
   );
@@ -361,7 +362,9 @@ function GoalCard({ t, stats }: { t: T; stats: Stats }) {
             label={t('dashboard.goal.level', { n: lv.level, next: lv.level + 1 })}
           >
             <div className="grid justify-items-center leading-none">
-              <Flame size={22} />
+              <span className={stats.streak > 0 ? '' : 'grayscale opacity-40'}>
+                <Flame size={22} />
+              </span>
               <span className="mt-1 font-bold text-[20px] text-ink tnum">
                 {stats.xp}
                 <span className="text-[13px] text-ink-2 font-semibold"> / {lv.nextLevelXp}</span>
@@ -371,9 +374,13 @@ function GoalCard({ t, stats }: { t: T; stats: Stats }) {
           </Ring>
         </div>
         <div className="min-w-0">
-          <div className="font-bold text-ink">{t('dashboard.goal.great')}</div>
+          <div className="font-bold text-ink">
+            {t(stats.streak > 0 ? 'dashboard.goal.great' : 'dashboard.goal.start')}
+          </div>
           <p className="mt-1 text-[14px] leading-snug text-ink-2">
-            {t('dashboard.goal.streak', { n: stats.streak })} 🔥
+            {stats.streak > 0
+              ? `${t('dashboard.goal.streak', { n: stats.streak })} 🔥`
+              : t('dashboard.goal.startBody')}
           </p>
           <p className="mt-2 text-[13px] font-semibold text-leaf-2">
             {t('dashboard.goal.level', { n: lv.level, next: lv.level + 1 })}
@@ -418,6 +425,18 @@ function LeagueCard({ t, rows }: { t: T; rows: LeagueRow[] }) {
           {t('dashboard.league.week')}
         </Link>
       </div>
+      {rows.length === 0 && (
+        <div className="grid justify-items-center text-center gap-2 py-5">
+          <span className="grid place-items-center size-14 rounded-full bg-paper-2 text-ink-3">
+            <Icon name="league" size={26} />
+          </span>
+          <p className="font-bold text-ink">{t('dashboard.league.emptyTitle')}</p>
+          <p className="text-[13.5px] text-ink-2 max-w-[26ch]">{t('dashboard.league.emptyBody')}</p>
+          <Link href={routes.journey} className="mt-1 text-[14px] font-bold text-leaf-2 hover:underline">
+            {t('dashboard.league.emptyCta')}
+          </Link>
+        </div>
+      )}
       <ol className="grid gap-1">
         {top.map((r) => {
           const rank = rows.indexOf(r) + 1;
@@ -444,7 +463,7 @@ function LeagueCard({ t, rows }: { t: T; rows: LeagueRow[] }) {
                 {r.name[0]}
               </span>
               <span className={`flex-1 truncate font-semibold ${r.me ? 'text-leaf-2' : 'text-ink'}`}>
-                {r.me ? t('dashboard.league.me') : r.name}
+                {r.name}
                 {rank === 1 && ' 👑'}
               </span>
               <span className={`text-[13px] font-semibold tnum ${r.me ? 'text-leaf-2' : 'text-ink-2'}`}>
@@ -485,6 +504,124 @@ function RewardCard({ t, reward }: { t: T; reward: { left: number; total: number
   );
 }
 
+function ScoreBanner({ t }: { t: T }) {
+  return (
+    <section className="soft-card px-4 py-3.5 md:px-5 flex flex-col sm:flex-row sm:items-center gap-3">
+      {/* biome-ignore lint/performance/noImgElement: tiny static brand mark */}
+      <img
+        src="/brand/logo-cat.png"
+        alt=""
+        width={26}
+        height={33}
+        className="logo-cat shrink-0 hidden sm:block"
+      />
+      <p className="flex-1 text-[15px] text-ink-2">
+        <span className="font-bold text-ink">{t('dashboard.banner.title')}</span> {t('dashboard.banner.body')}
+      </p>
+      <a
+        href="#scores"
+        className="inline-flex items-center justify-center h-10 px-4 rounded-xl bg-sage text-leaf-2 font-bold text-[14px] hover:brightness-95"
+      >
+        {t('dashboard.banner.cta')}
+      </a>
+    </section>
+  );
+}
+
+function StudyPlanCard({ t }: { t: T }) {
+  return (
+    <section className="soft-card p-6 grid justify-items-center content-center text-center gap-3">
+      <div className="flex items-end gap-1" aria-hidden="true">
+        {/* biome-ignore lint/performance/noImgElement: tiny static brand mark */}
+        <img src="/brand/logo-cat.png" alt="" width={44} height={56} className="logo-cat" />
+        <span className="grid place-items-center size-12 rounded-2xl bg-sage text-leaf-2 -rotate-6">
+          <Icon name="planner" size={24} />
+        </span>
+      </div>
+      <h3 className="font-bold text-[18px] text-ink">{t('dashboard.plan.emptyTitle')}</h3>
+      <p className="text-[14px] text-ink-2 max-w-[34ch]">{t('dashboard.plan.emptyBody')}</p>
+      <Link
+        href={routes.planner}
+        className="mt-1 inline-flex items-center gap-2 h-11 px-5 rounded-2xl bg-leaf text-[var(--c-on-leaf)] font-bold text-[14.5px] hover:brightness-105"
+      >
+        {t('dashboard.plan.cta')}
+        <Icon name="arrow" size={17} />
+      </Link>
+    </section>
+  );
+}
+
+function TutorCard({ t }: { t: T }) {
+  return (
+    <section className="tutor-card relative overflow-hidden rounded-[26px] p-6 grid content-between gap-4">
+      <div>
+        <h3 className="font-bold text-[19px] leading-snug text-ink max-w-[22ch]">
+          {t('dashboard.tutor.title')}
+        </h3>
+        <ul className="mt-3 grid gap-2">
+          {(['p1', 'p2', 'p3'] as const).map((k) => (
+            <li key={k} className="flex items-start gap-2 text-[14px] text-ink-2">
+              <Icon name="check" size={17} strokeWidth={2.4} className="text-leaf mt-0.5 shrink-0" />
+              {t(`dashboard.tutor.${k}`)}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Link
+        href={routes.tutor()}
+        className="justify-self-start inline-flex items-center gap-2 h-11 px-5 rounded-2xl bg-forest text-cream font-bold text-[14.5px] hover:brightness-110"
+      >
+        <Icon name="tutor" size={18} />
+        {t('dashboard.tutor.cta')}
+      </Link>
+      {/* biome-ignore lint/performance/noImgElement: static transparent PNG */}
+      <img
+        src="/brand/cat-peek.png"
+        alt=""
+        width={716}
+        height={890}
+        className="hero-cat absolute -right-3 -bottom-4 h-[46%] w-auto pointer-events-none select-none opacity-95"
+      />
+    </section>
+  );
+}
+
+function Analytics({ t, data }: { t: T; data: DashboardData }) {
+  const m = Object.values(data.stats.mastery);
+  const avg = m.length ? Math.round(m.reduce((a, b) => a + b, 0) / m.length) : null;
+  const tiles = [
+    { k: 'lessons', v: `${data.done.size}`, sub: `/ ${data.counts.lessons}` },
+    { k: 'xp', v: data.stats.xp.toLocaleString('en-US'), sub: '' },
+    { k: 'days', v: `${data.stats.days.length}`, sub: '' },
+    { k: 'mastery', v: avg === null ? '—' : `${avg}%`, sub: '' },
+  ];
+  const empty = data.done.size === 0 && data.stats.xp === 0;
+  return (
+    <section>
+      <SectionHead
+        title={t('dashboard.analytics.title')}
+        href={routes.progress}
+        more={t('dashboard.analytics.all')}
+      />
+      <div className="soft-card grid grid-cols-2 lg:grid-cols-4 overflow-hidden">
+        {tiles.map((x, i) => (
+          <div
+            key={x.k}
+            className={`p-5 ${i % 2 ? 'border-l border-line' : ''} ${i > 1 ? 'border-t lg:border-t-0 border-line' : ''} ${i === 2 ? 'lg:border-l' : ''}`}
+          >
+            <div className="font-display font-bold text-[26px] leading-none text-ink tnum">
+              {x.v}
+              {x.sub && <span className="text-[14px] font-semibold text-ink-3"> {x.sub}</span>}
+            </div>
+            <div className="mt-2 text-[13.5px] text-ink-2">{t(`dashboard.analytics.${x.k}`)}</div>
+          </div>
+        ))}
+      </div>
+      {empty && <p className="mt-2.5 text-[13.5px] text-ink-3">{t('dashboard.analytics.empty')}</p>}
+    </section>
+  );
+}
+
 /* ———————————————————— page ———————————————————— */
 
 export function Dashboard({ t, data }: { t: T; data: DashboardData }) {
@@ -493,17 +630,27 @@ export function Dashboard({ t, data }: { t: T; data: DashboardData }) {
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_340px] items-start">
       <div className="grid gap-7 min-w-0 stagger">
-        <Hero
-          t={t}
-          name={data.name}
-          target={data.target}
-          next={next ? routes.lesson(next.lesson.id) : routes.journey}
-        />
+        <Hero t={t} name={data.name} next={next ? routes.lesson(next.lesson.id) : routes.journey} />
+        <ScoreBanner t={t} />
         {next && <ContinueCard t={t} item={next} />}
+        <section>
+          <SectionHead
+            title={t('dashboard.plan.title')}
+            href={routes.planner}
+            more={t('dashboard.continue.all')}
+          />
+          <div className="grid gap-4 lg:grid-cols-2">
+            <StudyPlanCard t={t} />
+            <TutorCard t={t} />
+          </div>
+        </section>
         <Skills t={t} counts={data.counts} />
+        <Analytics t={t} data={data} />
         <Domains t={t} />
       </div>
       <aside className="grid gap-5 md:grid-cols-2 xl:grid-cols-1 stagger">
+        <ExamCountdown examDate={data.examDate} />
+        <ScoreCard target={data.target} />
         <GoalCard t={t} stats={data.stats} />
         <LeagueCard t={t} rows={data.league} />
         {reward && <RewardCard t={t} reward={reward} />}

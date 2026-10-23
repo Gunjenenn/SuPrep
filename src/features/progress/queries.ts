@@ -1,9 +1,10 @@
 // Section F · stats, badges, league.
 import { getDb } from '@/lib/supabase/server';
-import { BADGES, LEAGUE_RIVALS } from '@/mocks/meta';
+import { BADGES } from '@/mocks/meta';
 import type { Badge, LeagueRow, Stats } from '@/types';
 
-const DEMO_STATS: Stats = { xp: 380, level: 2, streak: 4, days: [], mastery: {} };
+// Demo mode shows a fresh student: no invented XP, streak or rivals.
+const DEMO_STATS: Stats = { xp: 0, level: 1, streak: 0, days: [], mastery: {} };
 
 export async function getStats(userId: string): Promise<Stats> {
   const db = await getDb();
@@ -29,11 +30,7 @@ export async function listBadges(userId: string): Promise<(Badge & { earned: boo
 
 export async function getLeague(weekId: string): Promise<LeagueRow[]> {
   const db = await getDb();
-  if (!db) {
-    return LEAGUE_RIVALS.map(([name, xp], i): LeagueRow => ({ userId: `demo-${i}`, name, xp }))
-      .concat({ userId: 'u-demo', name: 'Та', xp: DEMO_STATS.xp, me: true })
-      .sort((a, b) => b.xp - a.xp);
-  }
+  if (!db) return [];
   const { data, error } = await db
     .from('league_rows')
     .select('user_id, name, xp')

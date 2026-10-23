@@ -456,3 +456,10 @@ button:disabled { cursor: not-allowed; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .logo-cat { filter: drop-shadow(0 0 1px #6ee79a) drop-shadow(0 0 6px rgba(110, 231, 154, 0.25)); }
 }
+@layer components {
+.tutor-card {
+  background: linear-gradient(140deg, color-mix(in srgb, var(--c-lime) 22%, var(--c-paper)) 0%, var(--c-sage) 60%, color-mix(in srgb, var(--c-leaf) 18%, var(--c-paper)) 100%);
+  box-shadow: var(--soft-shadow);
+  min-height: 250px;
+}
+}

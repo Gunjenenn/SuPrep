@@ -8,7 +8,7 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 import { toast } from '@/components/ui/toast';
 import { cn } from '@/lib/cn';
 import { useT } from '@/lib/i18n-client';
-import { isActive, NAV, type NavItem } from '@/lib/nav';
+import { isActive, NAV, type NavGroup, type NavItem } from '@/lib/nav';
 import { routes } from '@/lib/routes';
 import { Flame, Gem, Icon } from './icons';
 
@@ -62,13 +62,98 @@ function Stat({ icon, value, label }: { icon: ReactNode; value: number; label: s
   );
 }
 
+const GROUP_ICON: Record<NavGroup['key'], string> = {
+  main: 'dashboard',
+  practice: 'practicePlayer',
+  materials: 'cards',
+  me: 'progress',
+};
+
+/** A folded group (Дасгал, Материал): one row that opens to show its pages. */
+function FoldGroup({
+  group,
+  pathname,
+  onNavigate,
+}: {
+  group: NavGroup;
+  pathname: string;
+  onNavigate?: () => void;
+}) {
+  const t = useT('common');
+  const inside = group.items.some((i) => isActive(pathname, i.href));
+  const [open, setOpen] = useState(inside);
+  const id = `nav-${group.key}`;
+  return (
+    <div className="grid gap-0.5">
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={id}
+        onClick={() => setOpen((v) => !v)}
+        className={cn(
+          'flex items-center gap-3 h-11 px-3.5 rounded-2xl text-[14.5px] font-semibold transition-colors text-left',
+          inside && !open ? 'bg-sage text-leaf-2' : 'text-ink-2 hover:bg-paper-2 hover:text-ink',
+        )}
+      >
+        <Icon name={GROUP_ICON[group.key]} size={21} className={inside ? 'text-leaf-2' : 'text-ink-3'} />
+        <span className="flex-1 truncate">{t(`nav.groups.${group.key}`)}</span>
+        <Icon
+          name="chevron"
+          size={17}
+          className={cn('text-ink-3 transition-transform', open && 'rotate-90')}
+        />
+      </button>
+      {open && (
+        <div id={id} className="grid gap-0.5 ml-[26px] pl-2.5 border-l border-line sheet-in">
+          {group.items.map((item) => (
+            <NavLink key={item.key} item={item} pathname={pathname} onClick={onNavigate} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function NavGroups({
+  pathname,
+  skipMobile = false,
+  onNavigate,
+}: {
+  pathname: string;
+  skipMobile?: boolean;
+  onNavigate?: () => void;
+}) {
+  const t = useT('common');
+  return (
+    <>
+      {NAV.map((g) => {
+        const items = skipMobile ? g.items.filter((i) => !i.mobile) : g.items;
+        if (!items.length) return null;
+        if (g.collapsible)
+          return <FoldGroup key={g.key} group={g} pathname={pathname} onNavigate={onNavigate} />;
+        return (
+          <div key={g.key} className="grid gap-0.5">
+            {t(`nav.groups.${g.key}`) && (
+              <div className="px-3.5 mb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3">
+                {t(`nav.groups.${g.key}`)}
+              </div>
+            )}
+            {items.map((item) => (
+              <NavLink key={item.key} item={item} pathname={pathname} onClick={onNavigate} />
+            ))}
+          </div>
+        );
+      })}
+    </>
+  );
+}
+
 export function AppShell({ children, user }: { children: ReactNode; user?: ShellUser }) {
   const t = useT('common');
   const pathname = usePathname() ?? '/';
   const [more, setMore] = useState(false);
   const all = NAV.flatMap((g) => g.items);
   const tabs = all.filter((i) => i.mobile);
-  const rest = all.filter((i) => !i.mobile);
   const me: ShellUser = user ?? { name: '', level: 1, xp: 0, streak: 0 };
   const name = me.name || t('shell.guest');
 
@@ -86,19 +171,8 @@ export function AppShell({ children, user }: { children: ReactNode; user?: Shell
         <Link href={routes.dashboard} className="px-2.5 pb-1">
           <Logo tagline={t('shell.tagline')} />
         </Link>
-        <nav className="grid gap-4" aria-label="Suprep">
-          {NAV.map((g) => (
-            <div key={g.key} className="grid gap-0.5">
-              {t(`nav.groups.${g.key}`) && (
-                <div className="px-3.5 mb-1 text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3">
-                  {t(`nav.groups.${g.key}`)}
-                </div>
-              )}
-              {g.items.map((item) => (
-                <NavLink key={item.key} item={item} pathname={pathname} />
-              ))}
-            </div>
-          ))}
+        <nav className="grid gap-3" aria-label="Suprep">
+          <NavGroups pathname={pathname} />
         </nav>
 
         <div className="mt-auto grid gap-3">
@@ -126,7 +200,7 @@ export function AppShell({ children, user }: { children: ReactNode; user?: Shell
               </div>
               <Icon name="settings" size={20} className="text-ink-3" />
             </div>
-            <ThemeToggle className="w-full justify-between" />
+            <ThemeToggle className="w-full [&>button]:flex-1 [&>button]:px-1" />
           </div>
         </div>
       </aside>
@@ -204,9 +278,7 @@ export function AppShell({ children, user }: { children: ReactNode; user?: Shell
 
       <Sheet open={more} onClose={() => setMore(false)} label={t('nav.more')}>
         <div className="grid gap-1">
-          {rest.map((item) => (
-            <NavLink key={item.key} item={item} pathname={pathname} onClick={() => setMore(false)} />
-          ))}
+          <NavGroups pathname={pathname} skipMobile onNavigate={() => setMore(false)} />
         </div>
         <ThemeToggle className="mt-5" />
       </Sheet>

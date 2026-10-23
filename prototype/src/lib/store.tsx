@@ -84,7 +84,7 @@ export function seed(): State {
   ];
   return {
     v: 3,
-    profile: { name: 'Тэмүүлэн', onboarded: false, target: 700, examDate: '2026-12-05', confidence: 2, desmos: 'none' },
+    profile: { name: 'Demo', onboarded: false, target: 700, examDate: '2026-12-05', confidence: 2, desmos: 'none' },
     xp: 380,
     xpLog: [{ day: daysAgo(9), amount: 40, reason: 'Эхлэл' }, ...log.map((l) => ({ day: daysAgo(l.n), amount: l.a, reason: 'Хичээл' }))],
     streak: { count: 6, last: daysAgo(1) },

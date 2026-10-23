@@ -4,7 +4,7 @@ import type { Profile } from '@/types';
 
 export const DEMO_PROFILE: Profile = {
   id: 'u-demo',
-  name: 'Тэмүүлэн',
+  name: 'Demo',
   onboarded: true,
   target: 700,
   examDate: '2026-12-05',

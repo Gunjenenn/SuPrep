@@ -22,7 +22,7 @@ const STEPS: { key: string; q: string; say: string; opts?: Opt[] }[] = [
 export default function Onboarding() {
   const { s, go, setProfile } = useStore();
   const [k, setK] = useState(0);
-  const [v, setV] = useState<Record<string, string>>({ name: s.profile.name === 'Тэмүүлэн' ? '' : s.profile.name, target: String(s.profile.target), examDate: s.profile.examDate });
+  const [v, setV] = useState<Record<string, string>>({ name: s.profile.name === 'Demo' ? '' : s.profile.name, target: String(s.profile.target), examDate: s.profile.examDate });
   const step = STEPS[k];
   const result = k >= STEPS.length;
   const val = step ? v[step.key] : '';

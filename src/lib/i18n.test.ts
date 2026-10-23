@@ -16,7 +16,7 @@ describe('i18n', () => {
 
   test('makeT falls back to the key', () => {
     const t = makeT(msgs, 'a');
-    expect(t('b', { name: 'Тэмүүлэн' })).toBe('Сайн уу, Тэмүүлэн!');
+    expect(t('b', { name: 'Demo' })).toBe('Сайн уу, Demo!');
     expect(t('missing')).toBe('a.missing');
   });
 
