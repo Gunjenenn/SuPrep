@@ -2,7 +2,12 @@
 import { routes } from './routes';
 
 export type NavItem = { key: string; href: string; section: string; mobile?: boolean };
-export type NavGroup = { key: 'main' | 'practice' | 'materials' | 'me'; items: NavItem[] };
+export type NavGroup = {
+  key: 'main' | 'practice' | 'materials' | 'me';
+  items: NavItem[];
+  /** Folded under its title in the sidebar; opens on click. */
+  collapsible?: boolean;
+};
 
 export const NAV: NavGroup[] = [
   {
@@ -10,25 +15,27 @@ export const NAV: NavGroup[] = [
     items: [
       { key: 'dashboard', href: routes.dashboard, section: 'I', mobile: true },
       { key: 'journey', href: routes.journey, section: 'A', mobile: true },
-      { key: 'desmos', href: routes.desmosHome, section: 'B', mobile: true },
+      { key: 'tutor', href: routes.tutor(), section: 'G', mobile: true },
+      { key: 'planner', href: routes.planner, section: 'I', mobile: true },
     ],
   },
   {
-  key: 'practice',
-  items: [
-    { key: 'practicePlayer', href: routes.practice(), section: 'C' },
-    { key: 'bank', href: routes.bank(), section: 'C' },
-    { key: 'hard', href: routes.hard, section: 'C' },
-    { key: 'mock', href: routes.mock, section: 'D' },
-    { key: 'mistakes', href: routes.mistakes, section: 'D' },
-  ],
-},
+    key: 'practice',
+    collapsible: true,
+    items: [
+      { key: 'practicePlayer', href: routes.practice(), section: 'C' },
+      { key: 'bank', href: routes.bank(), section: 'C' },
+      { key: 'hard', href: routes.hard, section: 'C' },
+      { key: 'mock', href: routes.mock, section: 'D' },
+      { key: 'mistakes', href: routes.mistakes, section: 'D' },
+    ],
+  },
   {
     key: 'materials',
+    collapsible: true,
     items: [
-      { key: 'cards', href: routes.cards, section: 'E', mobile: true },
-      { key: 'tutor', href: routes.tutor(), section: 'G' },
-      { key: 'planner', href: routes.planner, section: 'I' },
+      { key: 'desmos', href: routes.desmosHome, section: 'B' },
+      { key: 'cards', href: routes.cards, section: 'E' },
       { key: 'league', href: routes.league, section: 'F' },
       { key: 'help', href: routes.help, section: 'I' },
     ],

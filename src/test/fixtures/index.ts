@@ -5,7 +5,7 @@ export const NOW = new Date('2026-10-22T02:00:00Z').getTime(); // 10:00 in Ulaan
 
 export const student: Profile = {
   id: 'u-demo',
-  name: 'Тэмүүлэн',
+  name: 'Demo',
   onboarded: true,
   confidence: 3,
   satExp: 'none',

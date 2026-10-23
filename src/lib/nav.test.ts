@@ -13,3 +13,9 @@ test('every nav item has a unique key and at most 4 mobile tabs', () => {
   expect(new Set(items.map((i) => i.key)).size).toBe(items.length);
   expect(items.filter((i) => i.mobile).length).toBeLessThanOrEqual(4);
 });
+
+test('practice and materials fold; home, journey, tutor, planner and me stay open', () => {
+  const open = NAV.filter((g) => !g.collapsible).flatMap((g) => g.items.map((i) => i.key));
+  expect(open).toEqual(['dashboard', 'journey', 'tutor', 'planner', 'progress', 'achievements']);
+  expect(NAV.filter((g) => g.collapsible).map((g) => g.key)).toEqual(['practice', 'materials']);
+});
