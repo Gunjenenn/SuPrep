@@ -1,4 +1,4 @@
-// SuuPrep card decks — Hippocards-style: animated picture, pronunciation, translation,
+// Suprep card decks — Hippocards-style: animated picture, pronunciation, translation,
 // a Mongolian memory hook ("санах түлхүүр"), and an SAT example.
 // `art` picks an animated illustration; `v` tunes it (e.g. ≥ vs ≤ on a number line).
 

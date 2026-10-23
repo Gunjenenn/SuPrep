@@ -1,6 +1,6 @@
 import type { LessonProgress } from '../queries';
 
-const STORAGE_KEY = 'suuprep:journey:progress:v1';
+const STORAGE_KEY = 'suprep:journey:progress:v1';
 
 export function loadLocalProgress(): LessonProgress[] {
   if (typeof window === 'undefined') return [];

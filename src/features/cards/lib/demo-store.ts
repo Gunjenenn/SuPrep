@@ -8,9 +8,9 @@ export type DemoUser = {
 
 type Store = Map<string, DemoUser>;
 
-const g = globalThis as typeof globalThis & { __suuprepCards?: Store };
-const store: Store = g.__suuprepCards ?? new Map();
-g.__suuprepCards = store;
+const g = globalThis as typeof globalThis & { __suprepCards?: Store };
+const store: Store = g.__suprepCards ?? new Map();
+g.__suprepCards = store;
 
 export function demoUser(userId: string): DemoUser {
   let u = store.get(userId);

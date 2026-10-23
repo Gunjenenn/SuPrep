@@ -1,6 +1,6 @@
 import type { Domain, Question } from '@/types';
 
-// SAT-style practice questions (original items written for SuuPrep; all answers verified).
+// SAT-style practice questions (original items written for Suprep; all answers verified).
 export const DOMAINS: Record<Domain, { en: string; mn: string; share: string }> = {
   alg: { en: 'Algebra', mn: 'Алгебр', share: '≈35%' },
   adv: { en: 'Advanced Math', mn: 'Ахисан математик', share: '≈35%' },
@@ -377,7 +377,7 @@ export const QUESTIONS: Question[] = [
     similar: 'g2',
     vocab: ['circumference'],
   },
-  // ——— from the SuuPrep design canvas question bank (hard zone) ———
+  // ——— from the Suprep design canvas question bank (hard zone) ———
   {
     id: 'h1',
     domain: 'adv',

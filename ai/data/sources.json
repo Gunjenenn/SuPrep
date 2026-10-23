@@ -1,7 +1,7 @@
 [
   {
-    "id": "suuprep-original",
-    "title": "SuuPrep-ийн өөрсдийн бичсэн асуултууд (prototype)",
+    "id": "suprep-original",
+    "title": "Suprep-ийн өөрсдийн бичсэн асуултууд (prototype)",
     "license": "own",
     "allowed": true,
     "path": "src/mocks/questions.ts"

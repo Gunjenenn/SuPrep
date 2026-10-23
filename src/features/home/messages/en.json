@@ -6,5 +6,61 @@
     "help": {
       "title": "Help"
     }
+  },
+  "dashboard": {
+    "greet": {
+      "morning": "Good morning,",
+      "day": "Good afternoon,",
+      "evening": "Good evening,"
+    },
+    "hero": "Every lesson brings your target score closer!",
+    "target": "Target {score}",
+    "cta": "Continue learning",
+    "continue": {
+      "title": "Continue learning",
+      "all": "See all",
+      "meta": "Stage {stage} · {minutes} min · +{xp} XP",
+      "start": "Start"
+    },
+    "skills": {
+      "title": "Build your skills",
+      "lessons": "{n} lessons",
+      "questions": "{n} questions",
+      "decks": "{n} decks",
+      "journey": "Journey",
+      "desmos": "Desmos",
+      "cards": "Words & formulas",
+      "bank": "Question bank"
+    },
+    "domains": {
+      "title": "SAT Math domains",
+      "all": "See all",
+      "share": "{share} of questions"
+    },
+    "goal": {
+      "title": "Your progress",
+      "edit": "Edit",
+      "great": "Great job!",
+      "streak": "You're on a {n}-day streak",
+      "level": "Level {n} → {next}"
+    },
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "league": {
+      "title": "Green league",
+      "week": "This week",
+      "me": "You"
+    },
+    "reward": {
+      "body": "Finish {n} more lessons to unlock",
+      "badge": "the {badge} badge!"
+    }
   }
 }

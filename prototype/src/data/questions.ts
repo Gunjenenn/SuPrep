@@ -1,4 +1,4 @@
-// SAT-style practice questions (original items written for SuuPrep; all answers verified).
+// SAT-style practice questions (original items written for Suprep; all answers verified).
 export type Domain = 'alg' | 'adv' | 'psda' | 'geo';
 export const DOMAINS: Record<Domain, { en: string; mn: string; share: string }> = {
   alg: { en: 'Algebra', mn: 'Алгебр', share: '≈35%' },
@@ -251,7 +251,7 @@ export const QUESTIONS: Question[] = [
     hint: 'Тойргийн урт $C=2\\pi r$.',
     similar: 'g2', vocab: ['circumference'],
   },
-  // ——— from the SuuPrep design canvas question bank (hard zone) ———
+  // ——— from the Suprep design canvas question bank (hard zone) ———
   {
     id: 'h1', domain: 'adv', skill: 'Quadratics: one solution', difficulty: 3,
     prompt: 'The equation $x^2+bx+16=0$ has exactly one real solution, and $b>0$. What is the value of $b$?',

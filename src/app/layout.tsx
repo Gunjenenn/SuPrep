@@ -20,7 +20,7 @@ const slab = Roboto_Slab({ subsets: ['latin', 'cyrillic'], variable: '--font-rob
 const caveat = Caveat({ subsets: ['latin', 'cyrillic'], variable: '--font-caveat', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: { default: 'SuuPrep — SAT Math', template: '%s · SuuPrep' },
+  title: { default: 'Suprep — SAT Math', template: '%s · Suprep' },
   description: 'Монгол сурагчдад зориулсан AI SAT Math платформ. Desmos Академи, AI багш Суу.',
 };
 
