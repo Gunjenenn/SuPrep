@@ -37,7 +37,7 @@ export function FeedbackButtons({ mode, prompt, reply, context, fetchImpl = fetc
     }
   }
 
-  if (state === 'done') return <p className="text-[13px] text-(--c-muted)">{t('feedback.thanks')}</p>;
+  if (state === 'done') return <p className="text-[13px] text-ink-3">{t('feedback.thanks')}</p>;
 
   if (state === 'writing' || (state === 'sending' && correction)) {
     return (
@@ -52,14 +52,14 @@ export function FeedbackButtons({ mode, prompt, reply, context, fetchImpl = fetc
           {t('feedback.betterLabel')}
         </label>
         <textarea
-          id={boxId}
-          className="min-h-20 rounded-xl border border-(--c-line-2) bg-(--c-paper) p-3 text-[14px]"
+          id="suu-correction"
+          className="min-h-20 rounded-xl border border-line bg-paper p-3 text-[14px]"
           maxLength={2000}
           placeholder={t('feedback.betterPlaceholder')}
           value={correction}
           onChange={(e) => setCorrection(e.target.value)}
         />
-        <p className="text-[12px] text-(--c-muted)">{t('feedback.privacy')}</p>
+        <p className="text-[12px] text-ink-3">{t('feedback.privacy')}</p>
         <div className="flex gap-2">
           <Button type="submit" size="sm" disabled={state === 'sending'}>
             {t('feedback.send')}
@@ -74,7 +74,7 @@ export function FeedbackButtons({ mode, prompt, reply, context, fetchImpl = fetc
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-[13px] text-(--c-muted)">{t('feedback.question')}</span>
+      <span className="text-[13px] text-ink-3">{t('feedback.question')}</span>
       <Button
         size="sm"
         variant="ghost"
@@ -93,7 +93,7 @@ export function FeedbackButtons({ mode, prompt, reply, context, fetchImpl = fetc
       >
         👎
       </Button>
-      {state === 'error' && <span className="text-[13px] text-(--c-danger)">{t('feedback.error')}</span>}
+      {state === 'error' && <span className="text-[13px] text-danger">{t('feedback.error')}</span>}
     </div>
   );
 }

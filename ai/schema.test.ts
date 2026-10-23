@@ -11,7 +11,7 @@ describe('ai schema', () => {
   test('SourceQuestion accepts MCQ and grid-in, rejects empty prompt', () => {
     const base = {
       id: 'a2',
-      source: 'suuprep-original',
+      source: 'suprep-original',
       domain: 'alg',
       skill: 's',
       difficulty: 1,

@@ -1,6 +1,6 @@
 import type { Exercise, Stage } from '@/types';
 
-// SuuPrep learning journey: Understand → Learn → Practice → Master → Apply
+// Suprep learning journey: Understand → Learn → Practice → Master → Apply
 // Text uses $…$ for inline TeX and **bold**.
 
 const ch = (

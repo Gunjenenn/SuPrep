@@ -1,6 +1,6 @@
 // Light / dark / system. The choice is a data-theme attribute on <html>; CSS tokens do the rest.
 export type Theme = 'light' | 'dark' | 'system';
-export const THEME_KEY = 'suuprep-theme';
+export const THEME_KEY = 'suprep-theme';
 
 export function readTheme(): Theme {
   try {

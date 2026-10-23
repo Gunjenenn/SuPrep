@@ -195,13 +195,19 @@ export function split(questions: Question[]) {
 const kindOf = (q: Question) => (q.id.startsWith('g-') ? q.id.split('-s')[0] : q.skill);
 
 /** All splits. Generated val/eval use other seeds and drop any prompt already in train. */
-export function buildSplits(perTemplate = 12) {
+/**
+ * Size knobs. 50 templates × 8 = 400 generated train questions (~3,000 examples) keeps a 2-epoch run on a free
+ * Colab T4 around 25 minutes; eval uses every other template so base + fine-tuned eval stays ~20 minutes.
+ */
+export const SIZES = { perTemplate: 8, valPerTemplate: 1, evalEvery: 2 } as const;
+
+export function buildSplits(perTemplate: number = SIZES.perTemplate) {
   const { train: origTrain, val: origVal } = split(QUESTIONS);
   const genTrain = generate(1, perTemplate);
   const seen = new Set([...QUESTIONS, ...genTrain].map((q) => q.prompt));
   const fresh = (qs: Question[]) => qs.filter((q) => !seen.has(q.prompt) && seen.add(q.prompt));
-  const genVal = fresh(generate(2, 2));
-  const genEval = fresh(generate(3, 1));
+  const genVal = fresh(generate(2, SIZES.valPerTemplate));
+  const genEval = fresh(generate(3, 1)).filter((_, i) => i % SIZES.evalEvery === 0);
   return { origTrain, origVal, genTrain, genVal, genEval };
 }
 
@@ -211,7 +217,7 @@ function siblingsMap(qs: Question[]) {
   return m;
 }
 
-export function buildDataset(perTemplate = 12) {
+export function buildDataset(perTemplate: number = SIZES.perTemplate) {
   const s = buildSplits(perTemplate);
   const trainSibs = siblingsMap([...s.origTrain, ...s.genTrain]);
   const valSibs = siblingsMap([...s.origVal, ...s.genVal]);

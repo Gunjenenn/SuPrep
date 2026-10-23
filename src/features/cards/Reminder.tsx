@@ -3,7 +3,7 @@ import { useEffect, useId, useState } from 'react';
 import { useT } from '@/lib/i18n-client';
 import { BellIcon } from './icons';
 
-export const REMINDER_KEY = 'suuprep-card-reminder';
+export const REMINDER_KEY = 'suprep-card-reminder';
 
 type Reminder = { on: boolean; time: string };
 

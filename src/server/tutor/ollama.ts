@@ -19,8 +19,9 @@ const MODE_ASK: Record<TutorMode, string> = {
   translate: 'Энэ асуултын англи үгсийг ойлгохгүй байна. Монголоор тайлбарлаач.',
 };
 
-export function buildUserMessage(mode: TutorMode, message: string): string {
-  return `${message.trim()}\n\n${MODE_ASK[mode]}`;
+/** What the model sees. Quick-action buttons add the trained request phrase; free chat (`raw`) sends the text as is. */
+export function buildUserMessage(mode: TutorMode, message: string, raw = false): string {
+  return raw ? message.trim() : `${message.trim()}\n\n${MODE_ASK[mode]}`;
 }
 
 export function hasOllama(): boolean {
@@ -34,6 +35,7 @@ export async function ollamaReply(
   mode: TutorMode,
   message: string,
   fetchImpl: typeof fetch = fetch,
+  raw = false,
 ): Promise<string | null> {
   const { ollamaUrl, ollamaModel } = serverEnv();
   if (!ollamaUrl) return null;
@@ -47,7 +49,7 @@ export async function ollamaReply(
         options: { temperature: 0.3, num_predict: 400 },
         messages: [
           { role: 'system', content: SUU_SYSTEM_PROMPT },
-          { role: 'user', content: buildUserMessage(mode, message) },
+          { role: 'user', content: buildUserMessage(mode, message, raw) },
         ],
       }),
       signal: AbortSignal.timeout(30_000),

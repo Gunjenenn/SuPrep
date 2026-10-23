@@ -2,7 +2,7 @@
 @import "katex/dist/katex.min.css";
 
 /*
-  SuuPrep · "Emerald clay" system.
+  Suprep · "Emerald clay" system.
   Layout concept: tactile study objects — extruded cards, coin-like nodes and press buttons
   sitting on a mint-ivory desk (light) or a deep forest night (dark).
 */
@@ -382,4 +382,77 @@ button:disabled { cursor: not-allowed; }
 @layer components {
 .skeleton { animation: skeleton 1.4s ease-in-out infinite; }
 .sheet-in { animation: sheet-in .3s cubic-bezier(.2,.7,.2,1) both; }
+}
+
+/* Journey map — locked lesson feedback */
+@keyframes journey-locked-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-4px); }
+  40%, 80% { transform: translateX(4px); }
+}
+
+.journey-locked-shake {
+  animation: journey-locked-shake 350ms ease-in-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .journey-locked-shake {
+    animation: none;
+  }
+}
+
+/* ———— Suprep shell & home (soft, airy cards) ———— */
+:root {
+  --hero-from: #e6f6ea;
+  --hero-to: #c9ecd4;
+  --hero-hill-1: #b3e2c1;
+  --hero-hill-2: #93d3a7;
+  --hero-glyph: rgba(15, 107, 49, 0.22);
+  --soft-shadow: 0 1px 2px rgba(12, 40, 22, 0.04), 0 14px 34px -18px rgba(12, 40, 22, 0.22);
+}
+:root[data-theme="dark"] {
+  --hero-from: #11291b;
+  --hero-to: #0c3a22;
+  --hero-hill-1: #13442a;
+  --hero-hill-2: #175233;
+  --hero-glyph: rgba(110, 231, 154, 0.2);
+  --soft-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 34px -18px rgba(0, 0, 0, 0.8);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --hero-from: #11291b;
+    --hero-to: #0c3a22;
+    --hero-hill-1: #13442a;
+    --hero-hill-2: #175233;
+    --hero-glyph: rgba(110, 231, 154, 0.2);
+    --soft-shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 34px -18px rgba(0, 0, 0, 0.8);
+  }
+}
+@layer components {
+.shell-bg {
+  background:
+    radial-gradient(900px 500px at 85% -10%, color-mix(in srgb, var(--c-leaf) 9%, transparent), transparent 70%),
+    radial-gradient(700px 500px at 20% 110%, color-mix(in srgb, var(--c-lime) 8%, transparent), transparent 70%),
+    var(--c-bg);
+}
+.soft-card {
+  background: var(--c-paper);
+  border: 1px solid color-mix(in srgb, var(--c-line) 70%, transparent);
+  border-radius: 26px;
+  box-shadow: var(--soft-shadow);
+}
+.hero {
+  background: linear-gradient(115deg, var(--hero-from) 0%, var(--hero-to) 100%);
+  box-shadow: var(--soft-shadow);
+}
+.hero-cat { transform: scaleX(-1); filter: drop-shadow(-6px 10px 18px rgba(0, 0, 0, 0.18)); }
+.reward-card {
+  background: linear-gradient(135deg, var(--c-sage) 0%, color-mix(in srgb, var(--c-lime) 22%, var(--c-paper)) 100%);
+  box-shadow: var(--soft-shadow);
+}
+}
+/* the black cat mark needs a faint rim on dark surfaces */
+:root[data-theme="dark"] .logo-cat { filter: drop-shadow(0 0 1px #6ee79a) drop-shadow(0 0 6px rgba(110, 231, 154, 0.25)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-cat { filter: drop-shadow(0 0 1px #6ee79a) drop-shadow(0 0 6px rgba(110, 231, 154, 0.25)); }
 }

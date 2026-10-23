@@ -1,4 +1,4 @@
-// Small math-expression engine for the SuuPrep graphing calculator.
+// Small math-expression engine for the Suprep graphing calculator.
 // Parses what students type the way Desmos does: implicit multiplication (2x, 3(x+1), ax),
 // ^ powers, sqrt/abs/sin…, π, relations (=, <, >, ≤, ≥) and points (a, b).
 

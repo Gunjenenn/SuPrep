@@ -1,9 +1,32 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { notFound } from 'next/navigation';
+import { CheckpointPlayer } from '@/features/journey/components/CheckpointPlayer';
+import { LessonPlayer } from '@/features/journey/components/LessonPlayer';
+import { getLesson } from '@/features/journey/queries';
+import { getDb } from '@/lib/supabase/server';
 
-// Section A · A3 · A4 · A5
 export default async function LessonPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const t = getT('journey');
-  return <ComingSoon section="A" title={t('pages.lesson.title')} tasks="A3 · A4 · A5" detail={id} />;
+  const lesson = await getLesson(id);
+
+  if (!lesson) notFound();
+
+  const db = await getDb();
+  let demoMode = true;
+
+  if (db) {
+    const {
+      data: { user },
+      error,
+    } = await db.auth.getUser();
+
+    if (!error && user) {
+      demoMode = false;
+    }
+  }
+
+  if (lesson.kind === 'checkpoint') {
+    return <CheckpointPlayer lesson={lesson} demoMode={demoMode} />;
+  }
+
+  return <LessonPlayer lesson={lesson} demoMode={demoMode} />;
 }

@@ -1,78 +1,70 @@
-"use server";
+export async function getProgressData(userId: string) {
+  "use server";
 
-import { getDb } from "@/lib/supabase/server";
-import { getLevelByXp } from "@/lib/levels";
-import { calculateNewStreak, getUlaanbaatarDate } from "@/lib/streak";
+  const { getDb } = await import("@/lib/supabase/server");
+  const { calculateLevel } = await import("@/lib/level");
+  const { BADGES } = await import("@/lib/badge-rules");
+  const { DAILY_QUESTS } = await import("./quests");
+  const { getUlaanbaatarDate } = await import("@/lib/streak");
 
-export async function awardXp(
-  userId: string,
-  amount: number,
-  reason: string,
-  idempotencyKey?: string
-) {
   const supabase = await getDb();
+  
+
   if (!supabase) {
-    throw new Error("Supabase is not configured");
+    const defaultLevel = calculateLevel(0);
+    return {
+      levelInfo: defaultLevel,
+      streak: 0,
+      quests: DAILY_QUESTS.map((q) => ({ ...q, current: 0, completed: false })),
+      badges: BADGES.map((b) => ({ ...b, unlocked: false })),
+    };
   }
 
   const today = getUlaanbaatarDate();
 
 
-  if (idempotencyKey) {
-    const { data: existingEvent } = await supabase
-      .from("xp_events")
-      .select("id")
-      .eq("user_id", userId)
-      .eq("idempotency_key", idempotencyKey)
-      .single();
-
-    if (existingEvent) {
-      return { success: true, duplicate: true };
-    }
-  }
-
-
   const { data: profile } = await supabase
     .from("profiles")
-    .select("xp, streak, last_active_date")
+    .select("xp, streak")
     .eq("id", userId)
     .single();
 
-  const currentXp = profile?.xp || 0;
-  const currentStreak = profile?.streak || 0;
-  const lastActive = profile?.last_active_date || null;
-
-  const newXp = currentXp + amount;
-  const oldLevel = getLevelByXp(currentXp).level;
-  const newLevelInfo = getLevelByXp(newXp);
-  const levelUp = newLevelInfo.level > oldLevel;
+  const totalXp = profile?.xp || 0;
+  const streak = profile?.streak || 0;
+  const levelInfo = calculateLevel(totalXp);
 
 
-  const streakResult = calculateNewStreak(lastActive, currentStreak, today);
+  const { data: questProgressList } = await supabase
+    .from("quest_progress")
+    .select("*")
+    .eq("user_id", userId)
+    .eq("date", today);
 
-
-  await supabase.from("xp_events").insert({
-    user_id: userId,
-    amount,
-    reason,
-    idempotency_key: idempotencyKey || null,
-    at: new Date().toISOString(),
+  const quests = DAILY_QUESTS.map((q) => {
+    const p = questProgressList?.find((item) => item.quest_id === q.id);
+    return {
+      ...q,
+      current: p?.progress || 0,
+      completed: p?.completed || false,
+    };
   });
 
 
-  await supabase
-    .from("profiles")
-    .update({
-      xp: newXp,
-      streak: streakResult.streak,
-      last_active_date: today,
-    })
-    .eq("id", userId);
+  const { data: userBadges } = await supabase
+    .from("user_badges")
+    .select("badge_id")
+    .eq("user_id", userId);
+
+  const unlockedBadgeIds = userBadges?.map((b) => b.badge_id) || [];
+  const badges = BADGES.map((b) => ({
+    ...b,
+    unlocked: unlockedBadgeIds.includes(b.id),
+  }));
 
   return {
-    success: true,
-    xp: newXp,
-    level: newLevelInfo,
-    levelUp,
+    levelInfo,
+    streak,
+    quests,
+    badges,
   };
 }

@@ -69,9 +69,9 @@ export default function Landing() {
       <section id="desmos" className="bg-forest text-cream scroll-mt-16">
         <div className="gutter max-w-[1240px] mx-auto py-14 md:py-20 grid lg:grid-cols-[0.85fr_1.15fr] gap-10 items-center">
           <div>
-            <div className="eyebrow" style={{ color: 'var(--c-lime)' }}>Яагаад SuuPrep?</div>
+            <div className="eyebrow" style={{ color: 'var(--c-lime)' }}>Яагаад Suprep?</div>
             <h2 className="mt-3 font-display font-extrabold text-[30px] md:text-[40px] leading-[1.02]">Math хэсэгт Desmos ашиглаж болно.</h2>
-            <p className="mt-4 text-cream/75 text-[15.5px] max-w-[48ch]">Digital SAT-д график тооцоолуур бүх асуултад нээлттэй. Гэвч ихэнх сурагч бүгдийг гараар бодож цаг алддаг. SuuPrep чамд Desmos-ийг <span className="text-lime font-semibold">тэгээс</span> зааж, аль бодлогод ашиглахаа таниулна.</p>
+            <p className="mt-4 text-cream/75 text-[15.5px] max-w-[48ch]">Digital SAT-д график тооцоолуур бүх асуултад нээлттэй. Гэвч ихэнх сурагч бүгдийг гараар бодож цаг алддаг. Suprep чамд Desmos-ийг <span className="text-lime font-semibold">тэгээс</span> зааж, аль бодлогод ашиглахаа таниулна.</p>
             <ol className="mt-7 grid gap-3">
               {['Тэгшитгэлээ бич', 'Шугам дээр дар', 'Огтлолцлыг уншаад хариул'].map((t, k) => (
                 <li key={t} className="flex items-center gap-3">
@@ -168,7 +168,7 @@ export default function Landing() {
             <div className="mt-8 grid gap-3 max-w-md">
               <div className="text-[13px] text-ink-2">Сургалтын төв</div>
               <div className="bg-ink text-paper font-display font-bold text-[20px] px-4 py-2 tnum">500,000–550,000₮</div>
-              <div className="text-[13px] text-ink-2 mt-2">SuuPrep</div>
+              <div className="text-[13px] text-ink-2 mt-2">Suprep</div>
               <div className="flex items-center gap-3"><span className="h-9 w-20 bg-leaf" /><span className="font-display font-extrabold text-[28px] text-leaf tnum">18,000₮</span></div>
             </div>
             <div className="mt-4 font-script text-[28px] text-leaf -rotate-2 inline-block">≈10 дахин хямд!</div>
@@ -198,8 +198,8 @@ export default function Landing() {
           </div>
         </div>
         <footer className="gutter max-w-[1240px] mx-auto py-6 border-t border-line flex flex-wrap items-center gap-4 text-[12px] text-ink-3">
-          <Logo compact /> <span>SuuPrep · SAT Math · Хакатоны прототип</span>
-          <span className="ml-auto">SAT нь College Board-ын бүртгэлтэй тэмдэг. Desmos нь Desmos Studio-ийн тэмдэг. SuuPrep тэдэнтэй холбоогүй.</span>
+          <Logo compact /> <span>Suprep · SAT Math · Хакатоны прототип</span>
+          <span className="ml-auto">SAT нь College Board-ын бүртгэлтэй тэмдэг. Desmos нь Desmos Studio-ийн тэмдэг. Suprep тэдэнтэй холбоогүй.</span>
         </footer>
       </section>
     </div>

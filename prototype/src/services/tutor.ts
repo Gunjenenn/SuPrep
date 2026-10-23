@@ -25,7 +25,7 @@ export const MODE_LABEL: Record<TutorMode, string> = {
 };
 
 /** System prompt the backend sends to Gemini (kept here so product & engineering share one source). */
-export const SUU_SYSTEM_PROMPT = `Чи бол "Суу" — SuuPrep-ийн SAT Math багш хар муур.
+export const SUU_SYSTEM_PROMPT = `Чи бол "Суу" — Suprep-ийн SAT Math багш хар муур.
 Зарчим:
 1. Хариуг шууд бүү хэл. Эхлээд сурагч юуг ойлгосныг тодруул.
 2. Алдааны шалтгааныг (misconception) нэрлэ.
@@ -159,7 +159,7 @@ export class GeminiTutorService implements TutorService {
 let instance: TutorService | null = null;
 export function getTutor(): TutorService {
   if (!instance) {
-    const endpoint = (window as any).SUUPREP_TUTOR_ENDPOINT as string | undefined;
+    const endpoint = (window as any).SUPREP_TUTOR_ENDPOINT as string | undefined;
     instance = endpoint ? new GeminiTutorService(endpoint) : new DemoTutorService();
   }
   return instance;
