@@ -86,7 +86,7 @@ export function Logo({ light = false, compact = false }: { light?: boolean; comp
           className="font-display font-extrabold tracking-[0.2em] text-[13px]"
           style={{ color: light ? 'var(--c-on-forest)' : 'var(--c-ink)' }}
         >
-          SUUPREP
+          SUPREP
         </span>
       )}
     </div>
