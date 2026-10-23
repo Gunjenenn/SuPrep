@@ -22,7 +22,7 @@ export default async function TutorPage({
   return (
     <TutorChat
       context={chosen && context.problem ? { ...context, chosen } : context}
-      starters={[t('starters.s1'), t('starters.s2'), t('starters.s3')]}
+      starters={['s1', 's2', 's3', 's4', 's5'].map((k) => t(`starters.${k}`))}
     />
   );
 }

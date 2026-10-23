@@ -17,17 +17,23 @@
     "error": "Couldn't send. Please try again."
   },
   "chat": {
-    "subtitle": "Your AI tutor for SAT Math. Type a question or use the buttons.",
+    "subtitle": "Enter to send · Shift+Enter for a new line",
     "thinking": "Suu is thinking…",
     "problem": "Problem",
     "yourAnswer": "Your answer: {answer}",
     "empty": "Hi! I'm Suu 🐱 Paste a problem and ask, or start here:",
     "inputLabel": "Ask Suu a question",
-    "placeholder": "Type your question… (Enter = send, Shift+Enter = new line)",
+    "placeholder": "Ask a question…",
     "send": "Send",
     "error": "Couldn't get a reply.",
     "retry": "Try again",
-    "demo": "Demo reply — model not connected"
+    "demo": "Demo reply — model not connected",
+    "newChat": "New chat",
+    "history": "Recent chats",
+    "noHistory": "No chats yet",
+    "hero": "Ask me anything about SAT Math!",
+    "you": "You",
+    "deleteChat": "Delete chat"
   },
   "modes": {
     "hint": "Hint",
@@ -37,8 +43,10 @@
     "translate": "Translate words"
   },
   "starters": {
-    "s1": "How many questions are in SAT Math?",
-    "s2": "What does \"at least\" mean?",
-    "s3": "How do I use Desmos?"
+    "s1": "**Quiz me** on SAT Math strategies",
+    "s2": "**Explain** what “at least” and “at most” mean",
+    "s3": "**Help me plan** for the digital SAT",
+    "s4": "**Strategies for** improving my SAT Math score",
+    "s5": "**Show me** a practice question on linear equations"
   }
 }
