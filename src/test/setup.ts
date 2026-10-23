@@ -7,7 +7,13 @@ const { afterEach, expect } = await import('bun:test');
 const matchers = await import('@testing-library/jest-dom/matchers');
 const { cleanup } = await import('@testing-library/react');
 
-expect.extend(matchers as unknown as Parameters<typeof expect.extend>[0]);
+// jest-dom v5 puts the matchers under `default`, v6 exports them directly — accept both, keep only functions.
+const matcherFns = Object.fromEntries(
+  Object.entries({ ...((matchers as { default?: object }).default ?? {}), ...matchers }).filter(
+    ([, v]) => typeof v === 'function',
+  ),
+);
+expect.extend(matcherFns as unknown as Parameters<typeof expect.extend>[0]);
 afterEach(() => cleanup());
 
 // requestAnimationFrame runs synchronously-ish so animated components settle in tests
