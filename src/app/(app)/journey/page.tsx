@@ -1,8 +1,22 @@
-import { ComingSoon } from '@/components/ComingSoon';
-import { getT } from '@/lib/i18n';
+import { JourneyMap } from '@/features/journey/components/JourneyMap';
+import { getProgress, type LessonProgress, listStages } from '@/features/journey/queries';
+import { getDb } from '@/lib/supabase/server';
 
-// Section A · A1 · A2
-export default function JourneyPage() {
-  const t = getT('journey');
-  return <ComingSoon section="A" title={t('pages.journey.title')} tasks="A1 · A2" />;
+export default async function JourneyPage() {
+  const stages = await listStages();
+  const db = await getDb();
+
+  let progress: LessonProgress[] = [];
+  if (db) {
+    const {
+      data: { user },
+      error,
+    } = await db.auth.getUser();
+
+    if (!error && user) {
+      progress = await getProgress(user.id);
+    }
+  }
+
+  return <JourneyMap stages={stages} progress={progress} />;
 }
