@@ -8,6 +8,7 @@ import { Bar } from '@/components/ui/Bar';
 import { Button } from '@/components/ui/Button';
 import { routes } from '@/lib/routes';
 import type { Exercise, Lesson } from '@/types';
+import { saveLocalProgress } from '../lib/local-progress';
 
 type Props = {
   lesson: Lesson;
@@ -51,6 +52,14 @@ export function CheckpointPlayer({ lesson }: Props) {
 
   function next() {
     if (!answered) return;
+
+    if (step === exercises.length - 1) {
+      const finalScore = answers.filter(Boolean).length;
+      const isPassed = finalScore / exercises.length >= 0.8;
+
+      saveLocalProgress(lesson.id, isPassed, finalScore);
+    }
+
     setStep((previous) => previous + 1);
     setSelected(null);
     setInput('');
@@ -143,10 +152,14 @@ export function CheckpointPlayer({ lesson }: Props) {
                       setSelected(index);
                       submit(index === current.answer);
                     }}
-                    className={`min-h-20 rounded-2xl border-2 p-4 text-left font-bold ${
-                      selected === index
+                    className={`min-h-20 rounded-2xl border-2 p-4 text-left font-bold transition-colors ${
+                      answered && index === current.answer
                         ? 'border-leaf bg-sage text-leaf-ink'
-                        : 'border-line bg-paper text-ink'
+                        : answered && selected === index && !answers[step]
+                          ? 'border-rose bg-paper text-ink'
+                          : selected === index
+                            ? 'border-leaf bg-sage text-leaf-ink'
+                            : 'border-line bg-paper text-ink'
                     }`}
                   >
                     <span className="mr-2">{String.fromCharCode(65 + index)}.</span>
