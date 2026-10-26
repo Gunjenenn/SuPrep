@@ -14,7 +14,7 @@
   --c-line-2: #c3d4bd;
   --c-ink: #0c1a12;
   --c-ink-2: #3c5345;
-  --c-ink-3: #5f7768;
+  --c-ink-3: #526a5b; /* ≥ 4.5:1 on paper-2 and sage (axe) */
   --c-forest: #0a3323;
   --c-forest-2: #0f3f2c;
   --c-on-forest: #eef6ea;
@@ -35,7 +35,7 @@
   --c-teal-soft: #dcecef;
   --c-danger: #b4402c;
   --c-danger-soft: #fde4dd;
-  --c-amber: #a86a04;
+  --c-amber: #8a5600; /* ≥ 4.5:1 on amber-soft */
   --c-amber-soft: #fbefd4;
   --c-gold: #e8b931;
   --c-cat: #141414;
@@ -383,6 +383,10 @@ button:disabled { cursor: not-allowed; }
 .skeleton { animation: skeleton 1.4s ease-in-out infinite; }
 .sheet-in { animation: sheet-in .3s cubic-bezier(.2,.7,.2,1) both; }
 }
+@keyframes drawer-in { from { transform: translateX(-100%); } to { transform: none; } }
+@layer components {
+.drawer-in { animation: drawer-in .28s cubic-bezier(.2,.7,.2,1) both; }
+}
 
 /* Journey map — locked lesson feedback */
 @keyframes journey-locked-shake {
@@ -463,3 +467,10 @@ button:disabled { cursor: not-allowed; }
   min-height: 250px;
 }
 }
+
+/* charts (validated pair: dataviz validate_palette, light #fff / dark #0f1d15) */
+:root { --chart-1: #16a34a; --chart-2: #7c5cc4; --chart-grid: var(--c-line); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --chart-2: #8b6fd6; }
+}
+:root[data-theme="dark"] { --chart-2: #8b6fd6; }
